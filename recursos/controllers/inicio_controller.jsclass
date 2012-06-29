@@ -1,0 +1,21 @@
+UML_controller = {
+	Extends : Controller,
+	Require : {
+		view : [ 'inicio' ],
+		model : [ 'itemMenu' ]
+	},
+	menus : {
+		'Menu 1' : {
+			sub : [ '1 - Menu 1', '1 - Menu 2', '1 - Menu 3' ]
+		},
+		'Menu 2' : {
+			sub : [ '1 - Menu 1', '1 - Menu 2', '1 - Menu 3' ]
+		},
+		'Menu 3' : {
+			sub : [ '1 - Menu 1', '1 - Menu 2', '1 - Menu 3' ]
+		},
+	},
+	execute : function(params) {
+		this.getView('inicio');
+	}
+}

@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Fertilización Asistida</title>
+<link rel="stylesheet" href="estilo.css" type="text/css" charset="utf-8">
+<script type="text/javascript" src="/libs/jquery-1.7.2.js"></script>
+<script type="text/javascript" src="/libs/arbor/lib/arbor.js"></script>
+<script type="text/javascript" src="/libs/arbor/lib/arbor-tween.js"></script>
+<script type="text/javascript">
+$.noConflict();
+</script>
+<script type="text/javascript" src="/libs/mootools-core-1.4.5-full-compat-yc.js"></script>
+<script type="text/javascript" src="/libs/mootools-more-1.4.0.1.js"></script>
+<script type="text/javascript" src="/libs/RIAQuest/Core/Application.class.js"></script>
+<script type="text/javascript">
+var app = new Application({
+	name: 'app',
+	folders: {
+		base: '/recursos/',
+		core: 'libs/RIAQuest/Core/'
+	},
+	resources: {
+		controllers: ['inicio']
+	}
+});
+app.addEvent('ready',init);
+window.addEvent('domready',init);
+var semaforo = 1;
+function init(){
+	if(semaforo==0)
+		app.executeController('inicio');
+	semaforo--;
+}
+</script>
+</head>
+<body>
+</body>
+</html>

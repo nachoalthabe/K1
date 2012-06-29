@@ -1,0 +1,31 @@
+model_index = {
+	Extends : Model,
+	childs : [],
+	position: {
+		x: 0,
+		y:0
+	},
+	init : function() {
+	},
+	getName: function(){
+		return this.options.name;
+	},
+	getNode : function() {
+		return this.node;
+	},
+	setNode : function(node) {
+		this.node = node;
+	},
+	updatePosition: function(point){
+		this.position = point;
+	},
+	connect : function(node) {
+		this.childs.push(node);
+	},
+	getLength : function() {
+		return .75;
+	},
+	getPointSize : function() {
+		return 3;
+	}
+}

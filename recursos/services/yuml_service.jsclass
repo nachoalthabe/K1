@@ -1,0 +1,8 @@
+yuml_index = {
+	Extends : Service,
+	url : '/Docs/data.json',
+	init : function() {
+	},
+	get : function() {
+	}
+}
