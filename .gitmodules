@@ -1,0 +1,8 @@
+[submodule "libs/RIAQuest"]
+path = libs/RIAQuest
+url = https://github.com/nachoalthabe/RIAQuest.git
+
+[submodule "libs/arbor"]
+path = libs/arbor
+url = https://github.com/samizdatco/arbor.git
+
