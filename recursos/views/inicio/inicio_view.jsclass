@@ -31,7 +31,7 @@ view_index = {
 				// whitespace per side
 
 				// set up some event handlers to allow for node-dragging
-				that.initMouseHandling()
+				//that.initMouseHandling()
 			},
 
 			redraw : function() {
@@ -55,35 +55,36 @@ view_index = {
 				// pass an
 				// x,y point in the screen's coordinate system
 				// 
-				ctx.fillStyle = "black"
-				ctx.fillRect(0, 0, canvas.width, canvas.height)
+				ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+				particleSystem.eachNode(function(node, pt) {
+					// node: {mass:#, p:{x,y}, name:"", data:{}}
+					// pt: {x:#, y:#} node position in screen coords
+					if(!node.data.model.dragging)
+						node.data.model.setCenter(pt);
+					
+					// draw a rectangle centered at pt
+					var w = 10;//Math.random()*50
+					ctx.fillStyle = "white";
+					ctx.fillRect(node.data.model.center.x - w / 2, node.data.model.center.y - w / 2, w, w)
+				})
+				
 				particleSystem.eachEdge(function(edge, pt1, pt2) {
 					// edge: {source:Node, target:Node, length:#, data:{}}
 					// pt1: {x:#, y:#} source position in screen coords
 					// pt2: {x:#, y:#} target position in screen coords
 
 					// draw a line from pt1 to pt2
-					ctx.strokeStyle = "rgba(255,255,255, .333)"
+					ctx.strokeStyle = edge.data.model.target.getStrokeStyle();
 					ctx.lineWidth = 5;//Math.random()*10
 					ctx.beginPath()
-					ctx.moveTo(pt1.x, pt1.y)
-					ctx.lineTo(pt2.x, pt2.y)
+					ctx.moveTo(edge.data.model.source.center.x, edge.data.model.source.center.y)
+					ctx.lineTo(edge.data.model.target.center.x, edge.data.model.target.center.y)
 					ctx.stroke()
-				})
-
-				particleSystem.eachNode(function(node, pt) {
-					// node: {mass:#, p:{x,y}, name:"", data:{}}
-					// pt: {x:#, y:#} node position in screen coords
-					node.data.model.updatePosition(pt);
-					// draw a rectangle centered at pt
-					var w = 10;//Math.random()*50
-					ctx.fillStyle = "orange";
-					ctx.fillRect(pt.x - w / 2, pt.y - w / 2, w, w)
 				})
 			},
 
-			initMouseHandling : function() {
+			initMouseHandling_ : function() {
 				// no-nonsense drag and drop (thanks springy.js)
 				var dragged = null;
 
@@ -150,33 +151,34 @@ view_index = {
 		this.getTheme('inicio');
 	},
 	menu : {
-		'name' : 'Menu Root',
+		name : 'Propgrama Provincial de Fertilizacion Asistida',
 		childs : [ {
-			'name' : 'Menu 1',
+			name : 'Menu 1',
 			childs : [ {
-				'name' : 'Menu 11'
+				name : 'Menu 11'
 			}, {
-				'name' : 'Menu 12'
+				name : 'Menu 12'
 			}, {
-				'name' : 'Menu 13'
+				name : 'Menu 13'
 			} ]
 		}, {
-			'name' : 'Menu 2',
+			name : 'Menu 2',
+			type: 'itemMenuDebug',
 			childs : [ {
-				'name' : 'Menu 21'
+				name : 'Menu 21'
 			}, {
-				'name' : 'Menu 22'
+				name : 'Menu 22'
 			}, {
-				'name' : 'Menu 23'
+				name : 'Menu 23'
 			} ]
 		}, {
-			'name' : 'Menu 3',
+			name : 'Menu 3',
 			childs : [ {
-				'name' : 'Menu 31'
+				name : 'Menu 31'
 			}, {
-				'name' : 'Menu 32'
+				name : 'Menu 32'
 			}, {
-				'name' : 'Menu 33'
+				name : 'Menu 33'
 			} ]
 		} ]
 	},
@@ -187,14 +189,16 @@ view_index = {
 				chileNodes.push(this.parseMenu(childNode));
 			}.bind(this));
 		}
-		var itemMenu = this.getModel('itemMenu',{name:node.name});
-		var pNode = this.sys.addNode(node.name,{model:itemMenu});
+		var itemMenu = this.getModel((node.type)?node.type:'itemMenu',{name:node.name,sys: this.sys, childs: chileNodes});
+		return itemMenu;
 		itemMenu.setNode(pNode);
 		var edge;
 		chileNodes.each(function(chileNode) {
-			edge = this.sys.addEdge(itemMenu.getNode(), chileNode.getNode(), {
-				length : itemMenu.getLength(),
-				pointSize : itemMenu.getPointSize()
+			edge = arbor.Edge(itemMenu.getNode(), chileNode.getNode(), {
+				model : {
+					source: itemMenu,
+					target: chileNode
+				}
 			});
 			itemMenu.connect({
 				node : chileNode,
@@ -204,22 +208,25 @@ view_index = {
 		return itemMenu;
 	},
 	render : function() {
-		this.appendView();
 		this.canvas = $("inicio");
 		window.addEvent('resize',this.resizeCanvas.bind(this));
 		this.resizeCanvas(); 
 		this.sys = arbor.ParticleSystem(1000, 600, 0.5) // create the system
 		// with sensible
 		// repulsion/stiffness/friction
-		this.sys.parameters({
-			gravity : true
-		}) // use center-gravity to make the graph
+		this.sys.parameters({stiffness:900, repulsion:2000, gravity:true, dt:0.015}) // use center-gravity to make the graph
 		// settle nicely (ymmv)
 		this.sys.renderer = this.renderer(this.canvas) // our newly created
 		// renderer will have its
 		// .init() method called
 		// shortly by sys...
-		this.tree = this.parseMenu(this.menu);
+		this.tree = this.getModel((this.menu.type)?this.menu.type:'itemMenu',{
+			name: this.menu.name,
+			childs: this.menu.childs,
+			sys: this.sys
+		});
+		this.tree.draw();
+		this.tree.drawChilds();
 	},
 	resizeCanvas: function(){
 		var size = this.canvas.getSize();

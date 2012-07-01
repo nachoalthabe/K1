@@ -1,13 +1,136 @@
 model_index = {
+	Bind : [ 'startDragging', 'onDragging', 'stopDragging' ],
 	Extends : Model,
 	childs : [],
-	position: {
-		x: 0,
-		y:0
+	stroke : {
+		value : 0,
+		inc : 0.05
 	},
+	position : {
+		x : 0,
+		y : 0
+	},
+	DOM : [],
+	dragging : false,
 	init : function() {
+		var DOMContent = new Element('div', {
+			'class' : 'node'
+		}).hide();
+		DOMContent.appendChild(new Element('p', {
+			text : this.getName()
+		}));
+
+		var DOMShadow = new Element('div', {
+			'class' : 'node shadow'
+		}).hide();
+
+		var DOMSurfice = new Element('div', {
+			'class' : 'node surfice'
+		}).hide();
+		DOMSurfice.addEvent('click',this.drawChilds.bind(this));
+
+		this.drag = new Drag(DOMSurfice, {
+			onStart : this.startDragging.bind(this),
+			onDrag : this.onDragging.bind(this),
+			onComplete : this.stopDragging.bind(this)
+		});
+
+		DOMContent.inject(document.body);
+		DOMShadow.inject(document.body);
+		DOMSurfice.inject(document.body);
+		this.childs = (this.options.childs)?this.options.childs:false;
+		this.DOM.push(DOMContent, DOMShadow, DOMSurfice);
+		this.stroke.value = .6;
 	},
-	getName: function(){
+	show : function() {
+		this.DOM[0].show();
+		this.DOM[1].show();
+		this.DOM[2].show();
+		this.node = this.options.sys.addNode(this.getName(), {
+			model : this
+		});
+	},
+	hide : function() {
+		this.DOM[0].hide();
+		this.DOM[1].hide();
+		this.DOM[2].hide();
+		this.options.sys.pruneNode(this.node);
+	},
+	draw : function() {
+		this.show();
+	},
+	setParent : function(parent) {
+		this.parentNode = parent;
+	},
+	getParent : function() {
+		return this.parentNode;
+	},
+	hideChilds : function(excludeID) {
+		if(!this.childs){
+			return;
+		}
+		this.childs.each(function(child) {
+			if(!child.model)
+				return;
+			if (child.model.getID() == excludeID)
+				return;
+			if(child.edge){
+				this.options.sys.pruneEdge(child.edge);
+				delete child.edge;
+			}
+			child.model.hideChilds();
+			child.model.hide();
+		}.bind(this))
+	},
+	drawChilds : function() {
+		this.node.fixed = false;
+		if (this.parentNode)
+			this.parentNode.hideChilds(this.getID());
+		if(!this.childs)
+			return;
+		this.childs.each(function(child) {
+			if (child.model) {
+				child.model.show();
+				child.edge = this.options.sys.addEdge(this.node, child.model.node, {
+					model : {
+						source : this,
+						target : child.model
+					}
+				});
+				child.model.hideChilds();
+			} else {
+				child.model = this.getModel((child.type) ? child.type : 'itemMenu', {
+					name : child.name,
+					childs : child.childs,
+					sys : this.options.sys
+				});
+				child.model.setParent(this);
+				child.model.draw();
+				child.edge = this.options.sys.addEdge(this.node, child.model.node, {
+					model : {
+						source : this,
+						target : child.model
+					}
+				});
+			}
+		}.bind(this));
+	},
+	startDragging : function() {
+		this.dragging = true;
+		this.node.fixed = true;
+	},
+	onDragging : function() {
+		this.setCenter(this.getDOMCenter());
+	},
+	stopDragging : function() {
+		this.options.sys.stop();
+		this.setCenter(this.getDOMCenter());
+		this.node.p = this.options.sys.fromScreen(this.getDOMCenter());
+		this.node.fixed = false;
+		this.options.sys.start();
+		this.dragging = false;
+	},
+	getName : function() {
 		return this.options.name;
 	},
 	getNode : function() {
@@ -16,16 +139,54 @@ model_index = {
 	setNode : function(node) {
 		this.node = node;
 	},
-	updatePosition: function(point){
-		this.position = point;
+	getDOMCenter : function() {
+		var size = this.DOM[0].getSize();
+		var position = this.DOM[2].getPosition();
+		return {
+			x : position.x + (size.x / 2),
+			y : position.y + (size.y / 2)
+		};
 	},
-	connect : function(node) {
-		this.childs.push(node);
+	updateDOM : function() {
+		var size = this.DOM[0].getSize();
+		var center = this.center;
+		var position = {
+			x : this.center.x - (size.x / 2),
+			y : this.center.y - (size.y / 2)
+		}
+		if (!this.dragging) { // Se lo dejo al dragger
+			this.DOM[2].setStyles({
+				top : position.y,
+				left : position.x,
+				width : size.x,
+				height : size.y
+			});
+		}
+		this.DOM[0].setStyles({
+			top : position.y,
+			left : position.x
+		});
+		this.DOM[1].setStyles({
+			top : position.y,
+			left : position.x,
+			width : size.x,
+			height : size.y
+		});
 	},
-	getLength : function() {
-		return .75;
+	setCenter : function() {
+		if (this.dragging) {
+			this.center = this.getDOMCenter();
+			this.node.p = this.options.sys.fromScreen(this.center);
+		}
+		this.center = this.options.sys.toScreen(this.node.p);
+		this.updateDOM();
 	},
-	getPointSize : function() {
-		return 3;
+	getStrokeStyle : function() {
+		if (this.stroke.value >= 1 || this.stroke.value <= 0.5) {
+			this.stroke.inc *= -1;
+		}
+
+		this.stroke.value += this.stroke.inc;
+		return "rgba(255,255,255," + this.stroke.value + ")";
 	}
 }

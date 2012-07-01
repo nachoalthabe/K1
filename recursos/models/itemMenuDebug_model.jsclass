@@ -1,0 +1,7 @@
+itemMenuDebug = {
+		Extends: itemMenu,
+		setCenter : function(pt) {
+			this.parent(pt);
+			//console.log('Pos',this.position.x,this.position.y)
+		}
+}
