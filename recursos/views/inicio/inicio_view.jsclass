@@ -214,7 +214,7 @@ view_index = {
 		this.sys = arbor.ParticleSystem(1000, 600, 0.5) // create the system
 		// with sensible
 		// repulsion/stiffness/friction
-		this.sys.parameters({stiffness:900, repulsion:2000, gravity:true, dt:0.015}) // use center-gravity to make the graph
+		this.sys.parameters({stiffness:50, repulsion:100, gravity:false, dt:0.055}) // use center-gravity to make the graph
 		// settle nicely (ymmv)
 		this.sys.renderer = this.renderer(this.canvas) // our newly created
 		// renderer will have its
