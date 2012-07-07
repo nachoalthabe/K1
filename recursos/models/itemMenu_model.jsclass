@@ -115,6 +115,14 @@ model_index = {
 			}
 		}.bind(this));
 	},
+	drawLineToChilds: function(){
+		ctx.strokeStyle = edge.data.model.target.getStrokeStyle();
+		ctx.lineWidth = 5;
+		ctx.beginPath();
+		ctx.moveTo(edge.data.model.source.center.x, edge.data.model.source.center.y);
+		ctx.lineTo(edge.data.model.target.center.x, edge.data.model.target.center.y);
+		ctx.stroke();
+	},
 	startDragging : function() {
 		this.dragging = true;
 		this.node.fixed = true;
@@ -180,13 +188,5 @@ model_index = {
 		}
 		this.center = this.options.sys.toScreen(this.node.p);
 		this.updateDOM();
-	},
-	getStrokeStyle : function() {
-		if (this.stroke.value >= 1 || this.stroke.value <= 0.5) {
-			this.stroke.inc *= -1;
-		}
-
-		this.stroke.value += this.stroke.inc;
-		return "rgba(255,255,255," + this.stroke.value + ")";
 	}
 }
