@@ -16,8 +16,8 @@ model_index = {
 		var DOMContent = new Element('div', {
 			'class' : 'node'
 		}).hide();
-		DOMContent.appendChild(new Element('p', {
-			text : this.getName()
+		DOMContent.appendChild(new Element('img', {
+			src : this.options.image
 		}));
 
 		var DOMShadow = new Element('div', {
@@ -46,7 +46,7 @@ model_index = {
 		this.DOM[0].show();
 		this.DOM[1].show();
 		this.DOM[2].show();
-		this.node = this.options.sys.addNode(this.getName(), {
+		this.node = this.options.sys.addNode(this.getID(), {
 			model : this
 		});
 	},
@@ -100,7 +100,7 @@ model_index = {
 				child.model.hideChilds();
 			} else {
 				child.model = this.getModel((child.type) ? child.type : 'itemMenu', {
-					name : child.name,
+					image : child.image,
 					childs : child.childs,
 					sys : this.options.sys
 				});

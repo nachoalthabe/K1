@@ -5,65 +5,17 @@ view_index = {
 		this.getTheme('inicio');
 	},
 	menu : {
-		name : 'Propgrama Provincial de Fertilizacion Asistida',
+		image : 'images/main.png',
 		childs : [ {
-			name : 'Menu 1',
-			childs : [ {
-				name : 'Menu 11'
-			}, {
-				name : 'Menu 12'
-			}, {
-				name : 'Menu 13'
-			} ]
+			image : 'images/A.png'
 		}, {
-			name : 'Menu 2',
-			type : 'itemMenuDebug',
-			childs : [ {
-				name : 'Menu 21'
-			}, {
-				name : 'Menu 22'
-			}, {
-				name : 'Menu 23'
-			} ]
+			image : 'images/B.png',
+			type : 'itemMenuDebug'
 		}, {
-			name : 'Menu 3',
-			childs : [ {
-				name : 'Menu 31'
-			}, {
-				name : 'Menu 32'
-			}, {
-				name : 'Menu 33'
-			} ]
+			image : 'images/C.png',
+		}, {
+			image : 'images/mapas.png'
 		} ]
-	},
-	parseMenu : function(node) {
-		var chileNodes = [];
-		if (node.childs) {
-			node.childs.each(function(childNode) {
-				chileNodes.push(this.parseMenu(childNode));
-			}.bind(this));
-		}
-		var itemMenu = this.getModel((node.type) ? node.type : 'itemMenu', {
-			name : node.name,
-			sys : this.sys,
-			childs : chileNodes
-		});
-		return itemMenu;
-		itemMenu.setNode(pNode);
-		var edge;
-		chileNodes.each(function(chileNode) {
-			edge = arbor.Edge(itemMenu.getNode(), chileNode.getNode(), {
-				model : {
-					source : itemMenu,
-					target : chileNode
-				}
-			});
-			itemMenu.connect({
-				node : chileNode,
-				edge : edge
-			});
-		}.bind(this))
-		return itemMenu;
 	},
 	render : function() {
 		this.canvas = $("inicio");
@@ -78,10 +30,10 @@ view_index = {
 			dt : 0.055
 		});
 		this.sys.screenSize(this.canvas.width, this.canvas.height);
-		this.sys.screenPadding(80) // leave an extra 80px of
+		this.sys.screenPadding(200) // leave an extra 80px of
 		this.sys.renderer = {
-			init: function(){
-				
+			init : function() {
+
 			},
 			redraw : function() {
 				this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -93,7 +45,7 @@ view_index = {
 		}
 		this.tree = this.getModel((this.menu.type) ? this.menu.type
 				: 'itemMenu', {
-			name : this.menu.name,
+			image : this.menu.image,
 			childs : this.menu.childs,
 			sys : this.sys
 		});
