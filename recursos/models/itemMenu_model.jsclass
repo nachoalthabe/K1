@@ -2,6 +2,7 @@ model_index = {
 	Bind : [ 'startDragging', 'onDragging', 'stopDragging' ],
 	Extends : Model,
 	childs : [],
+	drawed: true,
 	stroke : {
 		value : 0,
 		inc : 0.05
@@ -43,6 +44,7 @@ model_index = {
 		this.stroke.value = .6;
 	},
 	show : function() {
+		this.drawed = true;
 		this.DOM[0].show();
 		this.DOM[1].show();
 		this.DOM[2].show();
@@ -51,6 +53,7 @@ model_index = {
 		});
 	},
 	hide : function() {
+		this.drawed = false;
 		this.DOM[0].hide();
 		this.DOM[1].hide();
 		this.DOM[2].hide();
@@ -101,6 +104,7 @@ model_index = {
 			} else {
 				child.model = this.getModel((child.type) ? child.type : 'itemMenu', {
 					image : child.image,
+					canvas: this.options.canvas,
 					childs : child.childs,
 					sys : this.options.sys
 				});
@@ -116,19 +120,26 @@ model_index = {
 		}.bind(this));
 	},
 	drawLineToChilds: function(){
-		ctx.strokeStyle = edge.data.model.target.getStrokeStyle();
+		if(!this.childs)
+			return;
+		var ctx = this.options.canvas.getContext('2d');
+		ctx.strokeStyle = 'rgba(255,255,255,1)';
 		ctx.lineWidth = 5;
-		ctx.beginPath();
-		ctx.moveTo(edge.data.model.source.center.x, edge.data.model.source.center.y);
-		ctx.lineTo(edge.data.model.target.center.x, edge.data.model.target.center.y);
-		ctx.stroke();
+		this.childs.each(function(child){
+			if(!child.model.center || !child.model.drawed)
+				return;
+			ctx.beginPath();
+			ctx.moveTo(this.center.x, this.center.y);
+			ctx.lineTo(child.model.center.x, child.model.center.y);
+			ctx.stroke();
+		}.bind(this));
 	},
 	startDragging : function() {
 		this.dragging = true;
 		this.node.fixed = true;
 	},
 	onDragging : function() {
-		this.setCenter(this.getDOMCenter());
+		this.setCenter(this.getDOMCenter(),true);
 	},
 	stopDragging : function() {
 		this.options.sys.stop();
@@ -180,13 +191,14 @@ model_index = {
 			width : size.x,
 			height : size.y
 		});
+		//this.drawLineToChilds();
 	},
 	setCenter : function() {
 		if (this.dragging) {
-			this.center = this.getDOMCenter();
-			this.node.p = this.options.sys.fromScreen(this.center);
+			this.node.p = this.options.sys.fromScreen(this.getDOMCenter());
 		}
 		this.center = this.options.sys.toScreen(this.node.p);
+		this.drawLineToChilds();
 		this.updateDOM();
 	}
 }
