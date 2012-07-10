@@ -40,9 +40,9 @@ model_index = {
 			stopPropagation: true
 		});
 
-		this.DOMContent.inject(document.body);
-		DOMShadow.inject(document.body);
-		DOMSurfice.inject(document.body);
+		this.DOMContent.inject($('nodos'));
+		DOMShadow.inject($('nodos'));
+		DOMSurfice.inject($('nodos'));
 		this.childs = (this.options.childs) ? this.options.childs : false;
 		this.DOM.push(this.DOMContent, DOMShadow, DOMSurfice);
 		this.stroke.value = .6;
