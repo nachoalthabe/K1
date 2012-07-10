@@ -6,13 +6,16 @@ itemMenuDebug = {
 	
 		init : function()
 			{
+				
 				this.parent();
-				var imgURL = "images/B_AltaCOmplejidad_FIV.png";
-				var imgID = "imageTest1"
+				var videoURL = this.options.mediaSrc;
+				var videoID = "videoTest1"
 				jQuery(this.DOM[2]).fancybox({
 					'overlayColor' :'#000',
-					'content':'<img id="'+imgID+'"  src="'+imgURL+'">'
+					'content':'<video id="'+videoID+'" class="video-js vjs-default-skin" controls autoplay preload="auto" width="640" height="264" ><source src="'+videoURL+'" type="video/webm" /></video><script> var myPlayer = _V_("'+videoID+'");</script>'
 					});
+				
+				
 				
 			}
 		

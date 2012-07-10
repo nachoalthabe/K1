@@ -126,6 +126,7 @@ model_index = {
 				child.model = this.getModel((child.type) ? child.type
 						: 'itemMenu', {
 					image : child.image,
+					mediaSrc: (child.mediaSrc)?child.mediaSrc:false,
 					canvas : this.options.canvas,
 					childs : child.childs,
 					sys : this.options.sys
