@@ -2,7 +2,7 @@ UML_controller = {
 	Extends : Controller,
 	Require : {
 		view : [ 'inicio' ],
-		model : [ 'itemMenu','itemMenuDebug' ]
+		model : [ 'itemMenu','itemMenuDebug', 'videoNodo','imageNodo' ]
 	},
 	execute : function(params) {
 		this.getView('inicio');
