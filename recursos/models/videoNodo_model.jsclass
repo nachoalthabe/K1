@@ -1,0 +1,6 @@
+itemMenuDebug = {
+		Extends: itemMenu,
+		click : function(pt) {
+			console.log('nada');
+		}
+}
