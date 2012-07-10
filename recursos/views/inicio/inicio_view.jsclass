@@ -21,16 +21,16 @@ view_index = {
 								image : 'images/A5.png',
 								childs:[{
 									image:'images/A5_foto_Ovulo01.png',
-									mediaSrc : 'images/Ovulo01.jpg' , 
+									mediaSrc : 'images/ovulo01.jpg' , 
 									type:'imageNodo',
 								},{
 									image:'images/A5_foto_Ovulo02.png',
-									mediaSrc : 'images/Ovulo02.jpg' , 
+									mediaSrc : 'images/ovulo02.jpg' , 
 									type:'imageNodo',
 									
 								},{
 									image:'images/A5_foto_Ovulo03.png',
-									mediaSrc : 'images/Ovulo03.jpg' , 
+									mediaSrc : 'images/ovulo03.jpg' , 
 									type:'imageNodo',
 									
 								},{
@@ -113,8 +113,6 @@ view_index = {
 							    		image : 'images/C5_foto_dia2.png',
 							    		mediaSrc : 'images/Dia2.jpg' , 
 										type:'imageNodo',
-									   
-							    		
 							    },{
 									image : 'images/C6.png',
 										childs : [ {
