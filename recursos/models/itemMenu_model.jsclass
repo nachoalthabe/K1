@@ -2,7 +2,9 @@ model_index = {
 	Bind : [ 'startDragging', 'onDragging', 'stopDragging' ],
 	Extends : Model,
 	childs : [],
-	drawed: true,
+	drawed : false,
+	center : false,
+	drawedChilds : false,
 	stroke : {
 		value : 0,
 		inc : 0.05
@@ -14,13 +16,13 @@ model_index = {
 	DOM : [],
 	dragging : false,
 	init : function() {
-		var DOMContent = new Element('div', {
-			'class' : 'node'
-		}).hide();
-		DOMContent.appendChild(new Element('img', {
-			src : this.options.image
-		}));
-
+		this.getDOMContent();
+		var myFx = new Fx.Tween('myElement', {
+			duration : 'long',
+			transition : 'bounce:out',
+			link : 'cancel',
+			property : 'height'
+		});
 		var DOMShadow = new Element('div', {
 			'class' : 'node shadow'
 		}).hide();
@@ -28,20 +30,36 @@ model_index = {
 		var DOMSurfice = new Element('div', {
 			'class' : 'node surfice'
 		}).hide();
-		DOMSurfice.addEvent('click',this.drawChilds.bind(this));
+		DOMSurfice.addEvent('click', this.click.bind(this));
 
 		this.drag = new Drag(DOMSurfice, {
 			onStart : this.startDragging.bind(this),
 			onDrag : this.onDragging.bind(this),
-			onComplete : this.stopDragging.bind(this)
+			onComplete : this.stopDragging.bind(this),
+			preventDefault: true,
+			stopPropagation: true
 		});
 
-		DOMContent.inject(document.body);
+		this.DOMContent.inject(document.body);
 		DOMShadow.inject(document.body);
 		DOMSurfice.inject(document.body);
-		this.childs = (this.options.childs)?this.options.childs:false;
-		this.DOM.push(DOMContent, DOMShadow, DOMSurfice);
+		this.childs = (this.options.childs) ? this.options.childs : false;
+		this.DOM.push(this.DOMContent, DOMShadow, DOMSurfice);
 		this.stroke.value = .6;
+	},
+	click: function(){
+		this.drawChilds();
+	},
+	getDOMContent : function() {
+		if (this.DOMContent != undefined)
+			return this.DOMContent;
+		this.DOMContent = new Element('div', {
+			'class' : 'node'
+		}).hide();
+		this.DOMContent.appendChild(new Element('img', {
+			src : this.options.image
+		}));
+		return this.DOMContent;
 	},
 	show : function() {
 		this.drawed = true;
@@ -69,15 +87,16 @@ model_index = {
 		return this.parentNode;
 	},
 	hideChilds : function(excludeID) {
-		if(!this.childs){
+		this.drawedChilds = false;
+		if (!this.childs) {
 			return;
 		}
 		this.childs.each(function(child) {
-			if(!child.model)
+			if (!child.model)
 				return;
 			if (child.model.getID() == excludeID)
 				return;
-			if(child.edge){
+			if (child.edge) {
 				this.options.sys.pruneEdge(child.edge);
 				delete child.edge;
 			}
@@ -89,44 +108,51 @@ model_index = {
 		this.node.fixed = false;
 		if (this.parentNode)
 			this.parentNode.hideChilds(this.getID());
-		if(!this.childs)
+		if (!this.childs)
 			return;
 		this.childs.each(function(child) {
 			if (child.model) {
 				child.model.show();
-				child.edge = this.options.sys.addEdge(this.node, child.model.node, {
-					model : {
-						source : this,
-						target : child.model
-					}
-				});
+				this.drawedChilds = true;
+				child.edge = this.options.sys.addEdge(this.node,
+						child.model.node, {
+							model : {
+								source : this,
+								target : child.model
+							}
+						});
 				child.model.hideChilds();
 			} else {
-				child.model = this.getModel((child.type) ? child.type : 'itemMenu', {
+				child.model = this.getModel((child.type) ? child.type
+						: 'itemMenu', {
 					image : child.image,
-					canvas: this.options.canvas,
+					canvas : this.options.canvas,
 					childs : child.childs,
 					sys : this.options.sys
 				});
 				child.model.setParent(this);
 				child.model.draw();
-				child.edge = this.options.sys.addEdge(this.node, child.model.node, {
-					model : {
-						source : this,
-						target : child.model
-					}
-				});
+				this.drawedChilds = true;
+				child.edge = this.options.sys.addEdge(this.node,
+						child.model.node, {
+							model : {
+								source : this,
+								target : child.model
+							}
+						});
 			}
 		}.bind(this));
 	},
-	drawLineToChilds: function(){
-		if(!this.childs)
+	drawLineToChilds : function() {
+		if (!this.childs)
 			return;
 		var ctx = this.options.canvas.getContext('2d');
 		ctx.strokeStyle = 'rgba(255,255,255,1)';
 		ctx.lineWidth = 5;
-		this.childs.each(function(child){
-			if(!child.model.center || !child.model.drawed)
+		this.childs.each(function(child) {
+			if (child.model == undefined)
+				return;
+			if (!child.model.drawed)
 				return;
 			ctx.beginPath();
 			ctx.moveTo(this.center.x, this.center.y);
@@ -138,16 +164,16 @@ model_index = {
 		this.dragging = true;
 		this.node.fixed = true;
 	},
-	onDragging : function() {
-		this.setCenter(this.getDOMCenter(),true);
+	onDragging : function(ev) {
+		this.setCenter(this.getDOMCenter(), true);
 	},
-	stopDragging : function() {
+	stopDragging : function(ev) {
 		this.options.sys.stop();
 		this.setCenter(this.getDOMCenter());
 		this.node.p = this.options.sys.fromScreen(this.getDOMCenter());
 		this.node.fixed = false;
 		this.options.sys.start();
-		this.dragging = false;
+		this.dragging = false;3
 	},
 	getName : function() {
 		return this.options.name;
@@ -191,7 +217,7 @@ model_index = {
 			width : size.x,
 			height : size.y
 		});
-		//this.drawLineToChilds();
+		// this.drawLineToChilds();
 	},
 	setCenter : function() {
 		if (this.dragging) {
