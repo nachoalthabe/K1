@@ -18,7 +18,37 @@ view_index = {
 						childs : [ {
 							image : 'images/A4.png',
 							childs : [ {
-								image : 'images/A5.png'
+								image : 'images/A5.png',
+								childs:[{
+									image:'images/A5_foto_Ovulo01.png',
+									mediaSrc : 'images/Ovulo01.jpg' , 
+									type:'imageNodo',
+								},{
+									image:'images/A5_foto_Ovulo02.png',
+									mediaSrc : 'images/Ovulo02.jpg' , 
+									type:'imageNodo',
+									
+								},{
+									image:'images/A5_foto_Ovulo03.png',
+									mediaSrc : 'images/Ovulo03.jpg' , 
+									type:'imageNodo',
+									
+								},{
+									image:'images/A5_video_esperma01.png',
+									mediaSrc : 'videos/esperma01.webm' , 
+									type:'videoNodo',
+									
+								},{
+									image:'images/A5_video_esperma02.png',
+									mediaSrc : 'videos/esperma02.webm' , 
+									type:'videoNodo',
+									
+								},{
+									image:'images/A5_video_esperma03.png',
+									mediaSrc :  'videos/esperma03.webm' , 
+									type:'videoNodo',
+									
+								}]
 							} ]
 						} ]
 					} ]
@@ -30,18 +60,28 @@ view_index = {
 				image : 'images/B_AltaComplejidad.png',
 				childs : [ {
 					image : 'images/B_AltaComplejidad_FIV.png',
-					childs : [ {
-						image : 'images/B_AltaComplejidad_FIV.png',
-						mediaSrc : 'videos/test.webm',
-						type : 'videoNodo'
-					}, {
-						image : 'images/B_BajaComplejidad.png',
-						mediaSrc : 'images/B_BajaComplejidad.png',
-						type : 'imageNodo'
-					} ]
+					childs : [{
+							image:'images/B_AltaComplejidad_video_FIV.png',
+							mediaSrc:'videos/FIV.webm',
+							type:'videoNodo'
+						},{
+							image:'images/B_AltaComplejidad_foto_FIV_ovocito.png',
+							mediaSrc:'images/OVOCITO.jpg',
+							type:'imageNodo'
+							
+					}]
 				}, {
 					image : 'images/B_AltaComplejidad_ISCI.png',
-				} ]
+					childs:[{
+						image:'images/B_AltaComplejidad_video_ISCI.png',
+						mediaSrc:'videos/ICSI.webm',
+						type:'videoNodo'
+						
+					}]
+				} ,{
+					image : 'images/B_BajaComplejidad_IIU.png',
+					
+				}]
 			}, {
 				image : 'images/B_BajaComplejidad.png',
 				childs : [ {
@@ -58,13 +98,22 @@ view_index = {
 						image : 'images/C3.png',
 						childs : [ {
 							image : 'images/C4.png',
-							childs : [ {
-								image : 'images/C5.png',
-								childs : [ {
+							childs : [{
+									image:'images/C4_video-ICSI01.png',
+									mediaSrc : 'videos/ICSI01.webm' , 
+									type:'videoNodo',
+								},{
+									image:'images/C4_video-ICSI02.png',
+									mediaSrc : 'videos/ICSI02.webm' , 
+									type:'videoNodo',
+								   
+							    },{
+							    	image : 'images/C5.png',
+							    	childs : [ {
 									image : 'images/C6.png',
-									childs : [ {
-										image : 'images/C7.png'
-									} ]
+										childs : [ {
+											image : 'images/C7.png'
+										} ]
 								} ]
 							} ]
 						} ]

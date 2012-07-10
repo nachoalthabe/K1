@@ -1,22 +1,29 @@
 itemMenuDebug = {
-		Extends: itemMenu,
-		click : function(pt) {
-			console.log('nada');
-		},
-	
-		init : function()
-			{
-				this.parent();
-				var imgURL = this.options.mediaSrc;
-				var imgID = "imageTest1"
-				jQuery(this.DOM[2]).fancybox({
-					'overlayColor' :'#000',
-					'content':'<img src="'+imgURL+'">'
-					});
-				
-				
-			}
+	Extends : itemMenu,
+	click : function(pt) {
+		console.log('nada');
 		
 		
+	},
+
+	init : function() {
+		this.parent();
+		var imgURL = this.options.mediaSrc;
 		
+		jQuery(this.DOM[2]).attr('href',imgURL);
+		
+		jQuery(this.DOM[2]).fancybox({
+			'overlayColor' : '#000000',
+			'content' : '<img id="'+String.uniqueID()+'" src="' + imgURL + '">'
+			//'content' : '<img id="'+String.uniqueID()+'" src="' + imgURL + '">'
+		});
+
+		
+		//<a id="single_image" href="image_big.jpg">
+	},
+	draw: function(){
+		this.parent();
+		this.node.mass = 100;
+	}
+
 }
