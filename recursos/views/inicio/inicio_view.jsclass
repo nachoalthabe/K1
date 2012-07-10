@@ -122,16 +122,6 @@ view_index = {
 		} ]
 	},
 	render : function() {
-		$('menuNodos').addEvent('click', this.gotoNodos.bind(this));
-		$('menuMapas').addEvent('click', this.gotoMapas.bind(this));
-		this.gotoNextFX = new Fx.Scroll('app');
-		this.renderNodos();
-		this.renderMapa();
-	},
-	renderNodos : function() {
-		var appSize = $('app').getSize();
-		this.actual = 'nodos';
-		this.canvas = $('nodos').getElement('canvas');
 			$('menuNodos').addEvent('click', this.gotoNodos.bind(this));
 		$('menuMapas').addEvent('click', this.gotoMapas.bind(this));
 		this.gotoNextFX = new Fx.Scroll('app');

@@ -43,7 +43,8 @@ div.node p {
 /* 	text-align: center; */
 	margin: 0;
 	padding: 0;
-}#app{
+}
+#app{
 	background-color: rgba(244, 128, 46, 1);
 	position: absolute;
 	top: 0;
