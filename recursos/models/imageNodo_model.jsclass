@@ -14,7 +14,8 @@ itemMenuDebug = {
 		
 		jQuery(this.DOM[2]).fancybox({
 			'overlayColor' : '#000000',
-			'content' : '<img id="'+String.uniqueID()+'" src="' + imgURL + '">'
+			'type' :'image',
+			'href' : imgURL
 			//'content' : '<img id="'+String.uniqueID()+'" src="' + imgURL + '">'
 		});
 

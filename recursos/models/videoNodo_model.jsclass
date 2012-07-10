@@ -1,9 +1,11 @@
 itemMenuDebug = {
 		Extends: itemMenu,
 		click : function(pt) {
-			console.log('nada');
+			console.log("#"+this.videoID);
 			
 			// triggear click
+			//jQuery("#"+this.videoID)[0].player.autoplay('autoplay');
+			_V_(this.videoID).play();
 			
 		},
 	
@@ -11,11 +13,12 @@ itemMenuDebug = {
 			{
 				
 				this.parent();
+				this.videoID = String.uniqueID();
 				var videoURL = this.options.mediaSrc;
 				jQuery(this.DOM[2]).fancybox({
 					'overlayColor' :'#000',
-					'content':'<video id="'+String.uniqueID()+'" class="video-js vjs-default-skin" controls autoplay preload="auto" width="640" height="264" ><source src="'+videoURL+'" type="video/webm" /></video><script> var myPlayer = _V_("'+videoID+'");</script>'
-					});
+					//'content' : '<div><video id="myID" class="video-js vjs-default-skin"  autoplay preload="auto"><source type="video/mp4" src="http://video-js.zencoder.com/oceans-clip.mp4"></video><script>var myPlayer = _V_("myID");</script></div>'
+					'content':'<d_iv><video id="'+this.videoID+'" class="video-js vjs-default-skin" controls autoplay="true"  preload="auto" width="640" height="480" ><source src="'+videoURL+'" type="video/webm" /></video><script>    V_("'+this.videoID+'").ready(function(){		console.log("video "+"'+this.videoID+'");		      var myPlayer = this;myPlayer.play();				    });</script></div>'});
 				
 				
 				

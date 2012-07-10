@@ -108,7 +108,13 @@ view_index = {
 								   
 							    },{
 							    	image : 'images/C5.png',
-							    	childs : [ {
+							    	childs : [{
+							    		image : 'images/C5_foto_dia2.png',
+							    		mediaSrc : 'images/Dia2.jpg' , 
+										type:'imageNodo',
+									   
+							    		
+							    },{
 									image : 'images/C6.png',
 										childs : [ {
 											image : 'images/C7.png'
