@@ -56,7 +56,7 @@ div.node p {
 	width: 100%;
 	overflow: hidden;
 }
-.menuNodos{
+#menuNodos{
 	background: rgb(0,0,0);
 	height: 100px;
 	width: 100%;
@@ -64,7 +64,7 @@ div.node p {
 	top: 0;
 	z-index: 2;
 }
-.menuMapas{
+#menuMapas{
 	background: rgb(90,90,90);
 	height: 100px;
 	width: 100%;
