@@ -6,3 +6,6 @@
 path = libs/arbor
 url = https://github.com/samizdatco/arbor.git
 
+[submodule "libs/openlayers"]
+	path = libs/openlayers
+	url = https://github.com/openlayers/openlayers.git
