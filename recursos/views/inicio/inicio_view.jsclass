@@ -17,7 +17,12 @@ view_index = {
 						childs : [ {
 							image : 'images/A4.png',
 							childs : [ {
-								image : 'images/A5.png'
+								image : 'images/A5.png',
+								childs:[{
+									image:'A5_foto_Ovulo01.png',
+									mediaSRC : '' , 
+									type:'imageNodo',
+								}]
 							} ]
 						} ]
 					} ]
@@ -29,16 +34,6 @@ view_index = {
 				image : 'images/B_AltaComplejidad.png',
 				childs : [ {
 					image : 'images/B_AltaComplejidad_FIV.png',
-					childs : [{
-						image : 'images/B_AltaComplejidad_FIV.png',
-						mediaSrc:'videos/test.webm',
-						type: 'videoNodo'
-					},
-					{
-						image : 'images/B_BajaComplejidad.png',
-						mediaSrc:'images/B_BajaComplejidad.png',
-						type: 'imageNodo'
-					}]
 				}, {
 					image : 'images/B_AltaComplejidad_ISCI.png',
 				} ]
