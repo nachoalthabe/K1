@@ -1,6 +1,7 @@
 view_index = {
 	Extends : View,
 	nodos : [],
+	zonas : [],
 	init : function() {
 		this.getTheme('inicio');
 	},
@@ -74,10 +75,13 @@ view_index = {
 	},
 	render : function() {
 		$('menuNodos').addEvent('click', this.gotoNodos.bind(this));
+		$('menuNodos').getElement('img').addEvent('click', this.gotoNodos.bind(this));
 		$('menuMapas').addEvent('click', this.gotoMapas.bind(this));
+		$('menuMapas').getElement('img').addEvent('click', this.gotoMapas.bind(this));
 		this.gotoNextFX = new Fx.Scroll('app');
 		this.renderNodos();
-		this.renderMapa();
+		this.loadMapa();
+		this.gotoMapas();
 	},
 	renderNodos : function() {
 		var appSize = $('app').getSize();
@@ -88,13 +92,13 @@ view_index = {
 		this.resizeCanvas();
 		this.sys = arbor.ParticleSystem(1000, 600, 0.5);
 		this.sys.parameters({
-			stiffness : 50,
+			stiffness : 10,
 			repulsion : 100,
-			gravity : false,
+			gravity : true,
 			dt : 0.055
 		});
 		this.sys.screenSize(this.canvas.width, this.canvas.height);
-		this.sys.screenPadding(200) // leave an extra 80px of
+		this.sys.screenPadding(250) // leave an extra 80px of
 		this.sys.renderer = {
 			init : function() {
 
@@ -117,8 +121,133 @@ view_index = {
 		this.tree.draw();
 		this.tree.drawChilds();
 	},
-	renderMapa : function() {
-		$('mapa');// Lo que sea...
+	loadMapa : function() {
+		this.parserWKT = new OpenLayers.Format.WKT();
+		this.baseLayer = new OpenLayers.Layer.Vector("Contorno Provincia.");
+		var context = {
+			getColor : function(feature) {
+				var color;
+				switch (feature.zona) {
+				case 1:// BahiBlanca
+					color = 'FF9966';
+					break;
+				case 2:// Paguaho
+					color = 'FFCC99';
+					break;
+				case 3:// Junin
+					color = '33CCCC';
+					break;
+				case 4:// Pergamino
+					color = 'FFFF00';
+					break;
+				case 5:// San Isidro
+					color = 'CCCC66';
+					break;
+				case 6:// Lomas de zamora
+					color = 'CCCCCC';
+					break;
+				case 7:// General Rodriguez
+					color = '996666';
+					break;
+				case 8:// Mar del Plata
+					color = '996699';
+					break;
+				case 9:// Azul
+					color = '33CC66';
+					break;
+				case 10:// Chibilcoi
+					color = 'FFFFFF';
+					break;
+				case 11:// La Plata
+					color = 'FF9966';
+					break;
+				case 12:// La Matanza
+					color = 'CC9966';
+					break;
+				default:
+					color = '000000';
+					break;
+				}
+				return color;
+			}
+		};
+		
+		var template = {
+			fillColor : "${getColor}"
+		};
+		
+		var style = new OpenLayers.Style(template, {
+			context : context
+		});
+		
+		this.baseLayer = new OpenLayers.Layer.Vector("Zonas Provincia.", {
+			styleMap : new OpenLayers.StyleMap(style),
+			renderers: ["Canvas"]
+		});
+		
+		this.baseLayer.events.on({
+			"featureselected" : function(e) {
+				jQuery.fancybox({
+					'overlayColor' :'#000',
+					'content':'<img id="'+String.uniqueID()+'" src="images/zona'+e.feature.zona+'.png" />'
+					});
+			}
+		});
+		
+		this.mapa = new OpenLayers.Map('mapa', {
+			projection : 'EPSG:900913',
+			baseLayer : this.baseLayer,
+			panMethod : OpenLayers.Easing.Quad,
+			controls: []
+		});
+		
+		this.mapa.addLayer(this.baseLayer);
+		
+		
+		this.selectControl = new OpenLayers.Control.SelectFeature(this.baseLayer, {
+			clickout : true,
+			toggle : false,
+			multiple : false,
+			hover : false,
+
+		});
+		
+		this.mapa.addControl(this.selectControl);
+		
+		this.selectControl.activate();
+		
+		this.parser = new OpenLayers.Format.WKT();
+		new Request.JSON({
+			url : './mapa.json',
+			onSuccess : this.renderMapa.bind(this)
+		}).get();
+	},
+	renderMapa : function(response) {
+		window['data'] = [];
+		response.departamentos_base.data
+				.each(function(departamento, indice) {
+					if (departamento[4] == "BUENOS AIRES") {
+						var geometry = this.parser
+								.read(response.departamentos_base.geom[indice][0]).geometry;
+						var feature = new OpenLayers.Feature.Vector(geometry);
+						feature.seccionElectoral = departamento[0];
+						feature.departamento = departamento[1];
+						feature.cabecera = departamento[3];
+						window['data'].push({
+							id : indice,
+							departamento : departamento[1],
+							cabecera : departamento[3],
+							electoral : departamento[0],
+							zona : false
+						})
+						this.baseLayer.addFeatures([ feature ]);
+					}
+				}.bind(this));
+		this.mapa.setCenter([ -6698000.0270697, -4427715.186402 ], 6);
+		data.each(function(el) {
+			console.log(el.departamento);
+			return;
+		})
 	},
 	resizeCanvas : function() {
 		var size = $('nodos').getSize();
