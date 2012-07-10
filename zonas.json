@@ -1,811 +1,137 @@
-var zonas = [ {
-	"id" : 0,
-	"departamento" : "Patagones",
-	"cabecera" : "Carmen de Patagones",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 1,
-	"departamento" : "Puan",
-	"cabecera" : "Puan",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 3,
-	"departamento" : "Villarino",
-	"cabecera" : "Medanos",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 4,
-	"departamento" : "Adolfo Alsina",
-	"cabecera" : "Carhue",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 5,
-	"departamento" : "Salliquelo",
-	"cabecera" : "Salliquelo",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 6,
-	"departamento" : "Carlos Tejedor",
-	"cabecera" : "Carlos Tejedor",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 7,
-	"departamento" : "Florentino Ameghino",
-	"cabecera" : "Florentino Ameghino",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 8,
-	"departamento" : "Junin",
-	"cabecera" : "Junin",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 9,
-	"departamento" : "General Pinto",
-	"cabecera" : "General Pinto",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 10,
-	"departamento" : "Lincoln",
-	"cabecera" : "Lincoln",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 11,
-	"departamento" : "Leandro N. Alem",
-	"cabecera" : "Vedia",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 12,
-	"departamento" : "General Viamonte",
-	"cabecera" : "Los Toldos",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 13,
-	"departamento" : "General Guido",
-	"cabecera" : "General Guido",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 14,
-	"departamento" : "Tres Lomas",
-	"cabecera" : "Tres Lomas",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 15,
-	"departamento" : "Trenque Lauquen",
-	"cabecera" : "Trenque Lauquen",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 16,
-	"departamento" : "Balcarce",
-	"cabecera" : "Balcarce",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 17,
-	"departamento" : "Pellegrini",
-	"cabecera" : "Pellegrini",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 18,
-	"departamento" : "General Villegas",
-	"cabecera" : "General Villegas",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 20,
-	"departamento" : "Tordillo",
-	"cabecera" : "General Conesa",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 22,
-	"departamento" : "Berisso",
-	"cabecera" : "Berisso",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 25,
-	"departamento" : "Brandsen",
-	"cabecera" : "Coronel Brandsen",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 26,
-	"departamento" : "La Plata",
-	"cabecera" : "La Plata",
-	"electoral" : "8.00000000000",
-	"zona" : false
-}, {
-	"id" : 27,
-	"departamento" : "Las Flores",
-	"cabecera" : "Las Flores",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 28,
-	"departamento" : "General Belgrano",
-	"cabecera" : "General Belgrano",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 29,
-	"departamento" : "Roque Perez",
-	"cabecera" : "Roque Perez",
-	"electoral" : "7.00000000000",
-	"zona" : false
-}, {
-	"id" : 30,
-	"departamento" : "Monte",
-	"cabecera" : "San Miguel del Monte",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 31,
-	"departamento" : "Bragado",
-	"cabecera" : "Bragado",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 32,
-	"departamento" : "General Arenales",
-	"cabecera" : "General Arenales",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 33,
-	"departamento" : "Colon",
-	"cabecera" : "Colon",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 34,
-	"departamento" : "Rojas",
-	"cabecera" : "Rojas",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 35,
-	"departamento" : "Pergamino",
-	"cabecera" : "Pergamino",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 36,
-	"departamento" : "Chacabuco",
-	"cabecera" : "Chacabuco",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 37,
-	"departamento" : "Ensenada",
-	"cabecera" : "Ensenada",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 38,
-	"departamento" : "Alberti",
-	"cabecera" : "Alberti",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 39,
-	"departamento" : "Chivilcoy",
-	"cabecera" : "Chivilcoy",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 40,
-	"departamento" : "Navarro",
-	"cabecera" : "Navarro",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 41,
-	"departamento" : "Suipacha",
-	"cabecera" : "Suipacha",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 42,
-	"departamento" : "Mercedes",
-	"cabecera" : "Mercedes",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 43,
-	"departamento" : "San Andres de Giles",
-	"cabecera" : "San Andres de Giles",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 44,
-	"departamento" : "Salto",
-	"cabecera" : "Salto",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 45,
-	"departamento" : "Arrecifes",
-	"cabecera" : "Arrecifes",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 46,
-	"departamento" : "San Nicolas",
-	"cabecera" : "San Nicolas de los Arroyos",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 47,
-	"departamento" : "Ramallo",
-	"cabecera" : "Ramallo",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 48,
-	"departamento" : "Carmen de Areco",
-	"cabecera" : "Carmen de Areco",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 49,
-	"departamento" : "Capitan Sarmiento",
-	"cabecera" : "Capitan Sarmiento",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 50,
-	"departamento" : "San Antonio de Areco",
-	"cabecera" : "San Antonio de Areco",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 51,
-	"departamento" : "Baradero",
-	"cabecera" : "Baradero",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 52,
-	"departamento" : "San Pedro",
-	"cabecera" : "San Pedro",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 53,
-	"departamento" : "Lobos",
-	"cabecera" : "Lobos",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 54,
-	"departamento" : "Lujan",
-	"cabecera" : "Lujan",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 55,
-	"departamento" : "General Las Heras",
-	"cabecera" : "General Las Heras",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 56,
-	"departamento" : "Lanus",
-	"cabecera" : "Lanus",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 57,
-	"departamento" : "General Rodriguez",
-	"cabecera" : "General Rodriguez",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 58,
-	"departamento" : "General Paz",
-	"cabecera" : "Ranchos",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 59,
-	"departamento" : "Marcos Paz",
-	"cabecera" : "Marcos Paz",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 60,
-	"departamento" : "Merlo",
-	"cabecera" : "Merlo",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 61,
-	"departamento" : "Moreno",
-	"cabecera" : "Moreno",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 62,
-	"departamento" : "La Matanza",
-	"cabecera" : "San Justo",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 63,
-	"departamento" : "Almirante Brown",
-	"cabecera" : "Almirante Brown",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 64,
-	"departamento" : "Lomas de Zamora",
-	"cabecera" : "Lomas de Zamora",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 65,
-	"departamento" : "Tres de Febrero",
-	"cabecera" : "Caseros",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 67,
-	"departamento" : "General San Martin",
-	"cabecera" : "General San Martin",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 72,
-	"departamento" : "San Fernando",
-	"cabecera" : "San Fernando",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 74,
-	"departamento" : "San Isidro",
-	"cabecera" : "San Isidro",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 75,
-	"departamento" : "Vicente Lopez",
-	"cabecera" : "Olivos",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 86,
-	"departamento" : "Campana",
-	"cabecera" : "Campana",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 88,
-	"departamento" : "Daireaux",
-	"cabecera" : "Daireaux",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 90,
-	"departamento" : "Zarate",
-	"cabecera" : "Zarate",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 91,
-	"departamento" : "Hipolito Yrigoyen",
-	"cabecera" : "Henderson",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 95,
-	"departamento" : "Sin dato",
-	"cabecera" : "Sin dato",
-	"electoral" : null,
-	"zona" : false
-}, {
-	"id" : 96,
-	"departamento" : "General Alvarado",
-	"cabecera" : "Miramar",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 97,
-	"departamento" : "Tigre",
-	"cabecera" : "Tigre",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 98,
-	"departamento" : "General Pueyrredon",
-	"cabecera" : "Mar del Plata",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 99,
-	"departamento" : "Mar Chiquita",
-	"cabecera" : "Coronel Vidal",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 100,
-	"departamento" : "Maipu",
-	"cabecera" : "Maipu",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 101,
-	"departamento" : "Pila",
-	"cabecera" : "Pila",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 102,
-	"departamento" : "Castelli",
-	"cabecera" : "Castelli",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 103,
-	"departamento" : "Villa Gesell",
-	"cabecera" : "Villa Gesell",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 104,
-	"departamento" : "Chascomus",
-	"cabecera" : "Chascomus",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 105,
-	"departamento" : "Dolores",
-	"cabecera" : "Dolores",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 106,
-	"departamento" : "General Juan Madaria",
-	"cabecera" : "General Juan Madariaga",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 107,
-	"departamento" : "Pinamar",
-	"cabecera" : "Pinamar",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 108,
-	"departamento" : "La Costa",
-	"cabecera" : "Mar del Tuyu",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 109,
-	"departamento" : "Saavedra",
-	"cabecera" : "Pigüé",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 110,
-	"departamento" : "General Lavalle",
-	"cabecera" : "General Lavalle",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 111,
-	"departamento" : "Quilmes",
-	"cabecera" : "Quilmes",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 112,
-	"departamento" : "Berazategui",
-	"cabecera" : "Berazategui",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 113,
-	"departamento" : "Avellaneda",
-	"cabecera" : "Avellaneda",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 124,
-	"departamento" : "Pehuajo",
-	"cabecera" : "Pehuajo",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 128,
-	"departamento" : "General La Madrid",
-	"cabecera" : "General La Madrid",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 139,
-	"departamento" : "Laprida",
-	"cabecera" : "Laprida",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 142,
-	"departamento" : "Tornquist",
-	"cabecera" : "Tornquist",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 143,
-	"departamento" : "Monte Hermoso",
-	"cabecera" : "Monte Hermoso",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 147,
-	"departamento" : "Cnel Rosales",
-	"cabecera" : "Punta Alta",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 148,
-	"departamento" : "Bahia Blanca",
-	"cabecera" : "Bahia Blanca",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 149,
-	"departamento" : "Olavarria",
-	"cabecera" : "Olavarria",
-	"electoral" : "7.00000000000",
-	"zona" : false
-}, {
-	"id" : 150,
-	"departamento" : "Coronel Dorrego",
-	"cabecera" : "Coronel Dorrego",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 151,
-	"departamento" : "Bolivar",
-	"cabecera" : "San Carlos de Bolivar",
-	"electoral" : "7.00000000000",
-	"zona" : false
-}, {
-	"id" : 152,
-	"departamento" : "Carlos Casares",
-	"cabecera" : "Carlos Casares",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 153,
-	"departamento" : "Coronel Pringles",
-	"cabecera" : "Coronel Pringles",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 154,
-	"departamento" : "Guamini",
-	"cabecera" : "Guamini",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 155,
-	"departamento" : "Coronel Suarez",
-	"cabecera" : "Coronel Suarez",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 156,
-	"departamento" : "9 de Julio",
-	"cabecera" : "9 de Julio",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 157,
-	"departamento" : "A. Gonzales Chavez",
-	"cabecera" : "Adolfo Gonzales Chaves",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 158,
-	"departamento" : "Tres Arroyos",
-	"cabecera" : "Tres Arroyos",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 159,
-	"departamento" : "Exaltación de la Cruz",
-	"cabecera" : "Capilla del Señor",
-	"electoral" : "2.00000000000",
-	"zona" : false
-}, {
-	"id" : 160,
-	"departamento" : "San Cayetano",
-	"cabecera" : "San Cayetano",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 161,
-	"departamento" : "Benito Juarez",
-	"cabecera" : "Benito Juarez",
-	"electoral" : "6.00000000000",
-	"zona" : false
-}, {
-	"id" : 162,
-	"departamento" : "Loberia",
-	"cabecera" : "Loberia",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 163,
-	"departamento" : "General Alvear",
-	"cabecera" : "General Alvear",
-	"electoral" : "7.00000000000",
-	"zona" : false
-}, {
-	"id" : 164,
-	"departamento" : "Necochea",
-	"cabecera" : "Necochea",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 165,
-	"departamento" : "Azul",
-	"cabecera" : "Azul",
-	"electoral" : "7.00000000000",
-	"zona" : false
-}, {
-	"id" : 166,
-	"departamento" : "Tapalque",
-	"cabecera" : "Tapalque",
-	"electoral" : "7.00000000000",
-	"zona" : false
-}, {
-	"id" : 167,
-	"departamento" : "25 de Mayo",
-	"cabecera" : "25 de Mayo",
-	"electoral" : "7.00000000000",
-	"zona" : false
-}, {
-	"id" : 168,
-	"departamento" : "Saladillo",
-	"cabecera" : "Saladillo",
-	"electoral" : "7.00000000000",
-	"zona" : false
-}, {
-	"id" : 169,
-	"departamento" : "Tandil",
-	"cabecera" : "Tandil",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 170,
-	"departamento" : "Rauch",
-	"cabecera" : "Rauch",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 171,
-	"departamento" : "Ayacucho",
-	"cabecera" : "Ayacucho",
-	"electoral" : "5.00000000000",
-	"zona" : false
-}, {
-	"id" : 172,
-	"departamento" : "Escobar",
-	"cabecera" : "Belen de Escobar",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 173,
-	"departamento" : "Moron",
-	"cabecera" : "Moron",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 174,
-	"departamento" : "San Vicente",
-	"cabecera" : "San Vicente",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 175,
-	"departamento" : "Presidente Peron",
-	"cabecera" : "Guernica",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 176,
-	"departamento" : "Florencio Varela",
-	"cabecera" : "Florencio Varela",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 177,
-	"departamento" : "Rivadavia",
-	"cabecera" : "América",
-	"electoral" : "4.00000000000",
-	"zona" : false
-}, {
-	"id" : 178,
-	"departamento" : "Hurlingham",
-	"cabecera" : "Hurlingham",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 179,
-	"departamento" : "San Miguel",
-	"cabecera" : "San Miguel",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 180,
-	"departamento" : "Ituzaingo",
-	"cabecera" : "Ituzaingo",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 181,
-	"departamento" : "Jose C. Paz",
-	"cabecera" : "Jose C Paz",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 182,
-	"departamento" : "Pilar",
-	"cabecera" : "Pilar",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 183,
-	"departamento" : "Malvinas Argentinas",
-	"cabecera" : "No posee cabecera oficial Sede provisori",
-	"electoral" : "1.00000000000",
-	"zona" : false
-}, {
-	"id" : 184,
-	"departamento" : "Punta Indio",
-	"cabecera" : "Veronica",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 185,
-	"departamento" : "Magdalena",
-	"cabecera" : "Magdalena",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 186,
-	"departamento" : "Esteban Echeverria",
-	"cabecera" : "Monte Grande",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 187,
-	"departamento" : "Ezeiza",
-	"cabecera" : "Jose Maria Ezeiza",
-	"electoral" : "3.00000000000",
-	"zona" : false
-}, {
-	"id" : 188,
-	"departamento" : "Canuelas",
-	"cabecera" : "Cañuelas",
-	"electoral" : "3.00000000000",
-	"zona" : false
-} ];
+var zonas = {
+	"0": 1,
+	"1" : 1,
+	"3" : 1,
+	"4" : 1,
+	"5" : 2,
+	"6" : 2,
+	"7" : 3,
+	"8" : 3,
+	"9" : 3,
+	"10" : 3,
+	"11" : 3,
+	"12" : 3,
+	"13" : 8,
+	"14" : 8,
+	"15" : 2,
+	"16" : 8,
+	"17" : 2,
+	"18" : 2,
+	"20" : 11,
+	"22" : 11,
+	"25" : 11
+	"26" : 11,
+	"27" : 9,
+	"28" : 11,
+	"29" : 10,
+	"30" : 11,
+	"31" : 10,
+	"32" : 3,
+	"33" : 4,
+	"34" : 4,
+	"35" : 4,
+	"36" : 3,
+	"37" : 11,
+	"38" : 10,
+	"39" : 10,
+	"40" : 10,
+	"41" : 10,
+	"42" : 10,
+	"43" : 4,
+	"44" : 4,
+	"45" : 4,
+	"46" : 4,
+	"47" : 4,
+	"48" : 4,
+	"49" : 4,
+	"50" : 4,
+	"51" : 4,
+	"52" : 4,
+	"53" : 10,
+	"54" : 7,
+	"55" : 7,
+	"56" : 6,
+	"57" : 7,
+	"58" : 11,
+	"59" : 7,
+	"60" : 7,
+	"61" : 7,
+	"62" : 12,
+	"63" : 6,
+	"64" : 6,
+	"65" : 7,
+	"67" : 5,
+	"72" : 5,
+	"74" : 5,
+	"75" : 5,
+	"86" : 5,
+	"88" : 2,
+	"90" : 5,
+	"91" : 2,
+	"95" : false,
+	"96" : 8
+	"97" : 5,
+	"98" : 8,
+	"99" : 8,
+	"100" : 8,
+	"101" : 11,
+	"102" : 11,
+	"103" : 8,
+	"104" : 11,
+	"105" : 11,
+	"106" : 8,
+	"107" : 8,
+	"108" : 8,
+	"109" : 1,
+	"110" : 8,
+	"111" : 6,
+	"112" : 6,
+	"113" : 6,
+	"124" : 2,
+	"128" : 9,
+	"139" : 9,
+	"142" : 1,
+	"143" : 1,
+	"147" : 1,
+	"148" : 1,
+	"149" : 9,
+	"150" : 1,
+	"151" : 9,
+	"152" : 2,
+	"153" : 1,
+	"154" : 1,
+	"155" : 1,
+	"156" : 2,
+	"157" : 1,
+	"158" : 1,
+	"159" : 5,
+	"160" : 8,
+	"161" : 9,
+	"162" : 8,
+	"163" : 9,
+	"164" : 8,
+	"165" : 9,
+	"166" : 9,
+	"167" : 10,
+	"168" : 10,
+	"169" : 8,
+	"170" : 9,
+	"171" : 8,
+	"172" : 5,
+	"173" : 7,
+	"174" : 11,
+	"175" : 11,
+	"176" : 6,
+	"177" : 2,
+	"178" : 7,
+	"179" : 5,
+	"180" : 7,
+	"181" : 5,
+	"182" : 5,
+	"183" : 5,
+	"184" : 11,
+	"185" : 11,
+	"186" : 6,
+	"187" : 6,
+	"188" : 11
+}];
