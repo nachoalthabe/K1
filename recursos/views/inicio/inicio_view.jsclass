@@ -32,6 +32,10 @@ view_index = {
 					childs : [{
 						image : 'images/B_AltaComplejidad_FIV.png',
 						type: 'videoNodo'
+					},
+					{
+						image : 'images/B_BajaComplejidad.png',
+						type: 'imageNodo'
 					}]
 				}, {
 					image : 'images/B_AltaComplejidad_ISCI.png',

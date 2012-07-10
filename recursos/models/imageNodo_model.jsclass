@@ -1,0 +1,21 @@
+itemMenuDebug = {
+		Extends: itemMenu,
+		click : function(pt) {
+			console.log('nada');
+		},
+	
+		init : function()
+			{
+				this.parent();
+				var videoURL = "videos/test.webm";
+				var videoID = "videoTest1"
+				jQuery(this.DOM[2]).fancybox({
+					'overlayColor' :'#000',
+					'content':'<video id="'+videoID+'" class="video-js vjs-default-skin" controls autoplay preload="auto" width="640" height="264" ><source src="'+videoURL+'" type="video/webm" /></video><script> var myPlayer = _V_("'+videoID+'");</script>'
+					});
+				
+			}
+		
+		
+		
+}

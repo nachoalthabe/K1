@@ -2,5 +2,20 @@ itemMenuDebug = {
 		Extends: itemMenu,
 		click : function(pt) {
 			console.log('nada');
-		}
+		},
+	
+		init : function()
+			{
+				this.parent();
+				var imgURL = "images/B_AltaCOmplejidad_FIV.png";
+				var imgID = "imageTest1"
+				jQuery(this.DOM[2]).fancybox({
+					'overlayColor' :'#000',
+					'content':'<img id="'+imgID+'"  src="'+imgURL+'">'
+					});
+				
+			}
+		
+		
+		
 }
