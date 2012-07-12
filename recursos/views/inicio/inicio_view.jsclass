@@ -212,28 +212,22 @@ view_index = {
 	},
 	render : function() {
 		$('headerFertilizacionLogo').addEvent('click', function() {
-			this.gotoNodos();
 			this.drawTree('all');
 		}.bind(this));
 		$('headerBotonFoto').addEvent('click', function() {
-			this.gotoNodos();
 			this.drawTree('image');
 		}.bind(this));
 		$('headerBotonVideo').addEvent('click', function() {
-			this.gotoNodos();
 			this.drawTree('video');
 		}.bind(this));
 
 		$('footerMapa01').addEvent('click', function() {
-			this.gotoMapas()
 			this.zoomToMapZone();
 		}.bind(this));
 		$('footerMapa02').addEvent('click', function() {
-			this.gotoMapas()
 			this.zoomToMapZone([ 172, 174, 57, 112 ]);
 		}.bind(this));
 		$('footerMapa03').addEvent('click', function() {
-			this.gotoMapas()
 			this.zoomToMapZone(26);
 		}.bind(this));
 
@@ -289,6 +283,7 @@ view_index = {
 		this.drawTree('all');
 	},
 	drawTree : function(type) {
+		this.gotoNodos();
 		var tree;
 		switch (type) {
 		case 'all':
@@ -301,10 +296,10 @@ view_index = {
 			tree = this.imagesTree;
 			break;
 		}
-		tree.draw();
-		tree.drawChilds();
 		if (this.prevTree)
 			this.prevTree.hide();
+		tree.draw();
+		tree.drawChilds();
 		this.prevTree = tree;
 	},
 	loadMapa : function() {
@@ -395,6 +390,7 @@ view_index = {
 		}).get();
 	},
 	zoomToMapZone : function(zona) {
+		this.gotoMapas();
 		if (!zona)
 			this.mapa.zoomToMaxExtent()
 		else if (typeof zona == 'Array' || typeof zona == 'object') {

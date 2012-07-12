@@ -2,7 +2,7 @@ itemMenuDebug = {
 	Extends : itemMenu,
 	click : function(pt) {
 		console.log('mapa');
-		this.getView('index').gotoMapas();
+		this.getView('inicio').zoomToMapZone();
 	},
 
 	init : function() {
