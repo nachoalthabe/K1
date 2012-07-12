@@ -257,13 +257,16 @@ view_index = {
 
 		this.baseLayer.events.on({
 			"featureselected" : function(e) {
-				jQuery.fancybox({
-					'overlayColor' : '#000',
-					// 'content':'<img id="'+String.uniqueID()+'"
-					// src="images/zona'+e.feature.zona+'.png" />'
-					'content' : '<img id="' + String.uniqueID()
-							+ '" src="images/zona' + 11 + '.png" />'
+				var image = Asset.image('images/zona'+11+'.png', {
+					onLoad : function() {
+						jQuery.fancybox({
+							'overlayColor' : '#000',
+							//'content':'<img id="'+String.uniqueID()+'" src="images/zona'+e.feature.zona+'.png" />'
+							'content' : image
+						});
+					}
 				});
+
 			}
 		});
 
