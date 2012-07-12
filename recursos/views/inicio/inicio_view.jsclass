@@ -349,13 +349,12 @@ view_index = {
 					color = '000000';
 					break;
 				}
-				return color;
+				return '#'+color;
 			}
 		};
 
 		var template = {
-			fillColor : "${getColor}",
-			strokeWidth : 0.5
+			fillColor : "${getColor}"
 		};
 
 		var style = new OpenLayers.Style(template, {
@@ -364,7 +363,7 @@ view_index = {
 
 		this.baseLayer = new OpenLayers.Layer.Vector("Zonas Provincia.", {
 			styleMap : new OpenLayers.StyleMap(style),
-			renderers : [ "Canvas" ]
+			//renderers : [ "SVG" ]
 		});
 
 		this.baseLayer.events.on({
@@ -422,7 +421,7 @@ view_index = {
 		this.mapa = new OpenLayers.Map('mapa', {
 			projection : 'EPSG:900913',
 			baseLayer : this.baseLayer,
-			panMethod : OpenLayers.Easing.Lineal,
+			panMethod : false,
 			controls : [ new OpenLayers.Control.PanZoom() ],
 			maxExtent : maxBound
 		});
