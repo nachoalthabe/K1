@@ -235,6 +235,9 @@ width:100%;
 	
 	}
 		
-
+.olControlPanZoom{
+	position: relative !important;
+	top: 300px !important;
+}
 
 

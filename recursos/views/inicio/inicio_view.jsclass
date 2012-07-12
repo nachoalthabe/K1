@@ -1,11 +1,11 @@
 view_index = {
 	Extends : View,
-	Persist: true,
+	Persist : true,
 	nodos : [],
 	init : function() {
 		this.getTheme('inicio');
 	},
-	features: {},
+	features : {},
 	menu : {
 		videos : {
 			image : 'images/B_AltaComplejidad_FIV.png',
@@ -26,10 +26,12 @@ view_index = {
 		},
 		all : {
 			image : 'images/main.png',
-			childs : [{
+			childs : [
+					{
 						image : 'images/mapas.png',
 						type : 'mapaNodo'
-					},{
+					},
+					{
 						image : 'images/A.png',
 						childs : [ {
 							image : 'images/A1.png',
@@ -37,51 +39,53 @@ view_index = {
 								image : 'images/A2.png',
 								childs : [ {
 									image : 'images/A3.png',
-									childs : [{
-										image : 'images/mapas.png',
-										type : 'mapaNodo'
-									}, {
-										image : 'images/A4.png',
-										childs : [ {
-											image : 'images/A5.png',
-											childs : [
-													{
-														image : 'images/A5_foto_Ovulo01.png',
-														mediaSrc : 'images/ovulo01.jpg',
-														type : 'imageNodo',
-													},
-													{
-														image : 'images/A5_foto_Ovulo02.png',
-														mediaSrc : 'images/ovulo02.jpg',
-														type : 'imageNodo',
+									childs : [
+											{
+												image : 'images/mapas.png',
+												type : 'mapaNodo'
+											},
+											{
+												image : 'images/A4.png',
+												childs : [ {
+													image : 'images/A5.png',
+													childs : [
+															{
+																image : 'images/A5_foto_Ovulo01.png',
+																mediaSrc : 'images/ovulo01.jpg',
+																type : 'imageNodo',
+															},
+															{
+																image : 'images/A5_foto_Ovulo02.png',
+																mediaSrc : 'images/ovulo02.jpg',
+																type : 'imageNodo',
 
-													},
-													{
-														image : 'images/A5_foto_Ovulo03.png',
-														mediaSrc : 'images/ovulo03.jpg',
-														type : 'imageNodo',
+															},
+															{
+																image : 'images/A5_foto_Ovulo03.png',
+																mediaSrc : 'images/ovulo03.jpg',
+																type : 'imageNodo',
 
-													},
-													{
-														image : 'images/A5_video_esperma01.png',
-														mediaSrc : 'videos/esperma01.webm',
-														type : 'videoNodo',
+															},
+															{
+																image : 'images/A5_video_esperma01.png',
+																mediaSrc : 'videos/esperma01.webm',
+																type : 'videoNodo',
 
-													},
-													{
-														image : 'images/A5_video_esperma02.png',
-														mediaSrc : 'videos/esperma02.webm',
-														type : 'videoNodo',
+															},
+															{
+																image : 'images/A5_video_esperma02.png',
+																mediaSrc : 'videos/esperma02.webm',
+																type : 'videoNodo',
 
-													},
-													{
-														image : 'images/A5_video_esperma03.png',
-														mediaSrc : 'videos/esperma03.webm',
-														type : 'videoNodo',
+															},
+															{
+																image : 'images/A5_video_esperma03.png',
+																mediaSrc : 'videos/esperma03.webm',
+																type : 'videoNodo',
 
-													} ]
-										} ]
-									} ]
+															} ]
+												} ]
+											} ]
 								} ]
 							} ]
 						} ]
@@ -115,7 +119,7 @@ view_index = {
 													type : 'videoNodo'
 
 												} ]
-											 } ]
+											} ]
 								},
 								{
 									image : 'images/B_BajaComplejidad.png',
@@ -169,26 +173,35 @@ view_index = {
 		}
 	},
 	render : function() {
-		$('headerFertilizacionLogo').addEvent('click', function(){
+		$('headerFertilizacionLogo').addEvent('click', function() {
 			this.gotoNodos();
 			this.drawTree('all');
 		}.bind(this));
-		$('headerBotonFoto').addEvent('click', function(){
+		$('headerBotonFoto').addEvent('click', function() {
 			this.gotoNodos();
 			this.drawTree('image');
 		}.bind(this));
-		$('headerBotonVideo').addEvent('click', function(){
+		$('headerBotonVideo').addEvent('click', function() {
 			this.gotoNodos();
 			this.drawTree('video');
 		}.bind(this));
-			
-		$('footerMapa01').addEvent('click',this.gotoMapas.bind(this));
-		$('footerMapa02').addEvent('click',this.gotoMapas.bind(this));
-		$('footerMapa03').addEvent('click',this.gotoMapas.bind(this));
-		
-//		$('menuMapas').addEvent('click', this.gotoMapas.bind(this));
-//		$('menuMapas').getElement('img').addEvent('click',
-//				this.gotoMapas.bind(this));
+
+		$('footerMapa01').addEvent('click', function() {
+			this.gotoMapas()
+			this.zoomToMapZone();
+		}.bind(this));
+		$('footerMapa02').addEvent('click', function() {
+			this.gotoMapas()
+			this.zoomToMapZone([ 172, 174, 57, 112 ]);
+		}.bind(this));
+		$('footerMapa03').addEvent('click', function() {
+			this.gotoMapas()
+			this.zoomToMapZone(26);
+		}.bind(this));
+
+		// $('menuMapas').addEvent('click', this.gotoMapas.bind(this));
+		// $('menuMapas').getElement('img').addEvent('click',
+		// this.gotoMapas.bind(this));
 		this
 		this.gotoNextFX = new Fx.Scroll('app');
 		this.renderNodos();
@@ -337,15 +350,49 @@ view_index = {
 			}
 		});
 
+		this.parser = new OpenLayers.Format.WKT();
+		new Request.JSON({
+			url : './mapa.json',
+			onSuccess : this.renderMapa.bind(this)
+		}).get();
+	},
+	zoomToMapZone : function(zona) {
+		if (!zona)
+			this.mapa.zoomToMaxExtent()
+		else if (typeof zona == 'Array' || typeof zona == 'object') {
+			var bounds = new OpenLayers.Bounds();
+			zona.each(function(z) {
+				bounds.extend(this.features[z].geometry.getBounds());
+			}.bind(this));
+			this.mapa.zoomToExtent(bounds);
+		} else
+			this.mapa.zoomToExtent(this.features[zona].geometry.getBounds());
+	},
+	renderMapa : function(response) {
+		window['data'] = [];
+		var geoms = {};
+		var maxBound = new OpenLayers.Bounds();
+		var geometry;
+		response.departamentos_base.data
+				.each(function(departamento, indice) {
+					if (departamento[4] == "BUENOS AIRES") {
+						geometry = this.parser
+								.read(response.departamentos_base.geom[indice][0]).geometry;
+						var feature = new OpenLayers.Feature.Vector(geometry);
+						maxBound.extend(feature.geometry.getBounds());
+						feature.zona = this.zonas[indice];
+						this.features[indice] = feature
+						this.baseLayer.addFeatures([ feature ]);
+					}
+				}.bind(this));
 		this.mapa = new OpenLayers.Map('mapa', {
 			projection : 'EPSG:900913',
 			baseLayer : this.baseLayer,
-			panMethod : OpenLayers.Easing.Quad,
-			controls : []
+			panMethod : OpenLayers.Easing.Lineal,
+			controls : [ new OpenLayers.Control.PanZoom() ],
+			maxExtent : maxBound
 		});
-
 		this.mapa.addLayer(this.baseLayer);
-
 		this.selectControl = new OpenLayers.Control.SelectFeature(
 				this.baseLayer, {
 					clickout : true,
@@ -354,48 +401,9 @@ view_index = {
 					hover : false,
 
 				});
-
 		this.mapa.addControl(this.selectControl);
-
 		this.selectControl.activate();
-
-		this.parser = new OpenLayers.Format.WKT();
-		new Request.JSON({
-			url : './mapa.json',
-			onSuccess : this.renderMapa.bind(this)
-		}).get();
-	},
-	zoomToMapZone: function(zona){
-		this.mapa.zoomToExtent(this.features[zona].geometry.getBounds(),true);
-	},
-	renderMapa : function(response) {
-		window['data'] = [];
-		var geoms = {};
-		var geometry;
-		response.departamentos_base.data
-				.each(function(departamento, indice) {
-					if (departamento[4] == "BUENOS AIRES") {
-						if (!this.zonas[indice])
-							return;
-						if (!geoms[this.zonas[indice]]) {
-							geoms[this.zonas[indice]] = []
-						}
-						geometry = this.parser
-								.read(response.departamentos_base.geom[indice][0]).geometry;
-						geoms[this.zonas[indice]].push(geometry);
-					}
-				}.bind(this));
-		Object.each(geoms,function(geoms,zona) {
-			var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Collection(geoms));
-			feature.zona = zona;
-			this.features[zona] = feature
-			this.baseLayer.addFeatures([ feature ]);
-		}.bind(this));
-		this.mapa.setCenter([ -6698000.0270697, -4427715.186402 ], 6);
-		data.each(function(el) {
-			console.log(el.departamento);
-			return;
-		})
+		this.mapa.zoomToMaxExtent();
 	},
 	resizeCanvas : function() {
 		var size = $('nodos').getSize();
