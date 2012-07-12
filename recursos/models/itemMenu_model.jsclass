@@ -1,7 +1,9 @@
 model_index = {
 	Bind : [ 'startDragging', 'onDragging', 'stopDragging' ],
 	Extends : Model,
-	childs : [],
+	options : {
+		childs : []
+	},
 	drawed : false,
 	center : false,
 	drawedChilds : false,
@@ -36,19 +38,17 @@ model_index = {
 			onStart : this.startDragging.bind(this),
 			onDrag : this.onDragging.bind(this),
 			onComplete : this.stopDragging.bind(this),
-			preventDefault: true,
-			stopPropagation: true
+			preventDefault : true,
+			stopPropagation : true
 		});
-
 		this.DOMContent.inject($('nodos'));
 		DOMShadow.inject($('nodos'));
 		DOMSurfice.inject($('nodos'));
-		this.childs = (this.options.childs) ? this.options.childs : false;
 		this.DOM.push(this.DOMContent, DOMShadow, DOMSurfice);
-		this.stroke.value = .6;
 	},
-	click: function(){
-		this.drawChilds();
+	click : function() {
+		if(!this.dragging)
+			this.drawChilds();
 	},
 	getDOMContent : function() {
 		if (this.DOMContent != undefined)
@@ -62,6 +62,8 @@ model_index = {
 		return this.DOMContent;
 	},
 	show : function() {
+		if(this.drawed)
+			return;
 		this.drawed = true;
 		this.DOM[0].show();
 		this.DOM[1].show();
@@ -71,86 +73,80 @@ model_index = {
 		});
 	},
 	hide : function() {
+		if(!this.drawed)
+			return;
+		this.hideChilds();
 		this.drawed = false;
 		this.DOM[0].hide();
 		this.DOM[1].hide();
 		this.DOM[2].hide();
-		this.options.sys.pruneNode(this.node);
+		if (this.node)
+			this.options.sys.pruneNode(this.node);
 	},
 	draw : function() {
 		this.show();
 	},
 	setParent : function(parent) {
-		this.parentNode = parent;
+		this.parent = parent;
+		this.options.childs.each(function(child) {
+			var options = {
+				canvas : this.options.canvas,
+				sys : this.options.sys
+			};
+			child.model = this.getModel((child.type) ? child.type : 'itemMenu',
+					Object.merge(options, child));
+			child.model.setParent(this);
+		}.bind(this));
 	},
 	getParent : function() {
 		return this.parentNode;
 	},
 	hideChilds : function(excludeID) {
 		this.drawedChilds = false;
-		if (!this.childs) {
-			return;
-		}
-		this.childs.each(function(child) {
+		this.options.childs.each(function(child) {
 			if (!child.model)
 				return;
 			if (child.model.getID() == excludeID)
 				return;
 			if (child.edge) {
-				this.options.sys.pruneEdge(child.edge);
-				delete child.edge;
+				if (child.edge) {
+					this.options.sys.pruneEdge(child.edge);
+					delete child.edge;
+				}
 			}
-			child.model.hideChilds();
 			child.model.hide();
 		}.bind(this))
 	},
 	drawChilds : function() {
-		this.node.fixed = false;
-		if (this.parentNode)
-			this.parentNode.hideChilds(this.getID());
-		if (!this.childs)
+		this.node.fixed = true;
+		if (this.parent)
+			this.parent.hideChilds(this.getID());
+		if (!this.options.childs)
 			return;
-		this.childs.each(function(child) {
-			if (child.model) {
-				child.model.show();
-				this.drawedChilds = true;
-				child.edge = this.options.sys.addEdge(this.node,
-						child.model.node, {
-							model : {
-								source : this,
-								target : child.model
-							}
-						});
-				child.model.hideChilds();
-			} else {
-				child.model = this.getModel((child.type) ? child.type
-						: 'itemMenu', {
-					image : child.image,
-					mediaSrc: (child.mediaSrc)?child.mediaSrc:false,
-					canvas : this.options.canvas,
-					childs : child.childs,
-					sys : this.options.sys
-				});
-				child.model.setParent(this);
-				child.model.draw();
-				this.drawedChilds = true;
-				child.edge = this.options.sys.addEdge(this.node,
-						child.model.node, {
-							model : {
-								source : this,
-								target : child.model
-							}
-						});
-			}
+		this.options.childs.each(function(child) {
+			child.model.show();
+			this.drawedChilds = true;
+			child.edge = this.options.sys.addEdge(this.node, child.model.node,
+					{
+						model : {
+							source : this,
+							target : child.model
+						}
+					});
+			child.model.hideChilds();
 		}.bind(this));
+		test = function(){
+			this.node.fixed = false;	
+		};
+		test.delay(1000,this);
 	},
 	drawLineToChilds : function() {
-		if (!this.childs)
+		if (!this.options.childs)
 			return;
 		var ctx = this.options.canvas.getContext('2d');
 		ctx.strokeStyle = 'rgba(255,255,255,1)';
 		ctx.lineWidth = 5;
-		this.childs.each(function(child) {
+		this.options.childs.each(function(child) {
 			if (child.model == undefined)
 				return;
 			if (!child.model.drawed)
@@ -174,7 +170,12 @@ model_index = {
 		this.node.p = this.options.sys.fromScreen(this.getDOMCenter());
 		this.node.fixed = false;
 		this.options.sys.start();
-		this.dragging = false;3
+		var preventClick = function(){
+			this.dragging = false;	
+		};
+		preventClick.delay(500,this);
+		
+		
 	},
 	getName : function() {
 		return this.options.name;
