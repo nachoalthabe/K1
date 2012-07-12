@@ -81,7 +81,7 @@
 	position: relative;
 	overflow: hidden;
 	z-index: 1102;
-	border: 0px solid #fff;
+	border: 0px solid rgba(0,0,0,0);
 }
 
 #fancybox-hide-sel-frame {
@@ -96,11 +96,11 @@
 
 #fancybox-close {
 	position: absolute;
-	top: -15px;
-	right: -15px;
-	width: 30px;
-	height: 30px;
-	background: transparent url('fancybox.png') -40px 0px;
+	top: -40px;
+	right: -40px;
+	width: 48px;
+	height: 48px;
+	background: transparent url('../../images/cruz_cierre.png') ;
 	cursor: pointer;
 	z-index: 1103;
 	display: none;
@@ -200,58 +200,58 @@
 	top: -20px;
 	left: 0;
 	width: 100%;
-	background-image: url('fancybox-x.png');
+	/*background-image: url('fancybox-x.png');*/
 }
 
 #fancybox-bg-ne {
 	top: -20px;
 	right: -20px;
-	background-image: url('fancybox.png');
-	background-position: -40px -162px;
+	/*background-image: url('fancybox.png');
+	background-position: -40px -162px;*/
 }
 
 #fancybox-bg-e {
 	top: 0;
 	right: -20px;
 	height: 100%;
-	background-image: url('fancybox-y.png');
+	/*background-image: url('fancybox-y.png');*/
 	background-position: -20px 0px;
 }
 
 #fancybox-bg-se {
 	bottom: -20px;
 	right: -20px;
-	background-image: url('fancybox.png');
-	background-position: -40px -182px; 
+	/*background-image: url('fancybox.png');
+	background-position: -40px -182px;*/ 
 }
 
 #fancybox-bg-s {
 	bottom: -20px;
 	left: 0;
 	width: 100%;
-	background-image: url('fancybox-x.png');
+	/*background-image: url('fancybox-x.png');*/
 	background-position: 0px -20px;
 }
 
 #fancybox-bg-sw {
 	bottom: -20px;
 	left: -20px;
-	background-image: url('fancybox.png');
-	background-position: -40px -142px;
+	/*background-image: url('fancybox.png');
+	background-position: -40px -142px;*/
 }
 
 #fancybox-bg-w {
 	top: 0;
 	left: -20px;
 	height: 100%;
-	background-image: url('fancybox-y.png');
+	/*background-image: url('fancybox-y.png');*/
 }
 
 #fancybox-bg-nw {
 	top: -20px;
 	left: -20px;
-	background-image: url('fancybox.png');
-	background-position: -40px -122px;
+	/*background-image: url('fancybox.png');
+	background-position: -40px -122px;*/
 }
 
 #fancybox-title {
@@ -315,7 +315,7 @@
 	line-height: 29px;
 	font-weight: bold;
 	padding: 0 0 3px 0;
-	background: url('fancybox-x.png') 0px -40px;
+	/*background: url('fancybox-x.png') 0px -40px;*/
 }
 
 #fancybox-title-float-right {

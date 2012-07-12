@@ -18,7 +18,7 @@ itemMenuDebug = {
 				jQuery(this.DOM[2]).fancybox({
 					'overlayColor' :'#000',
 					//'content' : '<div><video id="myID" class="video-js vjs-default-skin"  autoplay preload="auto"><source type="video/mp4" src="http://video-js.zencoder.com/oceans-clip.mp4"></video><script>var myPlayer = _V_("myID");</script></div>'
-					'content':'<d_iv><video id="'+this.videoID+'" class="video-js vjs-default-skin" controls autoplay="true"  preload="auto" width="640" height="480" ><source src="'+videoURL+'" type="video/webm" /></video><script>    V_("'+this.videoID+'").ready(function(){		console.log("video "+"'+this.videoID+'");		      var myPlayer = this;myPlayer.play();				    });</script></div>'});
+					'content':'<div id="videoWrapper"><video id="'+this.videoID+'" class="video-js vjs-default-skin" controls autoplay="true"  preload="auto" width="640" height="480" ><source src="'+videoURL+'" type="video/webm" /></video><script>    V_("'+this.videoID+'").ready(function(){		console.log("video "+"'+this.videoID+'");		      var myPlayer = this;myPlayer.play();				    });</script></div>'});
 				
 				
 				
