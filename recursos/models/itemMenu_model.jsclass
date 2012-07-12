@@ -62,6 +62,8 @@ model_index = {
 		return this.DOMContent;
 	},
 	show : function() {
+		if(this.drawed)
+			return;
 		this.drawed = true;
 		this.DOM[0].show();
 		this.DOM[1].show();
@@ -71,6 +73,9 @@ model_index = {
 		});
 	},
 	hide : function() {
+		if(!this.drawed)
+			return;
+		this.hideChilds();
 		this.drawed = false;
 		this.DOM[0].hide();
 		this.DOM[1].hide();
@@ -109,7 +114,6 @@ model_index = {
 					delete child.edge;
 				}
 			}
-			child.model.hideChilds();
 			child.model.hide();
 		}.bind(this))
 	},
