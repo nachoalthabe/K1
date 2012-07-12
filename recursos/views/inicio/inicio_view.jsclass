@@ -179,8 +179,7 @@ view_index = {
 				});
 			}.bind(this)
 		}
-		this.tree = this.getModel((this.menu.type) ? this.menu.type
-				: 'itemMenu', {
+		this.tree = this.getModel((this.menu.type) ? this.menu.type : 'itemMenu', {
 			image : this.menu.image,
 			canvas : this.canvas,
 			childs : this.menu.childs,
