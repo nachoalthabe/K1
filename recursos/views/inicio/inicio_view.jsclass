@@ -1,10 +1,11 @@
 view_index = {
 	Extends : View,
+	Persist: true,
 	nodos : [],
-	zonas : [],
 	init : function() {
 		this.getTheme('inicio');
 	},
+	features: {},
 	menu : {
 		videos : {
 			image : 'images/B_AltaComplejidad_FIV.png',
@@ -245,7 +246,7 @@ view_index = {
 		var context = {
 			getColor : function(feature) {
 				var color;
-				switch (feature.zona) {
+				switch (parseInt(feature.zona)) {
 				case 1:// BahiBlanca
 					color = 'FF9966';
 					break;
@@ -348,24 +349,32 @@ view_index = {
 			onSuccess : this.renderMapa.bind(this)
 		}).get();
 	},
+	zoomToMapZone: function(zona){
+		this.mapa.zoomToExtent(this.features[zona].geometry.getBounds(),true);
+	},
 	renderMapa : function(response) {
 		window['data'] = [];
+		var geoms = {};
+		var geometry;
 		response.departamentos_base.data
 				.each(function(departamento, indice) {
 					if (departamento[4] == "BUENOS AIRES") {
 						if (!this.zonas[indice])
 							return;
-						var geometry = this.parser
+						if (!geoms[this.zonas[indice]]) {
+							geoms[this.zonas[indice]] = []
+						}
+						geometry = this.parser
 								.read(response.departamentos_base.geom[indice][0]).geometry;
-						var feature = new OpenLayers.Feature.Vector(geometry);
-						feature.seccionElectoral = departamento[0];
-						feature.departamento = departamento[1];
-						feature.cabecera = departamento[3];
-						feature.zona = this.zonas[indice];
-						feature.indice = indice;
-						this.baseLayer.addFeatures([ feature ]);
+						geoms[this.zonas[indice]].push(geometry);
 					}
 				}.bind(this));
+		Object.each(geoms,function(geoms,zona) {
+			var feature = new OpenLayers.Feature.Vector(new OpenLayers.Geometry.Collection(geoms));
+			feature.zona = zona;
+			this.features[zona] = feature
+			this.baseLayer.addFeatures([ feature ]);
+		}.bind(this));
 		this.mapa.setCenter([ -6698000.0270697, -4427715.186402 ], 6);
 		data.each(function(el) {
 			console.log(el.departamento);
