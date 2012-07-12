@@ -26,8 +26,10 @@ view_index = {
 		},
 		all : {
 			image : 'images/main.png',
-			childs : [
-					{
+			childs : [{
+						image : 'images/mapas.png',
+						type : 'mapaNodo'
+					},{
 						image : 'images/A.png',
 						childs : [ {
 							image : 'images/A1.png',
@@ -35,7 +37,10 @@ view_index = {
 								image : 'images/A2.png',
 								childs : [ {
 									image : 'images/A3.png',
-									childs : [ {
+									childs : [{
+										image : 'images/mapas.png',
+										type : 'mapaNodo'
+									}, {
 										image : 'images/A4.png',
 										childs : [ {
 											image : 'images/A5.png',
@@ -110,11 +115,7 @@ view_index = {
 													type : 'videoNodo'
 
 												} ]
-											},
-											{
-												image : 'images/B_BajaComplejidad_IIU.png',
-
-											} ]
+											 } ]
 								},
 								{
 									image : 'images/B_BajaComplejidad.png',
@@ -168,12 +169,27 @@ view_index = {
 		}
 	},
 	render : function() {
-		$('menuNodos').addEvent('click', this.gotoNodos.bind(this));
-		$('menuNodos').getElement('img').addEvent('click',
-				this.gotoNodos.bind(this));
-		$('menuMapas').addEvent('click', this.gotoMapas.bind(this));
-		$('menuMapas').getElement('img').addEvent('click',
-				this.gotoMapas.bind(this));
+		$('headerFertilizacionLogo').addEvent('click', function(){
+			this.gotoNodos();
+			this.drawTree('all');
+		}.bind(this));
+		$('headerBotonFoto').addEvent('click', function(){
+			this.gotoNodos();
+			this.drawTree('image');
+		}.bind(this));
+		$('headerBotonVideo').addEvent('click', function(){
+			this.gotoNodos();
+			this.drawTree('video');
+		}.bind(this));
+			
+		$('footerMapa01').addEvent('click',this.gotoMapas.bind(this));
+		$('footerMapa02').addEvent('click',this.gotoMapas.bind(this));
+		$('footerMapa03').addEvent('click',this.gotoMapas.bind(this));
+		
+//		$('menuMapas').addEvent('click', this.gotoMapas.bind(this));
+//		$('menuMapas').getElement('img').addEvent('click',
+//				this.gotoMapas.bind(this));
+		this
 		this.gotoNextFX = new Fx.Scroll('app');
 		this.renderNodos();
 		this.loadMapa();

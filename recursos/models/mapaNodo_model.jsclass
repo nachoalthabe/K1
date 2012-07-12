@@ -1,0 +1,18 @@
+itemMenuDebug = {
+	Extends : itemMenu,
+	click : function(pt) {
+		console.log('mapa');
+		this.getView('index').gotoMapas();
+	},
+
+	init : function() {
+		this.parent();
+		
+
+	},
+	draw: function(){
+		this.parent();
+		this.node.mass = 100;
+	}
+
+}
