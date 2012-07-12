@@ -6,22 +6,66 @@ view_index = {
 		this.getTheme('inicio');
 	},
 	menu : {
-		videos : {
-			image : 'images/B_AltaComplejidad_FIV.png',
+		images : {
+			image : 'images/main.png',
 			childs : [ {
 				image : 'images/B_AltaComplejidad_foto_FIV_ovocito.png',
 				mediaSrc : 'images/OVOCITO.jpg',
 				type : 'imageNodo'
-
+			},{
+				image : 'images/A5_foto_Ovulo01.png',
+				mediaSrc : 'images/ovulo01.jpg',
+				type : 'imageNodo',
+			},{
+				image : 'images/A5_foto_Ovulo02.png',
+				mediaSrc : 'images/ovulo02.jpg',
+				type : 'imageNodo',
+			},{
+				image : 'images/A5_foto_Ovulo03.png',
+				mediaSrc : 'images/ovulo03.jpg',
+				type : 'imageNodo',
+			},{
+				image : 'images/B_AltaComplejidad_foto_FIV_ovocito.png',
+				mediaSrc : 'images/OVOCITO.jpg',
+				type : 'imageNodo'
+			},{
+				image : 'images/C5_foto_dia2.png',
+				mediaSrc : 'images/Dia2.jpg',
+				type : 'imageNodo',
 			} ]
 		},
-		images : {
-			image : 'images/B_AltaComplejidad_FIV.png',
+		videos : {
+			image : 'images/main.png',
 			childs : [ {
-				image : 'images/B_AltaComplejidad_video_FIV.png',
-				mediaSrc : 'videos/FIV.webm',
-				type : 'videoNodo'
-			} ]
+					image : 'images/A5_video_esperma01.png',
+					mediaSrc : 'videos/esperma01.webm',
+					type : 'videoNodo'
+				},{
+					image : 'images/A5_video_esperma02.png',
+					mediaSrc : 'videos/esperma02.webm',
+					type : 'videoNodo'
+				},{
+					image : 'images/A5_video_esperma03.png',
+					mediaSrc : 'videos/esperma03.webm',
+					type : 'videoNodo',
+				},{
+					image : 'images/B_AltaComplejidad_video_FIV.png',
+					mediaSrc : 'videos/FIV.webm',
+					type : 'videoNodo'
+				},{
+					
+					image : 'images/B_AltaComplejidad_video_ISCI.png',
+					mediaSrc : 'videos/ICSI.webm',
+					type : 'videoNodo'
+				},{
+					image : 'images/C4_video-ICSI01.png',
+					mediaSrc : 'videos/ICSI01.webm',
+					type : 'videoNodo',
+				},{
+					image : 'images/C4_video-ICSI02.png',
+					mediaSrc : 'videos/ICSI02.webm',
+					type : 'videoNodo',
+				} ]
 		},
 		all : {
 			image : 'images/main.png',
@@ -105,8 +149,7 @@ view_index = {
 															type : 'imageNodo'
 
 														} ]
-											},
-											{
+											},{
 												image : 'images/B_AltaComplejidad_ISCI.png',
 												childs : [ {
 													image : 'images/B_AltaComplejidad_video_ISCI.png',
@@ -147,8 +190,7 @@ view_index = {
 												},
 												{
 													image : 'images/C5.png',
-													childs : [
-															{
+													childs : [{
 																image : 'images/C5_foto_dia2.png',
 																mediaSrc : 'images/Dia2.jpg',
 																type : 'imageNodo',
@@ -342,7 +384,11 @@ view_index = {
 			panMethod : OpenLayers.Easing.Quad,
 			controls : []
 		});
-
+		
+		
+		this.mousePositionControl  =new OpenLayers.Control.MousePosition();
+		this.mapa.addControl(this.mousePositionControl);
+		this.mousePositionControl.activate();
 		this.mapa.addLayer(this.baseLayer);
 
 		this.selectControl = new OpenLayers.Control.SelectFeature(
