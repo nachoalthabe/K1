@@ -16,11 +16,8 @@ itemMenuDebug = {
 			'overlayColor' : '#000000',
 			'type' :'image',
 			'href' : imgURL
-			//'content' : '<img id="'+String.uniqueID()+'" src="' + imgURL + '">'
 		});
 
-		
-		//<a id="single_image" href="image_big.jpg">
 	},
 	draw: function(){
 		this.parent();
