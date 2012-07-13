@@ -230,14 +230,14 @@ view_index = {
 		$('footerMapa03').addEvent('click', function() {
 			this.zoomToMapZone(26);
 		}.bind(this));
-
-		// $('menuMapas').addEvent('click', this.gotoMapas.bind(this));
-		// $('menuMapas').getElement('img').addEvent('click',
-		// this.gotoMapas.bind(this));
-		this
+		this.resizeMapa();
 		this.gotoNextFX = new Fx.Scroll('app');
 		this.renderNodos();
 		this.loadMapa();
+	},
+	resizeMapa: function(){
+		var size = $('Mapas').getSize();
+		$('mapa').setStyle('height',size.y - 329);
 	},
 	renderNodos : function() {
 		var appSize = $('app').getSize();
@@ -262,7 +262,6 @@ view_index = {
 			redraw : function() {
 				this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 				this.sys.eachNode(function(node, pt) {
-					// if(!node.data.model.dragging)
 					node.data.model.setCenter(pt);
 				});
 			}.bind(this)
@@ -372,8 +371,6 @@ view_index = {
 					onLoad : function() {
 						jQuery.fancybox({
 							'overlayColor' : '#000',
-							// 'content':'<img id="'+String.uniqueID()+'"
-							// src="images/zona'+e.feature.zona+'.png" />'
 							'content' : image
 						});
 					}
@@ -425,7 +422,14 @@ view_index = {
 			controls : [ new OpenLayers.Control.PanZoom() ],
 			maxExtent : maxBound
 		});
+		this.layer_wfs = new OpenLayers.Layer.Vector("Centros Salud", {
+            protocol: new OpenLayers.Protocol.WFS({
+                url: "http://200.85.153.133/cgi-bin/salud",
+                layers: "centros_salud"
+            })
+        })
 		this.mapa.addLayer(this.baseLayer);
+		this.mapa.addLayer(this.layer_wfs);
 		this.selectControl = new OpenLayers.Control.SelectFeature(
 				this.baseLayer, {
 					clickout : true,

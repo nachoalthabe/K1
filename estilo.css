@@ -65,6 +65,9 @@ div.node p {
 	z-index: 10;
 	background-image: url(images/bg_header.png);
 }
+#preMapa{
+	height: 149px;
+}
 #menuMapas{
 	background: rgb(90,90,90);
 	height: 180px;
@@ -74,15 +77,12 @@ div.node p {
 	z-index: 2;
 	background-image: url(images/bg_footer.png);
 }
-#nodos, #Mapas, #mapa{
+#nodos, #Mapas{
 	position: relative;
 	height: 100%;
 	width: 100%;
 	z-index: 1;
 }
-
-
-
 
 /**				TEMPLATE STYLES								*/
 
@@ -145,8 +145,6 @@ width:100%;
 height:20px;
 background: blue;
 }
-
-
 
 
 #footer{
