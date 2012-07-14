@@ -4,213 +4,16 @@ view_index = {
 	nodos : [],
 	init : function() {
 		this.getTheme('inicio');
+		this.getDatas({
+			'provincia' : 'mapa.json',
+			'america' : 'america.geojson'
+		}, 'renderMapa');
+		this.getData('menu.json', 'renderNodos');
 	},
 	features : {},
-	menu : {
-		images : {
-			image : 'images/main.png',
-			childs : [ {
-				image : 'images/B_AltaComplejidad_foto_FIV_ovocito.png',
-				mediaSrc : 'images/OVOCITO.jpg',
-				type : 'imageNodo'
-			},{
-				image : 'images/A5_foto_Ovulo01.png',
-				mediaSrc : 'images/ovulo01.jpg',
-				type : 'imageNodo',
-			},{
-				image : 'images/A5_foto_Ovulo02.png',
-				mediaSrc : 'images/ovulo02.jpg',
-				type : 'imageNodo',
-			},{
-				image : 'images/A5_foto_Ovulo03.png',
-				mediaSrc : 'images/ovulo03.jpg',
-				type : 'imageNodo',
-			},{
-				image : 'images/B_AltaComplejidad_foto_FIV_ovocito.png',
-				mediaSrc : 'images/OVOCITO.jpg',
-				type : 'imageNodo'
-			},{
-				image : 'images/C5_foto_dia2.png',
-				mediaSrc : 'images/Dia2.jpg',
-				type : 'imageNodo',
-			} ]
-		},
-		videos : {
-			image : 'images/main.png',
-			childs : [ {
-					image : 'images/A5_video_esperma01.png',
-					mediaSrc : 'videos/esperma01.webm',
-					type : 'videoNodo'
-				},{
-					image : 'images/A5_video_esperma02.png',
-					mediaSrc : 'videos/esperma02.webm',
-					type : 'videoNodo'
-				},{
-					image : 'images/A5_video_esperma03.png',
-					mediaSrc : 'videos/esperma03.webm',
-					type : 'videoNodo',
-				},{
-					image : 'images/B_AltaComplejidad_video_FIV.png',
-					mediaSrc : 'videos/FIV.webm',
-					type : 'videoNodo'
-				},{
-					
-					image : 'images/B_AltaComplejidad_video_ISCI.png',
-					mediaSrc : 'videos/ICSI.webm',
-					type : 'videoNodo'
-				},{
-					image : 'images/C4_video-ICSI01.png',
-					mediaSrc : 'videos/ICSI01.webm',
-					type : 'videoNodo',
-				},{
-					image : 'images/C4_video-ICSI02.png',
-					mediaSrc : 'videos/ICSI02.webm',
-					type : 'videoNodo',
-				} ]
-		},
-		all : {
-			image : 'images/main.png',
-			childs : [{
-						image : 'images/mapas.png',
-						type : 'mapaNodo'
-					},{
-						image : 'images/A.png',
-						childs : [ {
-							image : 'images/A1.png',
-							childs : [ {
-								image : 'images/A2.png',
-								childs : [ {
-									image : 'images/A3.png',
-									childs : [{
-										image : 'images/mapas.png',
-										type : 'mapaNodo'
-									}, {
-										image : 'images/A4.png',
-										childs : [ {
-											image : 'images/A5.png',
-											childs : [
-													{
-														image : 'images/A5_foto_Ovulo01.png',
-														mediaSrc : 'images/ovulo01.jpg',
-														type : 'imageNodo',
-													},
-													{
-														image : 'images/A5_foto_Ovulo02.png',
-														mediaSrc : 'images/ovulo02.jpg',
-														type : 'imageNodo',
-
-													},
-													{
-														image : 'images/A5_foto_Ovulo03.png',
-														mediaSrc : 'images/ovulo03.jpg',
-														type : 'imageNodo',
-
-													},
-													{
-														image : 'images/A5_video_esperma01.png',
-														mediaSrc : 'videos/esperma01.webm',
-														type : 'videoNodo',
-
-													},
-													{
-														image : 'images/A5_video_esperma02.png',
-														mediaSrc : 'videos/esperma02.webm',
-														type : 'videoNodo',
-
-													},
-													{
-														image : 'images/A5_video_esperma03.png',
-														mediaSrc : 'videos/esperma03.webm',
-														type : 'videoNodo',
-
-													} ]
-										} ]
-									} ]
-								} ]
-							} ]
-						} ]
-					},
-					{
-						image : 'images/B.png',
-						childs : [
-								{
-									image : 'images/B_AltaComplejidad.png',
-									childs : [
-											{
-												image : 'images/B_AltaComplejidad_FIV.png',
-												childs : [
-														{
-															image : 'images/B_AltaComplejidad_video_FIV.png',
-															mediaSrc : 'videos/FIV.webm',
-															type : 'videoNodo'
-														},
-														{
-															image : 'images/B_AltaComplejidad_foto_FIV_ovocito.png',
-															mediaSrc : 'images/OVOCITO.jpg',
-															type : 'imageNodo'
-
-														} ]
-											},{
-												image : 'images/B_AltaComplejidad_ISCI.png',
-												childs : [ {
-													image : 'images/B_AltaComplejidad_video_ISCI.png',
-													mediaSrc : 'videos/ICSI.webm',
-													type : 'videoNodo'
-
-												} ]
-											 } ]
-								},
-								{
-									image : 'images/B_BajaComplejidad.png',
-									childs : [ {
-										image : 'images/B_BajaComplejidad_IIU.png',
-									} ]
-								} ]
-					},
-					{
-						image : 'images/C.png',
-						childs : [ {
-							image : 'images/C1.png',
-							childs : [ {
-								image : 'images/C2.png',
-								childs : [ {
-									image : 'images/C3.png',
-									childs : [ {
-										image : 'images/C4.png',
-										childs : [
-												{
-													image : 'images/C4_video-ICSI01.png',
-													mediaSrc : 'videos/ICSI01.webm',
-													type : 'videoNodo',
-												},
-												{
-													image : 'images/C4_video-ICSI02.png',
-													mediaSrc : 'videos/ICSI02.webm',
-													type : 'videoNodo',
-
-												},
-												{
-													image : 'images/C5.png',
-													childs : [{
-																image : 'images/C5_foto_dia2.png',
-																mediaSrc : 'images/Dia2.jpg',
-																type : 'imageNodo',
-															},
-															{
-																image : 'images/C6.png',
-																childs : [ {
-																	image : 'images/C7.png'
-																} ]
-															} ]
-												} ]
-									} ]
-								} ]
-							} ]
-						} ]
-					} ]
-		}
-	},
-	render : function() {
+	menu : {},
+	render : function(response) {
+		this.appendView(response);
 		$('headerFertilizacionLogo').addEvent('click', function() {
 			this.drawTree('all');
 		}.bind(this));
@@ -232,14 +35,13 @@ view_index = {
 		}.bind(this));
 		this.resizeMapa();
 		this.gotoNextFX = new Fx.Scroll('app');
-		this.renderNodos();
-		this.loadMapa();
 	},
-	resizeMapa: function(){
+	resizeMapa : function() {
 		var size = $('Mapas').getSize();
-		$('mapa').setStyle('height',size.y - 329);
+		$('mapa').setStyle('height', size.y - 329);
 	},
-	renderNodos : function() {
+	renderNodos : function(responses) {
+		var menu = JSON.parse(responses.response);
 		var appSize = $('app').getSize();
 		this.actual = 'nodos';
 		this.canvas = $('nodos').getElement('canvas');
@@ -270,12 +72,12 @@ view_index = {
 			canvas : this.canvas,
 			sys : this.sys
 		};
-		this.allTree = this.getModel((this.menu.type) ? this.menu.type
-				: 'itemMenu', Object.merge(options, this.menu.all));
-		this.videoTree = this.getModel((this.menu.type) ? this.menu.type
-				: 'itemMenu', Object.merge(options, this.menu.videos));
-		this.imagesTree = this.getModel((this.menu.type) ? this.menu.type
-				: 'itemMenu', Object.merge(options, this.menu.images));
+		this.allTree = this.getModel((menu.all.type) ? menu.all.type
+				: 'itemMenu', Object.merge(options, menu.all));
+		this.videoTree = this.getModel((menu.videos.type) ? menu.videos.type
+				: 'itemMenu', Object.merge(options, menu.videos));
+		this.imagesTree = this.getModel((menu.images.type) ? menu.images.type
+				: 'itemMenu', Object.merge(options, menu.images));
 		this.allTree.setParent(false);
 		this.videoTree.setParent(false);
 		this.imagesTree.setParent(false);
@@ -301,11 +103,33 @@ view_index = {
 		tree.drawChilds();
 		this.prevTree = tree;
 	},
-	loadMapa : function() {
+	loadMapa : function(responses) {
+
+		this.parser = new OpenLayers.Format.WKT();
+		new Request.JSON({
+			url : './mapa.json',
+			onSuccess : this.renderMapa.bind(this)
+		}).get();
+	},
+	zoomToMapZone : function(zona) {
+		this.gotoMapas();
+		if (!zona)
+			this.mapa.zoomToMaxExtent()
+		else if (typeof zona == 'Array' || typeof zona == 'object') {
+			var bounds = new OpenLayers.Bounds();
+			zona.each(function(z) {
+				bounds.extend(this.features[z].geometry.getBounds());
+			}.bind(this));
+			this.mapa.zoomToExtent(bounds);
+		} else
+			this.mapa.zoomToExtent(this.features[zona].geometry.getBounds());
+	},
+	renderMapa : function(responses) {
 		this.parserWKT = new OpenLayers.Format.WKT();
+		this.parserGeoJSON = new OpenLayers.Format.GeoJSON();
 		this.baseLayer = new OpenLayers.Layer.Vector("Contorno Provincia.");
 		var context = {
-			getColor : function(feature) {
+			getProvinciaColor : function(feature) {
 				var color;
 				switch (parseInt(feature.zona)) {
 				case 1:// BahiBlanca
@@ -348,25 +172,85 @@ view_index = {
 					color = '000000';
 					break;
 				}
-				return '#'+color;
+				return '#' + color;
+			},
+			getAmericaColor: function(feature) {
+				if(feature.code == 'AR'){
+					return "#FFFFFF";
+				}else{
+					return "#CCCCCC";
+				}
+			},
+			getLabel: function(feature){
+				return feature.label;
+			},
+			getFontSize: function(feature){
+				var response = 13;
+				switch(map.getZoom()){
+				case 1:
+					if(feature.geometry.getArea() > 5592970815)
+						response = 10
+					else
+						response = 0
+					break;
+				case 2:
+					if(feature.geometry.getArea() > 5592970815)
+						response = 12
+					else
+						response = 0
+					break;
+				case 3:
+					if(feature.geometry.getArea() > 454019898)
+						response = 12
+					else
+						response = 0
+					break;
+				case 4:
+					if(feature.geometry.getArea() < 97864966)
+						response = 8
+					else
+						response = 13
+				}
+				return response+"px";
 			}
 		};
-
 		var template = {
-			fillColor : "${getColor}"
+			fillColor : "${getProvinciaColor}",
+			labelAlign: "c",
+			label: "${getLabel}",
+			fontSize : "${getFontSize}"
+		};
+
+		var mapa = {
+			fillColor : "${getAmericaColor}",
+			strokeColor : "#000000",
+			strokeWidth : 1,
+			labelAlign: "c",
+			label: "${getLabel}"
 		};
 
 		var style = new OpenLayers.Style(template, {
 			context : context
 		});
 
-		this.baseLayer = new OpenLayers.Layer.Vector("Zonas Provincia.", {
-			styleMap : new OpenLayers.StyleMap(style),
-			//renderers : [ "SVG" ]
+		var style2 = new OpenLayers.Style(mapa, {
+			context : context
 		});
 
-		this.baseLayer.events.on({
+		this.provincia = new OpenLayers.Layer.Vector("Provincia", {
+			styleMap : new OpenLayers.StyleMap(style),
+		//renderers : [ "SVG" ]
+		});
+
+		this.america = new OpenLayers.Layer.Vector("America", {
+			styleMap : new OpenLayers.StyleMap(style2),
+		//renderers : [ "SVG" ]
+		});
+
+		this.provincia.events.on({
 			"featureselected" : function(e) {
+				var feature = e.feature;
+				console.log(feature.geometry.getArea(),map.getZoom());
 				var image = Asset.image('images/zona' + 11 + '.png', {
 					onLoad : function() {
 						jQuery.fancybox({
@@ -378,60 +262,59 @@ view_index = {
 
 			}
 		});
-
-		this.parser = new OpenLayers.Format.WKT();
-		new Request.JSON({
-			url : './mapa.json',
-			onSuccess : this.renderMapa.bind(this)
-		}).get();
-	},
-	zoomToMapZone : function(zona) {
-		this.gotoMapas();
-		if (!zona)
-			this.mapa.zoomToMaxExtent()
-		else if (typeof zona == 'Array' || typeof zona == 'object') {
-			var bounds = new OpenLayers.Bounds();
-			zona.each(function(z) {
-				bounds.extend(this.features[z].geometry.getBounds());
-			}.bind(this));
-			this.mapa.zoomToExtent(bounds);
-		} else
-			this.mapa.zoomToExtent(this.features[zona].geometry.getBounds());
-	},
-	renderMapa : function(response) {
 		window['data'] = [];
 		var geoms = {};
 		var maxBound = new OpenLayers.Bounds();
 		var geometry;
-		response.departamentos_base.data
+		var mapas = JSON.parse(responses.provincia.response);
+		var resto = this.parserGeoJSON.read(responses.america.response);
+		mapas.departamentos_base.data
 				.each(function(departamento, indice) {
 					if (departamento[4] == "BUENOS AIRES") {
-						geometry = this.parser
-								.read(response.departamentos_base.geom[indice][0]).geometry;
+						geometry = this.parserWKT
+								.read(mapas.departamentos_base.geom[indice][0]).geometry;
 						var feature = new OpenLayers.Feature.Vector(geometry);
 						maxBound.extend(feature.geometry.getBounds());
 						feature.zona = this.zonas[indice];
+						feature.label = departamento[1];
 						this.features[indice] = feature
-						this.baseLayer.addFeatures([ feature ]);
+						this.provincia.addFeatures([ feature ]);
 					}
 				}.bind(this));
+		var paises = {};
+		resto.each(function(elem) {
+			elem.geometry.transform('EPSG:4326', 'EPSG:900913')
+			if (paises[elem.data.CODE]) {
+				paises[elem.data.CODE].push(elem);
+			} else {
+				paises[elem.data.CODE] = [ elem ];
+			}
+		}.bind(this));
+		var geom, vector;
+		Object.each(paises, function(geoms, pais) {
+			geomC = new OpenLayers.Geometry.Collection();
+			geoms.each(function(geom) {
+				geomC.addComponent(geom.geometry);
+			});
+			vector = new OpenLayers.Feature.Vector(geomC);
+			vector.code = pais;
+			vector.label = geoms[0].data.CODE_DESC;
+			this.america.addFeatures([ vector ]);
+		}.bind(this));
+		//http://stackoverflow.com/questions/4254228/openlayers-pan-zoom-bar-modification
 		this.mapa = new OpenLayers.Map('mapa', {
 			projection : 'EPSG:900913',
-			baseLayer : this.baseLayer,
+			baseLayer : this.america,
 			panMethod : false,
 			controls : [ new OpenLayers.Control.PanZoom() ],
 			maxExtent : maxBound
 		});
-		this.layer_wfs = new OpenLayers.Layer.Vector("Centros Salud", {
-            protocol: new OpenLayers.Protocol.WFS({
-                url: "http://200.85.153.133/cgi-bin/salud",
-                layers: "centros_salud"
-            })
-        })
-		this.mapa.addLayer(this.baseLayer);
-		this.mapa.addLayer(this.layer_wfs);
+		window['map'] = this.mapa;
+		this.mapa.addLayer(this.america);
+		this.mapa.addLayer(this.provincia);
+		this.america.setVisibility(true);
 		this.selectControl = new OpenLayers.Control.SelectFeature(
-				this.baseLayer, {
+				this.provincia, {
 					clickout : true,
 					toggle : false,
 					multiple : false,

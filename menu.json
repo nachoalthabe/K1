@@ -1,0 +1,203 @@
+ {
+		"images" : {
+			"image" : "images/main.png",
+			"childs" : [ {
+				"image" : "images/B_AltaComplejidad_foto_FIV_ovocito.png",
+				"mediaSrc" : "images/OVOCITO.jpg",
+				"type" : "imageNodo"
+			},{
+				"image" : "images/A5_foto_Ovulo01.png",
+				"mediaSrc" : "images/ovulo01.jpg",
+				"type" : "imageNodo"
+			},{
+				"image" : "images/A5_foto_Ovulo02.png",
+				"mediaSrc" : "images/ovulo02.jpg",
+				"type" : "imageNodo"
+			},{
+				"image" : "images/A5_foto_Ovulo03.png",
+				"mediaSrc" : "images/ovulo03.jpg",
+				"type" : "imageNodo"
+			},{
+				"image" : "images/B_AltaComplejidad_foto_FIV_ovocito.png",
+				"mediaSrc" : "images/OVOCITO.jpg",
+				"type" : "imageNodo"
+			},{
+				"image" : "images/C5_foto_dia2.png",
+				"mediaSrc" : "images/Dia2.jpg",
+				"type" : "imageNodo"
+			} ]
+		},
+		"videos" : {
+			"image" : "images/main.png",
+			"childs" : [ {
+					"image" : "images/A5_video_esperma01.png",
+					"mediaSrc" : "videos/esperma01.webm",
+					"type" : "videoNodo"
+				},{
+					"image" : "images/A5_video_esperma02.png",
+					"mediaSrc" : "videos/esperma02.webm",
+					"type" : "videoNodo"
+				},{
+					"image" : "images/A5_video_esperma03.png",
+					"mediaSrc" : "videos/esperma03.webm",
+					"type" : "videoNodo"
+				},{
+					"image" : "images/B_AltaComplejidad_video_FIV.png",
+					"mediaSrc" : "videos/FIV.webm",
+					"type" : "videoNodo"
+				},{
+					
+					"image" : "images/B_AltaComplejidad_video_ISCI.png",
+					"mediaSrc" : "videos/ICSI.webm",
+					"type" : "videoNodo"
+				},{
+					"image" : "images/C4_video-ICSI01.png",
+					"mediaSrc" : "videos/ICSI01.webm",
+					"type" : "videoNodo"
+				},{
+					"image" : "images/C4_video-ICSI02.png",
+					"mediaSrc" : "videos/ICSI02.webm",
+					"type" : "videoNodo"
+				} ]
+		},
+		"all" : {
+			"image" : "images/main.png",
+			"childs" : [{
+						"image" : "images/mapas.png",
+						"type" : "mapaNodo"
+					},{
+						"image" : "images/A.png",
+						"childs" : [ {
+							"image" : "images/A1.png",
+							"childs" : [ {
+								"image" : "images/A2.png",
+								"childs" : [ {
+									"image" : "images/A3.png",
+									"childs" : [{
+										"image" : "images/mapas.png",
+										"type" : "mapaNodo"
+									}, {
+										"image" : "images/A4.png",
+										"childs" : [ {
+											"image" : "images/A5.png",
+											"childs" : [
+													{
+														"image" : "images/A5_foto_Ovulo01.png",
+														"mediaSrc" : "images/ovulo01.jpg",
+														"type" : "imageNodo"
+													},
+													{
+														"image" : "images/A5_foto_Ovulo02.png",
+														"mediaSrc" : "images/ovulo02.jpg",
+														"type" : "imageNodo"
+
+													},
+													{
+														"image" : "images/A5_foto_Ovulo03.png",
+														"mediaSrc" : "images/ovulo03.jpg",
+														"type" : "imageNodo"
+
+													},
+													{
+														"image" : "images/A5_video_esperma01.png",
+														"mediaSrc" : "videos/esperma01.webm",
+														"type" : "videoNodo"
+
+													},
+													{
+														"image" : "images/A5_video_esperma02.png",
+														"mediaSrc" : "videos/esperma02.webm",
+														"type" : "videoNodo"
+
+													},
+													{
+														"image" : "images/A5_video_esperma03.png",
+														"mediaSrc" : "videos/esperma03.webm",
+														"type" : "videoNodo"
+
+													} ]
+										} ]
+									} ]
+								} ]
+							} ]
+						} ]
+					},
+					{
+						"image" : "images/B.png",
+						"childs" : [
+								{
+									"image" : "images/B_AltaComplejidad.png",
+									"childs" : [
+											{
+												"image" : "images/B_AltaComplejidad_FIV.png",
+												"childs" : [
+														{
+															"image" : "images/B_AltaComplejidad_video_FIV.png",
+															"mediaSrc" : "videos/FIV.webm",
+															"type" : "videoNodo"
+														},
+														{
+															"image" : "images/B_AltaComplejidad_foto_FIV_ovocito.png",
+															"mediaSrc" : "images/OVOCITO.jpg",
+															"type" : "imageNodo"
+
+														} ]
+											},{
+												"image" : "images/B_AltaComplejidad_ISCI.png",
+												"childs" : [ {
+													"image" : "images/B_AltaComplejidad_video_ISCI.png",
+													"mediaSrc" : "videos/ICSI.webm",
+													"type" : "videoNodo"
+
+												} ]
+											 } ]
+								},
+								{
+									"image" : "images/B_BajaComplejidad.png",
+									"childs" : [ {
+										"image" : "images/B_BajaComplejidad_IIU.png"
+									} ]
+								} ]
+					},
+					{
+						"image" : "images/C.png",
+						"childs" : [ {
+							"image" : "images/C1.png",
+							"childs" : [ {
+								"image" : "images/C2.png",
+								"childs" : [ {
+									"image" : "images/C3.png",
+									"childs" : [ {
+										"image" : "images/C4.png",
+										"childs" : [
+												{
+													"image" : "images/C4_video-ICSI01.png",
+													"mediaSrc" : "videos/ICSI01.webm",
+													"type" : "videoNodo"
+												},
+												{
+													"image" : "images/C4_video-ICSI02.png",
+													"mediaSrc" : "videos/ICSI02.webm",
+													"type" : "videoNodo"
+												},
+												{
+													"image" : "images/C5.png",
+													"childs" : [{
+																"image" : "images/C5_foto_dia2.png",
+																"mediaSrc" : "images/Dia2.jpg",
+																"type" : "imageNodo"
+															},
+															{
+																"image" : "images/C6.png",
+																"childs" : [ {
+																	"image" : "images/C7.png"
+																} ]
+															} ]
+												} ]
+									} ]
+								} ]
+							} ]
+						} ]
+					} ]
+	}
+}
