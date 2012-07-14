@@ -187,6 +187,9 @@ view_index = {
 			getFontSize: function(feature){
 				var response = 13;
 				switch(map.getZoom()){
+				case 0:
+						response = 0
+					break;
 				case 1:
 					if(feature.geometry.getArea() > 5592970815)
 						response = 10
@@ -218,13 +221,17 @@ view_index = {
 			fillColor : "${getProvinciaColor}",
 			labelAlign: "c",
 			label: "${getLabel}",
-			fontSize : "${getFontSize}"
+			fontSize : "${getFontSize}",
+			fontFamily: "Arial",
+			fontWeight: "bold",
+			strokeWidth : 0.7,
+			
 		};
 
 		var mapa = {
 			fillColor : "${getAmericaColor}",
 			strokeColor : "#000000",
-			strokeWidth : 1,
+			strokeWidth : 0.1,
 			labelAlign: "c",
 			label: "${getLabel}"
 		};
@@ -251,8 +258,10 @@ view_index = {
 			"featureselected" : function(e) {
 				var feature = e.feature;
 				console.log(feature.geometry.getArea(),map.getZoom());
+				
+				//var image = Asset.image('images/zona' + feature.zona + '.png', {
 				var image = Asset.image('images/zona' + 11 + '.png', {
-					onLoad : function() {
+							onLoad : function() {
 						jQuery.fancybox({
 							'overlayColor' : '#000',
 							'content' : image
@@ -306,7 +315,12 @@ view_index = {
 			projection : 'EPSG:900913',
 			baseLayer : this.america,
 			panMethod : false,
-			controls : [ new OpenLayers.Control.PanZoom() ],
+			controls : [ new OpenLayers.Control.PanZoom(),
+			             new OpenLayers.Control.TouchNavigation({
+			                 dragPanOptions: {
+			                     enableKinetic: true
+			                 }
+			             }) ],
 			maxExtent : maxBound
 		});
 		window['map'] = this.mapa;
@@ -408,7 +422,7 @@ view_index = {
 		"88" : 2,
 		"90" : 5,
 		"91" : 2,
-		"95" : false,
+		"95" : 5,
 		"96" : 8,
 		"97" : 5,
 		"98" : 8,
