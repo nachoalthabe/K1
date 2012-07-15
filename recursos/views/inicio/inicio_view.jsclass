@@ -4,11 +4,6 @@ view_index = {
 	nodos : [],
 	init : function() {
 		this.getTheme('inicio');
-		this.getDatas({
-			'provincia' : 'mapa.json',
-			'america' : 'america.geojson'
-		}, 'renderMapa');
-		this.getData('menu.json', 'renderNodos');
 	},
 	features : {},
 	menu : {},
@@ -33,12 +28,22 @@ view_index = {
 		$('footerMapa03').addEvent('click', function() {
 			this.zoomToMapZone(26);
 		}.bind(this));
-		this.resizeMapa();
+		this.resize();
 		this.gotoNextFX = new Fx.Scroll('app');
+		this.getDatas({
+			'provincia' : 'mapa.json',
+			'america' : 'arg_unificada.geojson'
+		}, 'renderMapa');
+		this.getData('menu.json', 'renderNodos');
 	},
-	resizeMapa : function() {
-		var size = $('Mapas').getSize();
-		$('mapa').setStyle('height', size.y - 329);
+	resize : function() {
+		var size = document.body.getSize();
+		$('app').setStyles({
+			'height': size.y - 329
+		});
+		$('mapa').setStyles({
+			'height': size.y - 329
+		});
 	},
 	renderNodos : function(responses) {
 		var menu = JSON.parse(responses.response);
@@ -169,64 +174,73 @@ view_index = {
 					color = 'CC9966';
 					break;
 				default:
-					color = '000000';
+					color = 'CCCCCC';
 					break;
 				}
 				return '#' + color;
 			},
-			getAmericaColor: function(feature) {
-				if(feature.code == 'AR'){
+			getAmericaColor : function(feature) {
+				if (feature.code == 'AR') {
 					return "#FFFFFF";
-				}else{
+				} else {
 					return "#CCCCCC";
 				}
 			},
-			getLabel: function(feature){
-				return feature.label;
+			getLabel : function(feature) {
+				if (feature.label == "Sin dato") {
+					return ""
+				} else {
+					return feature.label;
+				}
 			},
-			getFontSize: function(feature){
+			getFontSize : function(feature) {
 				var response = 13;
-				switch(map.getZoom()){
+				switch (map.getZoom()) {
+				case 0:
+					response = 0
+					break;
 				case 1:
-					if(feature.geometry.getArea() > 5592970815)
+					if (feature.geometry.getArea() > 5592970815)
 						response = 10
 					else
 						response = 0
 					break;
 				case 2:
-					if(feature.geometry.getArea() > 5592970815)
+					if (feature.geometry.getArea() > 5592970815)
 						response = 12
 					else
 						response = 0
 					break;
 				case 3:
-					if(feature.geometry.getArea() > 454019898)
+					if (feature.geometry.getArea() > 454019898)
 						response = 12
 					else
 						response = 0
 					break;
 				case 4:
-					if(feature.geometry.getArea() < 97864966)
+					if (feature.geometry.getArea() < 97864966)
 						response = 8
 					else
 						response = 13
 				}
-				return response+"px";
+				return response + "px";
 			}
 		};
 		var template = {
 			fillColor : "${getProvinciaColor}",
-			labelAlign: "c",
-			label: "${getLabel}",
-			fontSize : "${getFontSize}"
+			labelAlign : "c",
+			label : "${getLabel}",
+			fontSize : "${getFontSize}",
+			fontColor : "#000000"
 		};
 
 		var mapa = {
 			fillColor : "${getAmericaColor}",
+			fontColor : "#000000",
 			strokeColor : "#000000",
 			strokeWidth : 1,
-			labelAlign: "c",
-			label: "${getLabel}"
+			labelAlign : "c",
+			label : "${getLabel}"
 		};
 
 		var style = new OpenLayers.Style(template, {
@@ -239,18 +253,19 @@ view_index = {
 
 		this.provincia = new OpenLayers.Layer.Vector("Provincia", {
 			styleMap : new OpenLayers.StyleMap(style),
-		//renderers : [ "SVG" ]
+			renderers : [ "Canvas" ]
 		});
 
 		this.america = new OpenLayers.Layer.Vector("America", {
 			styleMap : new OpenLayers.StyleMap(style2),
-		//renderers : [ "SVG" ]
+			renderers : [ "Canvas" ]
 		});
 
 		this.provincia.events.on({
 			"featureselected" : function(e) {
 				var feature = e.feature;
-				console.log(feature.geometry.getArea(),map.getZoom());
+				console.log(feature.zona, feature.indice)
+				console.log(feature.geometry.getArea(), map.getZoom());
 				var image = Asset.image('images/zona' + 11 + '.png', {
 					onLoad : function() {
 						jQuery.fancybox({
@@ -262,7 +277,6 @@ view_index = {
 
 			}
 		});
-		window['data'] = [];
 		var geoms = {};
 		var maxBound = new OpenLayers.Bounds();
 		var geometry;
@@ -275,39 +289,77 @@ view_index = {
 								.read(mapas.departamentos_base.geom[indice][0]).geometry;
 						var feature = new OpenLayers.Feature.Vector(geometry);
 						maxBound.extend(feature.geometry.getBounds());
+						feature.indice = indice;
 						feature.zona = this.zonas[indice];
 						feature.label = departamento[1];
-						this.features[indice] = feature
+						this.features[indice] = feature;
+
 						this.provincia.addFeatures([ feature ]);
 					}
 				}.bind(this));
 		var paises = {};
 		resto.each(function(elem) {
-			elem.geometry.transform('EPSG:4326', 'EPSG:900913')
-			if (paises[elem.data.CODE]) {
-				paises[elem.data.CODE].push(elem);
-			} else {
-				paises[elem.data.CODE] = [ elem ];
-			}
+			// vector = new OpenLayers.Feature.Vector(elem);
+			elem.label = elem.data.NAME;
+			this.america.addFeatures([ elem ]);
 		}.bind(this));
-		var geom, vector;
-		Object.each(paises, function(geoms, pais) {
-			geomC = new OpenLayers.Geometry.Collection();
-			geoms.each(function(geom) {
-				geomC.addComponent(geom.geometry);
-			});
-			vector = new OpenLayers.Feature.Vector(geomC);
-			vector.code = pais;
-			vector.label = geoms[0].data.CODE_DESC;
-			this.america.addFeatures([ vector ]);
-		}.bind(this));
-		//http://stackoverflow.com/questions/4254228/openlayers-pan-zoom-bar-modification
+		// http://stackoverflow.com/questions/4254228/openlayers-pan-zoom-bar-modification
+		this.panZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, {
+			draw : function(px) {
+				// initialize our internal div
+				OpenLayers.Control.prototype.draw.apply(this, arguments);
+				px = this.position;
+
+				// place the controls
+				this.buttons = [];
+
+				var sz = {
+					w : 49,
+					h : 49
+				};
+				var centered = new OpenLayers.Pixel(px.x + sz.w / 2, px.y);
+
+				this._addButton("panup", "images/controles/bt_arriba.gif",
+						centered, sz);
+				px.y = centered.y + sz.h;
+				this._addButton("panleft", "images/controles/bt_izquierda.gif",
+						px, sz);
+				this._addButton("panright", "images/controles/bt_derecha.gif",
+						px.add(sz.w, 0), sz);
+				this._addButton("pandown", "images/controles/bt_abajo.gif",
+						centered.add(0, sz.h * 2), sz);
+				this._addButton("zoomin", "images/controles/bt_mas.gif",
+						centered.add(0, sz.h * 3 + 5), sz);
+				this._addButton("zoomworld", "images/controles/bt_extend.gif",
+						centered.add(0, sz.h * 4 + 5), sz);
+				this._addButton("zoomout", "images/controles/bt_menos.gif",
+						centered.add(0, sz.h * 5 + 5), sz);
+				return this.div;
+			},
+			_addButton : function(id, img, xy, sz) {
+				var imgLocation = img;
+				var btn = OpenLayers.Util.createAlphaImageDiv(this.id + "_"
+						+ id, xy, sz, imgLocation, "absolute");
+				btn.style.cursor = "pointer";
+				// we want to add the outer div
+				this.div.appendChild(btn);
+				btn.action = id;
+				btn.className = "olButton";
+
+				// we want to remember/reference the outer div
+				this.buttons.push(btn);
+				return btn;
+			},
+			CLASS_NAME : "k1.panZoom"
+		});
 		this.mapa = new OpenLayers.Map('mapa', {
 			projection : 'EPSG:900913',
 			baseLayer : this.america,
 			panMethod : false,
-			controls : [ new OpenLayers.Control.PanZoom() ],
-			maxExtent : maxBound
+			controls : [ new this.panZoom() ],
+			maxExtent : maxBound,
+			restrictedExtent : maxBound,
+			numZoomLevels : 4
 		});
 		window['map'] = this.mapa;
 		this.mapa.addLayer(this.america);
@@ -326,7 +378,7 @@ view_index = {
 		this.mapa.zoomToMaxExtent();
 	},
 	resizeCanvas : function() {
-		var size = $('nodos').getSize();
+		var size = $('app').getSize();
 		this.canvas.setProperties({
 			width : size.x,
 			height : size.y

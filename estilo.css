@@ -5,71 +5,61 @@ html,body {
 	padding: 0;
 	height: 100%;
 	overflow: hidden;
+	background-color: rgba(244, 128, 46, 1);
 }
-#p1, #p2 {
+
+#p1,#p2 {
 	width: 100%;
 	height: 100%;
 }
 
-div.node {
-/* 	border-radius: 80px; */
-/* 	border: 5px solid rgb(255, 255, 255); */
+div.node { /* 	border-radius: 80px; */
+	/* 	border: 5px solid rgb(255, 255, 255); */
 	position: absolute;
-/* 	background-color: rgba(244, 128, 46, 1); */
+	/* 	background-color: rgba(244, 128, 46, 1); */
 	z-index: 3;
 	overflow: hidden;
-/* 	display: none; */
+	/* 	display: none; */
 }
 
-div.shadow, div.surfice{
+div.shadow,div.surfice {
 	padding: 0px;
 	position: absolute;
 	z-index: 1;
 	border: none;
-/* 	box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.3); */
-/*  	display: none; */
+	/* 	box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.3); */
+	/*  	display: none; */
 }
 
-div.surfice{
+div.surfice {
 	z-index: 4;
 	background: none;
-/* 	display: none; */
+	/* 	display: none; */
 }
 
-div.node p {
-/* 	vertical-align: middle; */
-/* 	font: normal 15px Arial; */
-/* 	text-transform: uppercase; */
-/* 	text-align: center; */
+div.node p { /* 	vertical-align: middle; */
+	/* 	font: normal 15px Arial; */
+	/* 	text-transform: uppercase; */
+	/* 	text-align: center; */
 	margin: 0;
 	padding: 0;
 }
-#app{
-	background-color: rgba(244, 128, 46, 1);
-	position: absolute;
-	top: 0;
-	left: 0;
-	position: absolute;
-	top: 0;
-	left: 0;
-	height: 100%;
+
+#app {
 	width: 100%;
 	overflow: hidden;
 }
-#menuNodos{
-	background: rgb(0,0,0);
+
+#menuNodos {
+	background: rgb(0, 0, 0);
 	height: 149px;
-	width: 100%;
-	position: absolute;
 	top: 0;
 	z-index: 10;
 	background-image: url(images/bg_header.png);
 }
-#preMapa{
-	height: 149px;
-}
-#menuMapas{
-	background: rgb(90,90,90);
+
+#menuMapas {
+	background: rgb(90, 90, 90);
 	height: 180px;
 	width: 100%;
 	position: absolute;
@@ -77,166 +67,131 @@ div.node p {
 	z-index: 2;
 	background-image: url(images/bg_footer.png);
 }
-#nodos, #Mapas{
-	position: relative;
-	height: 100%;
-	width: 100%;
-	z-index: 1;
-}
 
 /**				TEMPLATE STYLES								*/
-
-#header{
-width:100%;
-}
-#headerIconSpace{}
-
-
-#headerFertilizacionLogo
-	{
-	    background:url('images/header/FertilizacionAsistida.png');
-	    float:left;
-		width:291px;
-		height:130px;
-	}
-	
-#headerBotonFoto
-	{
-		background:url('images/header/foto_boton.png');
-	}
-	
-#headerBotonFoto:hover
-	{
-		background:url('images/header/foto_boton_hover.png');
-	}
-	
-#headerBotonVideo
-	{
-		background:url('images/header/video_boton.png');
-	}
-#headerBotonVideo:hover
-	{
-		background:url('images/header/video_boton_hover.png');
-	}
-
-.botonHeader
-	{
-		width:48px;
-		height:69px;
-    	float:left;
-        margin-top:35px;
-        margin-left:20px;
-    }
-
-#headerInfo
-	{
-	width:759px;
-	height:55px;
-		float:right;
-		background:url('images/header/header_info.png');
-		margin-top:25px;
-		margin-right:25px;
-		
-		
-	}
-		
-#headerBarra{
-width:100%;
-height:20px;
-background: blue;
+#header {
+	width: 100%;
 }
 
-
-#footer{
-width:100%;
-
+#headerIconSpace {
+	
 }
 
-#footerTitulo{
+#headerFertilizacionLogo {
+	background: url('images/header/FertilizacionAsistida.png');
+	float: left;
+	width: 291px;
+	height: 130px;
+}
+
+#headerBotonFoto {
+	background: url('images/header/foto_boton.png');
+}
+
+#headerBotonFoto:hover {
+	background: url('images/header/foto_boton_hover.png');
+}
+
+#headerBotonVideo {
+	background: url('images/header/video_boton.png');
+}
+
+#headerBotonVideo:hover {
+	background: url('images/header/video_boton_hover.png');
+}
+
+.botonHeader {
+	width: 48px;
+	height: 69px;
+	float: left;
+	margin-top: 35px;
+	margin-left: 20px;
+}
+
+#headerInfo {
+	width: 759px;
+	height: 55px;
+	float: right;
+	background: url('images/header/header_info.png');
+	margin-top: 25px;
+	margin-right: 25px;
+}
+
+#headerBarra {
+	width: 100%;
+	height: 20px;
+	background: blue;
+}
+
+#footer {
+	width: 100%;
+}
+
+#footerTitulo {
 	margin-left: 20px;
 	margin-top: 12px;
 }
-		
-#footerIconSpace{}
 
-
-.botonFooter
-	{
-	margin-top:12px;
+#footerIconSpace {
 	
-	}
-
-#footerMapa01
-{position:relative;
-	    
-	float:left;
-	width:220px;
-	height:141px;
-	
-	background:url('images/footer/boton01.png');
-	z-index:2;
-}
-#footerMapa01:hover
-{
-	
-	background:url('images/footer/boton01_hover.png');
 }
 
-
-
-#footerMapa02
-	{
-	    position:relative;
-	    left:-30px;
-	float:left;
-		width:248px;
-		height:141px;
-		background:url('images/footer/boton02.png');
-				z-index:1;
-	}
-	
-#footerMapa02:hover
-{
-	
-	background:url('images/footer/boton02_hover.png');
-}
-	
-	
-#footerMapa03
-	{
-	   position:relative;
-	    left:-75px;
-	    float:left;
-	    width:265px;
-	    height:141px;
-	    background:url('images/footer/boton03.png');
-		z-index:-1;
-	}
-	
-	
-	
-		
-#footerMapa03:hover
-{
-	
-	background:url('images/footer/boton03_hover.png');
+.botonFooter {
+	margin-top: 12px;
 }
 
-#footerMarcaProvincia
-	{
-	    margin-top:40px;
-	        margin-right:50px;
-		float:right;
-		width:328px;
-		height:76px;
-		background:url('images/footer/Marca_Provincia.png');
-	
-	}
+#footerMapa01 {
+	position: relative;
+	float: left;
+	width: 220px;
+	height: 141px;
+	background: url('images/footer/boton01.png');
+	z-index: 2;
+}
 
+#footerMapa01:hover {
+	background: url('images/footer/boton01_hover.png');
+}
+
+#footerMapa02 {
+	position: relative;
+	left: -30px;
+	float: left;
+	width: 248px;
+	height: 141px;
+	background: url('images/footer/boton02.png');
+	z-index: 1;
+}
+
+#footerMapa02:hover {
+	background: url('images/footer/boton02_hover.png');
+}
+
+#footerMapa03 {
+	position: relative;
+	left: -75px;
+	float: left;
+	width: 265px;
+	height: 141px;
+	background: url('images/footer/boton03.png');
+	z-index: -1;
+}
+
+#footerMapa03:hover {
+	background: url('images/footer/boton03_hover.png');
+}
+
+#footerMarcaProvincia {
+	margin-top: 40px;
+	margin-right: 50px;
+	float: right;
+	width: 328px;
+	height: 76px;
+	background: url('images/footer/Marca_Provincia.png');
+}
 
 /*						VIDEO PLAYER CSS				*/
-#videoWrapper
-	{
-	border: solid rgba(255,255,255,200) 15px;
+#videoWrapper {
+	border: solid rgba(255, 255, 255, 200) 15px;
 	border-radius: 15px;
-	}
+}
