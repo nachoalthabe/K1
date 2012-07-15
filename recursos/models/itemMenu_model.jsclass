@@ -39,7 +39,8 @@ model_index = {
 			onDrag : this.onDragging.bind(this),
 			onComplete : this.stopDragging.bind(this),
 			preventDefault : true,
-			stopPropagation : true
+			stopPropagation : true,
+			limit: $('nodos').getSize()
 		});
 		this.DOMContent.inject($('nodos'));
 		DOMShadow.inject($('nodos'));
