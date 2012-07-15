@@ -231,14 +231,17 @@ view_index = {
 			labelAlign : "c",
 			label : "${getLabel}",
 			fontSize : "${getFontSize}",
-			fontColor : "#000000"
+			fontColor : "#000000",
+			fontFamily: "Arial",
+			fontWeight: "bold",
+			strokeWidth : 0.7,
 		};
 
 		var mapa = {
 			fillColor : "${getAmericaColor}",
 			fontColor : "#000000",
 			strokeColor : "#000000",
-			strokeWidth : 1,
+			strokeWidth : 0.1,
 			labelAlign : "c",
 			label : "${getLabel}"
 		};
@@ -293,7 +296,6 @@ view_index = {
 						feature.zona = this.zonas[indice];
 						feature.label = departamento[1];
 						this.features[indice] = feature;
-
 						this.provincia.addFeatures([ feature ]);
 					}
 				}.bind(this));
@@ -460,7 +462,7 @@ view_index = {
 		"88" : 2,
 		"90" : 5,
 		"91" : 2,
-		"95" : false,
+		"95" : 5,
 		"96" : 8,
 		"97" : 5,
 		"98" : 8,

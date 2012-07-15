@@ -69,129 +69,163 @@ div.node p { /* 	vertical-align: middle; */
 }
 
 /**				TEMPLATE STYLES								*/
-#header {
-	width: 100%;
+#header{
+width:100%;
 }
+#headerIconSpace{}
 
-#headerIconSpace {
+
+#headerFertilizacionLogo
+	{
+	    background:url('images/header/FertilizacionAsistida.png');
+	    float:left;
+		width:291px;
+		height:130px;
+	}
+
+#headerFertilizacionLogo:hover
+	{
+	    background:url('images/header/FertilizacionAsistida_hover.png');
+	    
+	}
+
+#headerBotonFoto
+	{
+		background:url('images/header/foto_boton.png');
+	}
 	
+#headerBotonFoto:hover
+	{
+		background:url('images/header/foto_boton_hover.png');
+	}
+	
+#headerBotonVideo
+	{
+		background:url('images/header/video_boton.png');
+	}
+#headerBotonVideo:hover
+	{
+		background:url('images/header/video_boton_hover.png');
+	}
+
+.botonHeader
+	{
+		width:48px;
+		height:69px;
+    	float:left;
+        margin-top:35px;
+        margin-left:20px;
+    }
+
+#headerInfo
+	{
+	width:759px;
+	height:55px;
+		float:right;
+		background:url('images/header/header_info.png');
+		margin-top:25px;
+		margin-right:25px;
+		
+		
+	}
+		
+#headerBarra{
+width:100%;
+height:20px;
+background: blue;
 }
 
-#headerFertilizacionLogo {
-	background: url('images/header/FertilizacionAsistida.png');
-	float: left;
-	width: 291px;
-	height: 130px;
+
+#footer{
+width:100%;
+
 }
 
-#headerBotonFoto {
-	background: url('images/header/foto_boton.png');
-}
-
-#headerBotonFoto:hover {
-	background: url('images/header/foto_boton_hover.png');
-}
-
-#headerBotonVideo {
-	background: url('images/header/video_boton.png');
-}
-
-#headerBotonVideo:hover {
-	background: url('images/header/video_boton_hover.png');
-}
-
-.botonHeader {
-	width: 48px;
-	height: 69px;
-	float: left;
-	margin-top: 35px;
-	margin-left: 20px;
-}
-
-#headerInfo {
-	width: 759px;
-	height: 55px;
-	float: right;
-	background: url('images/header/header_info.png');
-	margin-top: 25px;
-	margin-right: 25px;
-}
-
-#headerBarra {
-	width: 100%;
-	height: 20px;
-	background: blue;
-}
-
-#footer {
-	width: 100%;
-}
-
-#footerTitulo {
+#footerTitulo{
 	margin-left: 20px;
 	margin-top: 12px;
 }
+		
+#footerIconSpace{}
 
-#footerIconSpace {
+
+.botonFooter
+	{
+	margin-top:12px;
 	
+	}
+
+#footerMapa01
+{position:relative;
+	    
+	float:left;
+	width:220px;
+	height:141px;
+	
+	background:url('images/footer/boton01.png');
+	z-index:2;
+}
+#footerMapa01:hover
+{
+	
+	background:url('images/footer/boton01_hover.png');
 }
 
-.botonFooter {
-	margin-top: 12px;
+
+
+#footerMapa02
+	{
+	    position:relative;
+	    left:-30px;
+	float:left;
+		width:248px;
+		height:141px;
+		background:url('images/footer/boton02.png');
+				z-index:1;
+	}
+	
+#footerMapa02:hover
+{
+	
+	background:url('images/footer/boton02_hover.png');
+}
+	
+	
+#footerMapa03
+	{
+	   position:relative;
+	    left:-75px;
+	    float:left;
+	    width:265px;
+	    height:141px;
+	    background:url('images/footer/boton03.png');
+		z-index:-1;
+	}
+	
+	
+	
+		
+#footerMapa03:hover
+{
+	
+	background:url('images/footer/boton03_hover.png');
 }
 
-#footerMapa01 {
-	position: relative;
-	float: left;
-	width: 220px;
-	height: 141px;
-	background: url('images/footer/boton01.png');
-	z-index: 2;
-}
+#footerMarcaProvincia
+	{
+	    margin-top:40px;
+	        margin-right:50px;
+		float:right;
+		width:328px;
+		height:76px;
+		background:url('images/footer/Marca_Provincia.png');
+	
+	}
 
-#footerMapa01:hover {
-	background: url('images/footer/boton01_hover.png');
-}
-
-#footerMapa02 {
-	position: relative;
-	left: -30px;
-	float: left;
-	width: 248px;
-	height: 141px;
-	background: url('images/footer/boton02.png');
-	z-index: 1;
-}
-
-#footerMapa02:hover {
-	background: url('images/footer/boton02_hover.png');
-}
-
-#footerMapa03 {
-	position: relative;
-	left: -75px;
-	float: left;
-	width: 265px;
-	height: 141px;
-	background: url('images/footer/boton03.png');
-	z-index: -1;
-}
-
-#footerMapa03:hover {
-	background: url('images/footer/boton03_hover.png');
-}
-
-#footerMarcaProvincia {
-	margin-top: 40px;
-	margin-right: 50px;
-	float: right;
-	width: 328px;
-	height: 76px;
-	background: url('images/footer/Marca_Provincia.png');
-}
 
 /*						VIDEO PLAYER CSS				*/
-#videoWrapper {
-	border: solid rgba(255, 255, 255, 200) 15px;
+#videoWrapper
+	{
+	border: solid rgba(255,255,255,200) 15px;
 	border-radius: 15px;
-}
+	}
