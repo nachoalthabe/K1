@@ -4,11 +4,6 @@ view_index = {
 	nodos : [],
 	init : function() {
 		this.getTheme('inicio');
-		this.getDatas({
-			'provincia' : 'mapa.json',
-			'america' : 'america.geojson'
-		}, 'renderMapa');
-		this.getData('menu.json', 'renderNodos');
 	},
 	features : {},
 	menu : {},
@@ -33,12 +28,22 @@ view_index = {
 		$('footerMapa03').addEvent('click', function() {
 			this.zoomToMapZone(26);
 		}.bind(this));
-		this.resizeMapa();
+		this.resize();
 		this.gotoNextFX = new Fx.Scroll('app');
+		this.getDatas({
+			'provincia' : 'mapa.json',
+			'america' : 'arg_unificada.geojson'
+		}, 'renderMapa');
+		this.getData('menu.json', 'renderNodos');
 	},
-	resizeMapa : function() {
-		var size = $('Mapas').getSize();
-		$('mapa').setStyle('height', size.y - 329);
+	resize : function() {
+		var size = document.body.getSize();
+		$('app').setStyles({
+			'height': size.y - 329
+		});
+		$('mapa').setStyles({
+			'height': size.y - 329
+		});
 	},
 	renderNodos : function(responses) {
 		var menu = JSON.parse(responses.response);
@@ -182,7 +187,8 @@ view_index = {
 				}
 			},
 			getLabel: function(feature){
-				return feature.label;
+				//return feature.indice;
+				return feature.label+" "+feature.zona;
 			},
 			getFontSize: function(feature){
 				var response = 13;
@@ -191,27 +197,33 @@ view_index = {
 						response = 0
 					break;
 				case 1:
-					if(feature.geometry.getArea() > 5592970815)
-						response = 10
-					else
+					//if(feature.geometry.getArea() > 5592970815)
+					//	response = 10
+					//else
 						response = 0
 					break;
 				case 2:
-					if(feature.geometry.getArea() > 5592970815)
-						response = 12
-					else
+					//if(feature.geometry.getArea() > 5592970815)
+					//	response = 12
+					//else
 						response = 0
 					break;
 				case 3:
-					if(feature.geometry.getArea() > 454019898)
-						response = 12
-					else
+					//if(feature.geometry.getArea() > 454019898)
+						//response = 12
+					//else
 						response = 0
 					break;
 				case 4:
-					if(feature.geometry.getArea() < 97864966)
+					//if(feature.geometry.getArea() < 97864966)
 						response = 8
-					else
+					//else
+						//response = 13
+					break;
+				case 5:
+					//if(feature.geometry.getArea() < 97864966)
+						//response = 8
+					//else
 						response = 13
 				}
 				return response+"px";
@@ -254,10 +266,14 @@ view_index = {
 		//renderers : [ "SVG" ]
 		});
 
+		var  counter=0;
+		
 		this.provincia.events.on({
 			"featureselected" : function(e) {
 				var feature = e.feature;
-				console.log(feature.geometry.getArea(),map.getZoom());
+				console.log(map.getZoom());
+				console.log(counter+" CO: "+jQuery('.olControlMousePosition').html());
+				counter++;
 				
 				//var image = Asset.image('images/zona' + feature.zona + '.png', {
 				var image = Asset.image('images/zona' + 11 + '.png', {
@@ -285,6 +301,7 @@ view_index = {
 						var feature = new OpenLayers.Feature.Vector(geometry);
 						maxBound.extend(feature.geometry.getBounds());
 						feature.zona = this.zonas[indice];
+						feature.indice = indice;
 						feature.label = departamento[1];
 						this.features[indice] = feature
 						this.provincia.addFeatures([ feature ]);
@@ -315,7 +332,9 @@ view_index = {
 			projection : 'EPSG:900913',
 			baseLayer : this.america,
 			panMethod : false,
-			controls : [ new OpenLayers.Control.PanZoom(),
+			controls : [
+			            
+			            new OpenLayers.Control.PanZoom(),
 			             new OpenLayers.Control.TouchNavigation({
 			                 dragPanOptions: {
 			                     enableKinetic: true
@@ -323,6 +342,23 @@ view_index = {
 			             }) ],
 			maxExtent : maxBound
 		});
+		
+		
+		//mecanismo ap
+		this.mapa.addControl(new OpenLayers.Control.MousePosition());
+		//this.mapa.events.register("mousemove", this.mapa, function(e) {
+		//		console.log( "MOUSE:"+this.events.getMousePosition(e));
+				
+		              //  var position = this.events.getMousePosition(e);
+		               // OpenLayers.Util.getElement("coords").innerHTML = position;
+		  //       });
+		       
+
+		
+	
+
+        	
+		
 		window['map'] = this.mapa;
 		this.mapa.addLayer(this.america);
 		this.mapa.addLayer(this.provincia);
@@ -338,6 +374,115 @@ view_index = {
 		this.mapa.addControl(this.selectControl);
 		this.selectControl.activate();
 		this.mapa.zoomToMaxExtent();
+		
+		
+		
+		
+		
+		
+
+      
+        
+       /*
+        
+         
+           var features = new Array(12);
+        
+        var createNewFeature = function (label,long,lat)
+        	{
+        		return  new OpenLayers.Feature.Vector(
+                        new OpenLayers.Geometry.Point(long,lat), {
+                                
+                                name: "mystic label:"+label,
+                            }
+        		 );
+        	};
+        
+         
+          
+        featuresZonaLabel[2] = createNewFeature("03",-6856760.19954, -4130095.86961);
+        featuresZonaLabel[3] = createNewFeature("04",-6706547.23123, -4020961.91611);
+        featuresZonaLabel[4] = createNewFeature("05",-6556255.70402, -4056012.23694);
+        featuresZonaLabel[5] = createNewFeature("06",-6495473.05945, -4133680.56151);
+        featuresZonaLabel[6] = createNewFeature("07",-6567166.89751, -4124917.98130);
+        featuresZonaLabel[7] = createNewFeature("08",-6502268.49557, -4497593.17289);
+        featuresZonaLabel[8] = createNewFeature("09",-6721067.46804, -4395628.60319);
+        featuresZonaLabel[9] = createNewFeature("10",-6671225.87302, -4188247.53826);
+        featuresZonaLabel[10] = createNewFeature("11",-6468889.93003, -4231263.84110);
+        featuresZonaLabel[11] = createNewFeature("12",-6526771.64587, -4133033.32547);
+*/
+        	
+        	
+            
+            
+             
+          
+		/*
+		 
+		  
+		//AD REGION LABEL LAYER 
+
+        var featuresZonaLabel = new Array(12);
+        
+        var createNewFeature = function (label,long,lat)
+        	{
+        		return  new OpenLayers.Feature.Vector(
+                        new OpenLayers.Geometry.Point(long,lat), {
+                                
+                                name: "mystic label:"+label,
+                            }
+        		 );
+        	}
+        
+        
+        featuresZonaLabel[0] = createNewFeature("01",-6951289.85270, -4587874.30230);
+        featuresZonaLabel[1] = createNewFeature("02",-6970408.20951, -4267110.76014);
+        featuresZonaLabel[2] = createNewFeature("03",-6856760.19954, -4130095.86961);
+        featuresZonaLabel[3] = createNewFeature("04",-6706547.23123, -4020961.91611);
+        featuresZonaLabel[4] = createNewFeature("05",-6556255.70402, -4056012.23694);
+        featuresZonaLabel[5] = createNewFeature("06",-6495473.05945, -4133680.56151);
+        featuresZonaLabel[6] = createNewFeature("07",-6567166.89751, -4124917.98130);
+        featuresZonaLabel[7] = createNewFeature("08",-6502268.49557, -4497593.17289);
+        featuresZonaLabel[8] = createNewFeature("09",-6721067.46804, -4395628.60319);
+        featuresZonaLabel[9] = createNewFeature("10",-6671225.87302, -4188247.53826);
+        featuresZonaLabel[10] = createNewFeature("11",-6468889.93003, -4231263.84110);
+        featuresZonaLabel[11] = createNewFeature("12",-6526771.64587, -4133033.32547);
+
+        
+		  
+        var labelsLayer = new OpenLayers.Layer.Vector("Labels Layer", {
+            styleMap: new OpenLayers.StyleMap({'default':{
+                strokeColor: "#000000",
+                strokeOpacity: 0.5,
+                strokeWidth: 0,
+                fillColor: "#0ff000",
+                fillOpacity: 1,
+                pointRadius: 3,
+                pointerEvents: "visiblePainted",
+                // label with \n linebreaks
+                label : "${name}",
+                
+                fontColor: "${favColor}",
+                fontSize: "12px",
+                fontFamily: "Arial",
+                fontWeight: "bold",
+                labelAlign: "${align}",
+                labelXOffset: "${xOffset}",
+                labelYOffset: "${yOffset}",
+                labelOutlineColor: "white",
+                labelOutlineWidth: 3
+            }}),
+           
+        });
+        labelsLayer.addFeatures(featuresZonaLabel);
+        this.mapa.addLayer(labelsLayer);	
+     
+
+		  
+		 */
+		
+		
+	
 	},
 	resizeCanvas : function() {
 		var size = $('nodos').getSize();
