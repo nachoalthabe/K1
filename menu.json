@@ -190,7 +190,10 @@
 															{
 																"image" : "images/C6.png",
 																"childs" : [ {
-																	"image" : "images/C7.png"
+																	"image" : "images/C7.png",
+																	"childs" : [ {
+																	"image" : "images/C8.png"
+																} ]
 																} ]
 															} ]
 												} ]
