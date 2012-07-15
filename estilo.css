@@ -99,7 +99,13 @@ width:100%;
 		width:291px;
 		height:130px;
 	}
-	
+
+#headerFertilizacionLogo:hover
+	{
+	    background:url('images/header/FertilizacionAsistida_hover.png');
+	    
+	}
+
 #headerBotonFoto
 	{
 		background:url('images/header/foto_boton.png');
