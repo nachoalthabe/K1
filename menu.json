@@ -2,15 +2,15 @@
 		"images" : {
 			"image" : "images/main.png",
 			"childs" : [ {
-				"image" : "images/A5_foto_Ovulo01.png",
+				"image" : "images/A5_foto_ovulo01.png",
 				"mediaSrc" : "images/ovulo01.jpg",
 				"type" : "imageNodo"
 			},{
-				"image" : "images/A5_foto_Ovulo02.png",
+				"image" : "images/A5_foto_ovulo02.png",
 				"mediaSrc" : "images/ovulo02.jpg",
 				"type" : "imageNodo"
 			},{
-				"image" : "images/A5_foto_Ovulo03.png",
+				"image" : "images/A5_foto_ovulo03.png",
 				"mediaSrc" : "images/ovulo03.jpg",
 				"type" : "imageNodo"
 			},{
@@ -70,18 +70,18 @@
 											"image" : "images/A5.png",
 											"childs" : [
 													{
-														"image" : "images/A5_foto_Ovulo01.png",
+														"image" : "images/A5_foto_ovulo01.png",
 														"mediaSrc" : "images/ovulo01.jpg",
 														"type" : "imageNodo"
 													},
 													{
-														"image" : "images/A5_foto_Ovulo02.png",
+														"image" : "images/A5_foto_ovulo02.png",
 														"mediaSrc" : "images/ovulo02.jpg",
 														"type" : "imageNodo"
 
 													},
 													{
-														"image" : "images/A5_foto_Ovulo03.png",
+														"image" : "images/A5_foto_ovulo03.png",
 														"mediaSrc" : "images/ovulo03.jpg",
 														"type" : "imageNodo"
 
@@ -141,7 +141,7 @@
 											 } ]
 								},
 								{
-									"image" : "images/B_BajaComplejidad.png",
+									"image" : "images/B_bajaComplejidad.png",
 									"childs" : [ {
 										"image" : "images/B_BajaComplejidad_IIU.png"
 									} ]
@@ -174,7 +174,7 @@
 											"type" : "videoNodo"
 											} ]
 								 		} ]},{
-									"image" : "images/B_BajaComplejidad.png",
+									"image" : "images/B_bajaComplejidad.png",
 									"childs" : [ {
 										"image" : "images/B_BajaComplejidad_IIU.png"
 									}]},{
