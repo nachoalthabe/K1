@@ -43,7 +43,7 @@
 					"type" : "videoNodo"
 				},{
 					
-					"image" : "images/C4_video-ICSI01.png",
+					"image" : "images/C4_video_ICSI02.png",
 					"mediaSrc" : "videos/ICSI01.webm",
 					"type" : "videoNodo"
 				} ]
@@ -183,7 +183,7 @@
 										"image" : "images/C4.png",
 										"childs" : [
 												{
-													"image" : "images/C4_video-ICSI01.png",
+													"image" : "images/C4_video_ICSI02.png",
 													"mediaSrc" : "videos/ICSI01.webm",
 													"type" : "videoNodo"
 												},
