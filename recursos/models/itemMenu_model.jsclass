@@ -192,16 +192,16 @@ model_index = {
 		var position = this.DOM[2].getPosition();
 		return {
 			x : position.x + (size.x / 2),
-			y : position.y + (size.y / 2)
+			y : position.y + (size.y / 2) - 149
 		};
 	},
 	updateDOM : function() {
 		var size = this.DOM[0].getSize();
-		var center = this.center;
+		var scroll = $("app").getScroll();
 		var position = {
 			x : this.center.x - (size.x / 2),
-			y : this.center.y - (size.y / 2)
-		}
+			y : this.center.y - (size.y / 2) - scroll.y + 149
+		};
 		if (!this.dragging) { // Se lo dejo al dragger
 			this.DOM[2].setStyles({
 				top : position.y,

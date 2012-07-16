@@ -41,30 +41,27 @@ view_index = {
 		$('app').setStyles({
 			'height': size.y - 329
 		});
+		$('nodos').setStyles({
+			'height': size.y - 329
+		});
 		$('mapa').setStyles({
 			'height': size.y - 329
 		});
 	},
 	renderNodos : function(responses) {
 		var menu = JSON.parse(responses.response);
-		var appSize = $('app').getSize();
+		var size = $('nodos').getSize();
 		this.actual = 'nodos';
 		this.canvas = $('nodos').getElement('canvas');
 		this.ctx = this.canvas.getContext('2d');
 		window.addEvent('resize', this.resizeCanvas.bind(this));
 		this.resizeCanvas();
-		this.sys = arbor.ParticleSystem(1000, 600, 0.5);
-		this.sys.parameters({
-			stiffness : 10,
-			repulsion : 100,
-			gravity : true,
-			dt : 0.055
-		});
+		this.sys = arbor.ParticleSystem(1000, 600, 0.5, false, 55, 0.02, 2);
 		this.sys.screenSize(this.canvas.width, this.canvas.height);
 		this.sys.screenPadding(250) // leave an extra 80px of
 		this.sys.renderer = {
 			init : function() {
-
+				console.log('arranca engine');
 			},
 			redraw : function() {
 				this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
@@ -73,6 +70,8 @@ view_index = {
 				});
 			}.bind(this)
 		}
+		this.sys.screenSize(size.x, size.y);
+		this.sys.screenPadding(149,100,180,100);
 		var options = {
 			canvas : this.canvas,
 			sys : this.sys
@@ -187,8 +186,8 @@ view_index = {
 				}
 			},
 			getLabel : function(feature) {
-				if (feature.label == "Sin dato") {
-					return ""
+				if (feature.label == "Sin dato" || feature.label == "BUENOS AIRES") {
+					return "";
 				} else {
 					return feature.label;
 				}
@@ -487,7 +486,7 @@ view_index = {
 	
 	},
 	resizeCanvas : function() {
-		var size = $('app').getSize();
+		var size = $('nodos').getSize();
 		this.canvas.setProperties({
 			width : size.x,
 			height : size.y

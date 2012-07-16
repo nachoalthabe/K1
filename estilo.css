@@ -22,6 +22,10 @@ div.node { /* 	border-radius: 80px; */
 	/* 	display: none; */
 }
 
+div.node img{
+	z-index: 3;
+}
+
 div.shadow,div.surfice {
 	padding: 0px;
 	position: absolute;
@@ -53,9 +57,13 @@ div.node p { /* 	vertical-align: middle; */
 #menuNodos {
 	background: rgb(0, 0, 0);
 	height: 149px;
+	position: absolute;
 	top: 0;
 	z-index: 10;
 	background-image: url(images/bg_header.png);
+}
+#espacio{
+	height: 149px;
 }
 
 #menuMapas {
@@ -67,6 +75,11 @@ div.node p { /* 	vertical-align: middle; */
 	z-index: 2;
 	background-image: url(images/bg_footer.png);
 }
+
+/* #nodos { */
+/* 	position: relative; */
+/* 	top: -329px; */
+/* } */
 
 /**				TEMPLATE STYLES								*/
 #header{
