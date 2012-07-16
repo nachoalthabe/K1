@@ -266,7 +266,7 @@ view_index = {
 				counter++;
 				console.log(feature.zona, feature.indice)
 				console.log(feature.geometry.getArea(), map.getZoom());
-				var image = Asset.image('images/zona' + 11 + '.png', {
+				var image = Asset.image('images/zonas/Zona' + feature.zona + '.png', {
 					onLoad : function() {
 						jQuery.fancybox({
 							'overlayColor' : '#000',
