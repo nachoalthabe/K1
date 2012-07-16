@@ -217,7 +217,7 @@ view_index = {
 		};
 		var template = {
 			fillColor : "${getProvinciaColor}",
-			labelAlign : "c",
+			labelAlign : "cm",
 			label : "${getLabel}",
 			fontSize : "${getFontSize}",
 			fontColor : "#000000",
@@ -233,7 +233,7 @@ view_index = {
 			fontColor : "#000000",
 			strokeColor : "#000000",
 			strokeWidth : 0.1,
-			labelAlign : "c",
+			labelAlign : "cm",
 			label : "${getLabel}"
 		};
 
@@ -314,8 +314,8 @@ view_index = {
 				this.buttons = [];
 
 				var sz = {
-					w : 49,
-					h : 49
+					w : 50,
+					h : 50
 				};
 				var centered = new OpenLayers.Pixel(px.x + sz.w / 2, px.y);
 
