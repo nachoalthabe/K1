@@ -55,6 +55,7 @@ div.node p { /* 	vertical-align: middle; */
 }
 
 #menuNodos {
+	width:100%;
 	background: rgb(0, 0, 0);
 	height: 149px;
 	position: absolute;
