@@ -43,16 +43,8 @@
 					"type" : "videoNodo"
 				},{
 					
-					"image" : "images/B_AltaComplejidad_video_ISCI.png",
-					"mediaSrc" : "videos/ICSI.webm",
-					"type" : "videoNodo"
-				},{
-					"image" : "images/C4_video-ICSI01.png",
+					"image" : "images/B_AltaComplejidad_video_ICSI.png",
 					"mediaSrc" : "videos/ICSI01.webm",
-					"type" : "videoNodo"
-				},{
-					"image" : "images/C4_video-ICSI02.png",
-					"mediaSrc" : "videos/ICSI02.webm",
 					"type" : "videoNodo"
 				} ]
 		},
@@ -139,9 +131,9 @@
 
 														} ]
 											},{
-												"image" : "images/B_AltaComplejidad_ISCI.png",
+												"image" : "images/B_AltaComplejidad_ICSI.png",
 												"childs" : [ {
-													"image" : "images/B_AltaComplejidad_video_ISCI.png",
+													"image" : "images/B_AltaComplejidad_video_ICSI.png",
 													"mediaSrc" : "videos/ICSI.webm",
 													"type" : "videoNodo"
 
@@ -175,9 +167,9 @@
 												"type" : "imageNodo"
 											}]
 										},{
-										"image" : "images/B_AltaComplejidad_ISCI.png",
+										"image" : "images/B_AltaComplejidad_ICSI.png",
 										"childs" : [ {
-											"image" : "images/B_AltaComplejidad_video_ISCI.png",
+											"image" : "images/B_AltaComplejidad_video_ICSI.png",
 											"mediaSrc" : "videos/ICSI.webm",
 											"type" : "videoNodo"
 											} ]
@@ -193,11 +185,6 @@
 												{
 													"image" : "images/C4_video-ICSI01.png",
 													"mediaSrc" : "videos/ICSI01.webm",
-													"type" : "videoNodo"
-												},
-												{
-													"image" : "images/C4_video-ICSI02.png",
-													"mediaSrc" : "videos/ICSI02.webm",
 													"type" : "videoNodo"
 												},
 												{
