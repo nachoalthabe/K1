@@ -39,13 +39,13 @@ view_index = {
 	resize : function() {
 		var size = document.body.getSize();
 		$('app').setStyles({
-			'height': size.y - 329
+			'height' : size.y - 329
 		});
 		$('nodos').setStyles({
-			'height': size.y - 329
+			'height' : size.y - 329
 		});
 		$('mapa').setStyles({
-			'height': size.y - 329
+			'height' : size.y - 329
 		});
 	},
 	renderNodos : function(responses) {
@@ -71,7 +71,7 @@ view_index = {
 			}.bind(this)
 		}
 		this.sys.screenSize(size.x, size.y);
-		this.sys.screenPadding(149,100,180,100);
+		this.sys.screenPadding(149, 100, 180, 100);
 		var options = {
 			canvas : this.canvas,
 			sys : this.sys
@@ -186,20 +186,30 @@ view_index = {
 				}
 			},
 			getLabel : function(feature) {
-				if (feature.label == "Sin dato" || feature.label == "BUENOS AIRES") {
-					return "";
+				if (feature.label == "Sin dato"
+						|| feature.label == "BUENOS AIRES") {
+					if (feature.label == "Sin dato")
+						return "San Fernando \n Islas"
+					else
+						return "";
 				} else {
-					return feature.label;
+					return feature.label.replace(" ", "\n");
 				}
 			},
 			getFontSize : function(feature) {
 				var response = 0;
 				switch (map.getZoom()) {
-				case 4:
+				case 3:
+					if (feature.geometry.getArea() < 200508972)
+						response = 6
+					else
+						response = 10;
+					break;
+				case 4:if (feature.geometry.getArea() < 403702171)
+						response = 8
+					else
 						response = 13;
 					break;
-				case 5:
-					response = 13;
 					break;
 				}
 				return response + "px";
@@ -211,9 +221,11 @@ view_index = {
 			label : "${getLabel}",
 			fontSize : "${getFontSize}",
 			fontColor : "#000000",
-			fontFamily: "Arial",
-			fontWeight: "bold",
+			fontFamily : "Arial",
+			fontWeight : "Bold",
 			strokeWidth : 0.7,
+			labelOutlineColor: "#FFFFFF",
+			labelOutlineWidth: 0
 		};
 
 		var mapa = {
@@ -243,18 +255,19 @@ view_index = {
 			renderers : [ "Canvas" ]
 		});
 
-		var  counter=0;
-		
+		var counter = 0;
+
 		this.provincia.events.on({
 			"featureselected" : function(e) {
 				var feature = e.feature;
 				console.log(map.getZoom());
-				console.log(counter+" CO: "+jQuery('.olControlMousePosition').html());
+				console.log(counter + " CO: "
+						+ jQuery('.olControlMousePosition').html());
 				counter++;
 				console.log(feature.zona, feature.indice)
 				console.log(feature.geometry.getArea(), map.getZoom());
 				var image = Asset.image('images/zona' + 11 + '.png', {
-							onLoad : function() {
+					onLoad : function() {
 						jQuery.fancybox({
 							'overlayColor' : '#000',
 							'content' : image
@@ -343,35 +356,27 @@ view_index = {
 			projection : 'EPSG:900913',
 			baseLayer : this.america,
 			panMethod : false,
-			controls : [ 
-			             new this.panZoom(),
-			             new OpenLayers.Control.TouchNavigation({
-                dragPanOptions: {
-                    enableKinetic: true
-                }
-            }) ],
+			controls : [ new this.panZoom(),
+					new OpenLayers.Control.TouchNavigation({
+						dragPanOptions : {
+							enableKinetic : true
+						}
+					}) ],
 			maxExtent : maxBound,
 			restrictedExtent : maxBound,
-			numZoomLevels : 4
+			numZoomLevels : 5
 		});
-		
-		
+
 		// mecanismo ap
 		this.mapa.addControl(new OpenLayers.Control.MousePosition());
 		// this.mapa.events.register("mousemove", this.mapa, function(e) {
 		// console.log( "MOUSE:"+this.events.getMousePosition(e));
-				
-		              // var position = this.events.getMousePosition(e);
-		               // OpenLayers.Util.getElement("coords").innerHTML =
-						// position;
-		  // });
-		       
 
-		
-	
+		// var position = this.events.getMousePosition(e);
+		// OpenLayers.Util.getElement("coords").innerHTML =
+		// position;
+		// });
 
-        	
-		
 		window['map'] = this.mapa;
 		this.mapa.addLayer(this.america);
 		this.mapa.addLayer(this.provincia);
@@ -387,16 +392,8 @@ view_index = {
 		this.mapa.addControl(this.selectControl);
 		this.selectControl.activate();
 		this.mapa.zoomToMaxExtent();
-		
-		
-		
-		
-		
-		
 
-      
-        
-       /*
+		/*
 		 * 
 		 * 
 		 * var features = new Array(12);
@@ -424,12 +421,7 @@ view_index = {
 		 * -4231263.84110); featuresZonaLabel[11] =
 		 * createNewFeature("12",-6526771.64587, -4133033.32547);
 		 */
-        	
-        	
-            
-            
-             
-          
+
 		/*
 		 * 
 		 * 
@@ -481,9 +473,7 @@ view_index = {
 		 * 
 		 * 
 		 */
-		
-		
-	
+
 	},
 	resizeCanvas : function() {
 		var size = $('nodos').getSize();
