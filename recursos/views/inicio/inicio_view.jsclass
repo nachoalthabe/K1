@@ -26,12 +26,14 @@ view_index = {
 			this.zoomToMapZone([ 172, 174, 57, 112 ]);
 		}.bind(this));
 		$('footerMapa03').addEvent('click', function() {
-			this.zoomToMapZone(26);
+			this.zoomToMapZone([ 26 ]);
 		}.bind(this));
 		this.resize();
 		this.gotoNextFX = new Fx.Scroll('app');
 		this.getDatas({
-			'provincia' : 'mapa.json',
+			'zonas' : 'zonas.geojson',
+			'zonasAgrupadas' : 'zonasAgrupadas.geojson',
+			'hospitales' : 'hospitales.geojson',
 			'america' : 'arg_unificada.geojson'
 		}, 'renderMapa');
 		this.getData('menu.json', 'renderNodos');
@@ -117,16 +119,15 @@ view_index = {
 	},
 	zoomToMapZone : function(zona) {
 		this.gotoMapas();
-		if (!zona)
-			this.mapa.zoomToMaxExtent()
-		else if (typeof zona == 'Array' || typeof zona == 'object') {
-			var bounds = new OpenLayers.Bounds();
-			zona.each(function(z) {
-				bounds.extend(this.features[z].geometry.getBounds());
-			}.bind(this));
-			this.mapa.zoomToExtent(bounds);
-		} else
-			this.mapa.zoomToExtent(this.features[zona].geometry.getBounds());
+		if (zona) {
+			var aux = new OpenLayers.Bounds();
+			zona.each(function(id) {
+				aux.extend(this.features[id])
+			}.bind(this))
+			this.mapa.zoomToExtent(aux, true);
+		} else {
+			this.mapa.zoomToMaxExtent();
+		}
 	},
 	renderMapa : function(responses) {
 		this.parserWKT = new OpenLayers.Format.WKT();
@@ -135,7 +136,7 @@ view_index = {
 		var context = {
 			getProvinciaColor : function(feature) {
 				var color;
-				switch (parseInt(feature.zona)) {
+				switch (parseInt(feature.attributes.zona)) {
 				case 1:// BahiBlanca
 					color = 'FF9966';
 					break;
@@ -164,7 +165,7 @@ view_index = {
 					color = '33CC66';
 					break;
 				case 10:// Chibilcoi
-					color = 'FFFFFF';
+					color = 'EEEEEE';
 					break;
 				case 11:// La Plata
 					color = 'F59275';
@@ -179,21 +180,23 @@ view_index = {
 				return '#' + color;
 			},
 			getAmericaColor : function(feature) {
-				if (feature.code == 'AR') {
+				if (feature.attributes.code == 'AR') {
 					return "#FFFFFF";
 				} else {
 					return "#CCCCCC";
 				}
 			},
 			getLabel : function(feature) {
-				if (feature.label == "Sin dato"
-						|| feature.label == "BUENOS AIRES") {
-					if (feature.label == "Sin dato")
+				if (feature.attributes.label == "Sin dato"
+						|| feature.attributes.label == "BUENOS AIRES") {
+					if (feature.attributes.label == "Sin dato")
 						return "San Fernando \n Islas"
 					else
 						return "";
+				} else if (feature.attributes.label) {
+					return feature.attributes.label.replace(" ", "\n");
 				} else {
-					return feature.label.replace(" ", "\n");
+					return "";
 				}
 			},
 			getFontSize : function(feature) {
@@ -205,17 +208,31 @@ view_index = {
 					else
 						response = 10;
 					break;
-				case 4:if (feature.geometry.getArea() < 403702171)
+				case 4:
+					if (feature.geometry.getArea() < 403702171)
 						response = 8
 					else
 						response = 13;
 					break;
-					break;
 				}
 				return response + "px";
+			},
+			iconoHospital : function(feature) {
+				if (feature.attributes.COMPLEJIDA == 'A')
+					return "star"
+				else
+					return "triangle";
+
+			},
+			colorHospital : function(feature) {
+				if (feature.attributes.COMPLEJIDA == 'A')
+					return "#FF0000"
+				else
+					return "#00FF00";
 			}
 		};
-		var template = {
+
+		var zonas = new OpenLayers.Style({
 			fillColor : "${getProvinciaColor}",
 			labelAlign : "cm",
 			label : "${getLabel}",
@@ -223,50 +240,98 @@ view_index = {
 			fontColor : "#000000",
 			fontFamily : "Arial",
 			fontWeight : "Bold",
-			strokeWidth : 0.7,
-			labelOutlineColor: "#FFFFFF",
-			labelOutlineWidth: 0
-		};
+			stroke : false,
+			labelOutlineColor : "#FFFFFF",
+			labelOutlineWidth : 0
+		}, {
+			context : context
+		});
 
-		var mapa = {
-			fillColor : "${getAmericaColor}",
+		var zonasAgrupadas = new OpenLayers.Style(Object.merge(
+				OpenLayers.Feature.Vector.style['select'], {
+					fill : true,
+					fillOpacity: 0.01,
+					stroke : false
+				}), {
+			context : context
+		});
+
+		var america = new OpenLayers.Style({
+			fillColor : "#CCCCCC",
 			fontColor : "#000000",
 			strokeColor : "#000000",
 			strokeWidth : 0.1,
 			labelAlign : "cm",
 			label : "${getLabel}"
+		}, {
+			context : context
+		});
+
+		var hospitales = new OpenLayers.Style(Object.merge(
+				OpenLayers.Feature.Vector.style['default'], {
+					graphicName : '${iconoHospital}',
+					fillOpacity : 1,
+					fillColor : '#FFFFFF',
+					strokeColor : "#000000",
+					strokeWidth : 0.5,
+					pointRadius : 8
+				}), {
+			context : context
+		});
+
+		this.maxBound = new OpenLayers.Bounds();
+
+		this.hospitales = {
+			capa : new OpenLayers.Layer.Vector("Hospitales", {
+				styleMap : new OpenLayers.StyleMap(hospitales),
+				renderers : [ "Canvas" ]
+			}),
+			features : this.parserGeoJSON.read(responses.hospitales.response)
 		};
+		this.hospitales.capa.addFeatures(this.hospitales.features);
 
-		var style = new OpenLayers.Style(template, {
-			context : context
-		});
+		this.zonas = {
+			capa : new OpenLayers.Layer.Vector("zonas", {
+				styleMap : new OpenLayers.StyleMap(zonas),
+				renderers : [ "Canvas" ]
+			}),
+			features : this.parserGeoJSON.read(responses.zonas.response)
+		};
+		this.zonas.features.each(function(feature) {
+			this.zonas.capa.addFeatures([ feature ]);
+			this.features[feature.attributes.indice] = feature.geometry
+					.getBounds();
+			this.maxBound.extend(feature.geometry.getBounds());
+		}.bind(this));
 
-		var style2 = new OpenLayers.Style(mapa, {
-			context : context
-		});
-
-		this.provincia = new OpenLayers.Layer.Vector("Provincia", {
-			styleMap : new OpenLayers.StyleMap(style),
-			renderers : [ "Canvas" ]
-		});
-
-		this.america = new OpenLayers.Layer.Vector("America", {
-			styleMap : new OpenLayers.StyleMap(style2),
-			renderers : [ "Canvas" ]
-		});
+		this.zonasAgrupadas = {
+			capa : new OpenLayers.Layer.Vector("Zonas Agrupadas", {
+				styleMap : new OpenLayers.StyleMap(zonasAgrupadas),
+				renderers : [ "Canvas" ]
+			}),
+			features : this.parserGeoJSON
+					.read(responses.zonasAgrupadas.response)
+		};
+		this.zonasAgrupadas.capa.addFeatures(this.zonasAgrupadas.features);
+		this.america = {
+			capa : new OpenLayers.Layer.Vector("america", {
+				styleMap : new OpenLayers.StyleMap(america),
+				renderers : [ "Canvas" ]
+			}),
+			features : this.parserGeoJSON.read(responses.america.response)
+		};
+		this.america.features.each(function(feature) {
+			feature.attributes.label = feature.data.NAME;
+			this.america.capa.addFeatures([ feature ]);
+		}.bind(this));
 
 		var counter = 0;
 
-		this.provincia.events.on({
+		this.zonasAgrupadas.capa.events.on({
 			"featureselected" : function(e) {
 				var feature = e.feature;
-				console.log(map.getZoom());
-				console.log(counter + " CO: "
-						+ jQuery('.olControlMousePosition').html());
-				counter++;
-				console.log(feature.zona, feature.indice)
-				console.log(feature.geometry.getArea(), map.getZoom());
-				var image = Asset.image('images/zona' + 11 + '.png', {
+				var image = Asset.image('images/zona' + feature.attributes.zona
+						+ '.png', {
 					onLoad : function() {
 						jQuery.fancybox({
 							'overlayColor' : '#000',
@@ -277,33 +342,7 @@ view_index = {
 
 			}
 		});
-		var geoms = {};
-		var maxBound = new OpenLayers.Bounds();
-		var geometry;
-		var mapas = JSON.parse(responses.provincia.response);
-		var resto = this.parserGeoJSON.read(responses.america.response);
-		mapas.departamentos_base.data
-				.each(function(departamento, indice) {
-					if (departamento[4] == "BUENOS AIRES") {
-						geometry = this.parserWKT
-								.read(mapas.departamentos_base.geom[indice][0]).geometry;
-						var feature = new OpenLayers.Feature.Vector(geometry);
-						maxBound.extend(feature.geometry.getBounds());
-						feature.indice = indice;
-						feature.zona = this.zonas[indice];
-						feature.indice = indice;
-						feature.label = departamento[1];
-						this.features[indice] = feature;
-						this.provincia.addFeatures([ feature ]);
-					}
-				}.bind(this));
-		var paises = {};
-		resto.each(function(elem) {
-			// vector = new OpenLayers.Feature.Vector(elem);
-			elem.label = elem.data.NAME;
-			this.america.addFeatures([ elem ]);
-		}.bind(this));
-		// http://stackoverflow.com/questions/4254228/openlayers-pan-zoom-bar-modification
+
 		this.panZoom = OpenLayers.Class(OpenLayers.Control.PanZoom, {
 			draw : function(px) {
 				// initialize our internal div
@@ -352,9 +391,10 @@ view_index = {
 			},
 			CLASS_NAME : "k1.panZoom"
 		});
+
 		this.mapa = new OpenLayers.Map('mapa', {
 			projection : 'EPSG:900913',
-			baseLayer : this.america,
+			baseLayer : this.america.capa,
 			panMethod : false,
 			controls : [ new this.panZoom(),
 					new OpenLayers.Control.TouchNavigation({
@@ -362,13 +402,17 @@ view_index = {
 							enableKinetic : true
 						}
 					}) ],
-			maxExtent : maxBound,
-			restrictedExtent : maxBound,
+			maxExtent : this.maxBound,
+			restrictedExtent : this.maxBound,
 			numZoomLevels : 5
 		});
 
+		this.mapa.addLayers([ this.america.capa, this.zonas.capa, this.hospitales.capa, this.zonasAgrupadas.capa ]);
+		// this.mapa.addLayer(this.hospitales.capa);
+		// this.mapa.setLayerZIndex(this.hospitales.capa, 200);
+		// this.mapa.setLayerZIndex(this.zonasAgrupadas.capa, 300);
 		// mecanismo ap
-		this.mapa.addControl(new OpenLayers.Control.MousePosition());
+		// this.mapa.addControl(new OpenLayers.Control.MousePosition());
 		// this.mapa.events.register("mousemove", this.mapa, function(e) {
 		// console.log( "MOUSE:"+this.events.getMousePosition(e));
 
@@ -378,11 +422,13 @@ view_index = {
 		// });
 
 		window['map'] = this.mapa;
-		this.mapa.addLayer(this.america);
-		this.mapa.addLayer(this.provincia);
-		this.america.setVisibility(true);
+		// this.mapa.addLayers(this.america.capa,this.zonas.capa,this.zonasAgrupadas.capa,this.hospitales.capa);
+		this.america.capa.setVisibility(true);
+		this.zonas.capa.setVisibility(true);
+		this.zonasAgrupadas.capa.setVisibility(true);
+		this.hospitales.capa.setVisibility(true);
 		this.selectControl = new OpenLayers.Control.SelectFeature(
-				this.provincia, {
+				this.zonasAgrupadas.capa, {
 					clickout : true,
 					toggle : false,
 					multiple : false,
@@ -487,142 +533,5 @@ view_index = {
 	},
 	gotoNodos : function() {
 		this.gotoNextFX.toTop();
-	},
-	zonas : {
-		"0" : 1,
-		"1" : 1,
-		"3" : 1,
-		"4" : 1,
-		"5" : 2,
-		"6" : 2,
-		"7" : 3,
-		"8" : 3,
-		"9" : 3,
-		"10" : 3,
-		"11" : 3,
-		"12" : 3,
-		"13" : 8,
-		"14" : 2,
-		"15" : 2,
-		"16" : 8,
-		"17" : 2,
-		"18" : 2,
-		"20" : 11,
-		"22" : 11,
-		"25" : 11,
-		"26" : 11,
-		"27" : 9,
-		"28" : 11,
-		"29" : 10,
-		"30" : 11,
-		"31" : 10,
-		"32" : 3,
-		"33" : 4,
-		"34" : 4,
-		"35" : 4,
-		"36" : 3,
-		"37" : 11,
-		"38" : 10,
-		"39" : 10,
-		"40" : 10,
-		"41" : 10,
-		"42" : 10,
-		"43" : 4,
-		"44" : 4,
-		"45" : 4,
-		"46" : 4,
-		"47" : 4,
-		"48" : 4,
-		"49" : 4,
-		"50" : 4,
-		"51" : 4,
-		"52" : 4,
-		"53" : 10,
-		"54" : 7,
-		"55" : 7,
-		"56" : 6,
-		"57" : 7,
-		"58" : 11,
-		"59" : 7,
-		"60" : 7,
-		"61" : 7,
-		"62" : 12,
-		"63" : 6,
-		"64" : 6,
-		"65" : 7,
-		"67" : 5,
-		"72" : 5,
-		"74" : 5,
-		"75" : 5,
-		"86" : 5,
-		"88" : 2,
-		"90" : 5,
-		"91" : 2,
-		"95" : 5,
-		"96" : 8,
-		"97" : 5,
-		"98" : 8,
-		"99" : 8,
-		"100" : 8,
-		"101" : 11,
-		"102" : 11,
-		"103" : 8,
-		"104" : 11,
-		"105" : 11,
-		"106" : 8,
-		"107" : 8,
-		"108" : 8,
-		"109" : 1,
-		"110" : 8,
-		"111" : 6,
-		"112" : 6,
-		"113" : 6,
-		"124" : 2,
-		"128" : 9,
-		"139" : 9,
-		"142" : 1,
-		"143" : 1,
-		"147" : 1,
-		"148" : 1,
-		"149" : 9,
-		"150" : 1,
-		"151" : 9,
-		"152" : 2,
-		"153" : 1,
-		"154" : 1,
-		"155" : 1,
-		"156" : 2,
-		"157" : 1,
-		"158" : 1,
-		"159" : 5,
-		"160" : 8,
-		"161" : 9,
-		"162" : 8,
-		"163" : 9,
-		"164" : 8,
-		"165" : 9,
-		"166" : 9,
-		"167" : 10,
-		"168" : 10,
-		"169" : 8,
-		"170" : 9,
-		"171" : 8,
-		"172" : 5,
-		"173" : 7,
-		"174" : 11,
-		"175" : 11,
-		"176" : 6,
-		"177" : 2,
-		"178" : 7,
-		"179" : 5,
-		"180" : 7,
-		"181" : 5,
-		"182" : 5,
-		"183" : 5,
-		"184" : 11,
-		"185" : 11,
-		"186" : 6,
-		"187" : 6,
-		"188" : 11
 	}
 }
