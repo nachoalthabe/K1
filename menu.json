@@ -2,16 +2,19 @@
 		"images" : {
 			"image" : "images/main.png",
 			"childs" : [ {
-				"image" : "images/A5_foto_Ovulo01.png",
+				
 				"mediaSrc" : "images/ovulo01.jpg",
+				"image" : "images/A5_foto_ovulo01.png",
 				"type" : "imageNodo"
 			},{
-				"image" : "images/A5_foto_Ovulo02.png",
+				
 				"mediaSrc" : "images/ovulo02.jpg",
+				"image" : "images/A5_foto_ovulo02.png",
 				"type" : "imageNodo"
 			},{
-				"image" : "images/A5_foto_Ovulo03.png",
+				
 				"mediaSrc" : "images/ovulo03.jpg",
+				"image" : "images/A5_foto_ovulo03.png",
 				"type" : "imageNodo"
 			},{
 				"image" : "images/B_AltaComplejidad_foto_FIV_ovocito.png",
@@ -43,7 +46,7 @@
 					"type" : "videoNodo"
 				},{
 					
-					"image" : "images/B_AltaComplejidad_video_ICSI.png",
+					"image" : "images/C4_video_ICSI02.png",
 					"mediaSrc" : "videos/ICSI01.webm",
 					"type" : "videoNodo"
 				} ]
@@ -70,19 +73,19 @@
 											"image" : "images/A5.png",
 											"childs" : [
 													{
-														"image" : "images/A5_foto_Ovulo01.png",
 														"mediaSrc" : "images/ovulo01.jpg",
+														"image" : "images/A5_foto_ovulo01.png",
 														"type" : "imageNodo"
 													},
 													{
-														"image" : "images/A5_foto_Ovulo02.png",
 														"mediaSrc" : "images/ovulo02.jpg",
+														"image" : "images/A5_foto_ovulo02.png",
 														"type" : "imageNodo"
 
 													},
 													{
-														"image" : "images/A5_foto_Ovulo03.png",
 														"mediaSrc" : "images/ovulo03.jpg",
+														"image" : "images/A5_foto_ovulo03.png",
 														"type" : "imageNodo"
 
 													},
@@ -141,7 +144,7 @@
 											 } ]
 								},
 								{
-									"image" : "images/B_BajaComplejidad.png",
+									"image" : "images/B_bajaComplejidad.png",
 									"childs" : [ {
 										"image" : "images/B_BajaComplejidad_IIU.png"
 									} ]
@@ -174,7 +177,7 @@
 											"type" : "videoNodo"
 											} ]
 								 		} ]},{
-									"image" : "images/B_BajaComplejidad.png",
+									"image" : "images/B_bajaComplejidad.png",
 									"childs" : [ {
 										"image" : "images/B_BajaComplejidad_IIU.png"
 									}]},{
@@ -183,7 +186,7 @@
 										"image" : "images/C4.png",
 										"childs" : [
 												{
-													"image" : "images/C4_video-ICSI01.png",
+													"image" : "images/C4_video_ICSI02.png",
 													"mediaSrc" : "videos/ICSI01.webm",
 													"type" : "videoNodo"
 												},
