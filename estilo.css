@@ -1,7 +1,6 @@
 @CHARSET "UTF-8";
 
 html,body {
-	cursor: url('images/cursor02.png'), pointer;
 	margin: 0;
 	padding: 0;
 	height: 100%;
@@ -9,7 +8,13 @@ html,body {
 	background-color: rgba(244, 128, 46, 1);
 }
 
+body,canvas,svg,#fancybox-overlay{
+	cursor: url('images/cursor02.png'), pointer !important;
+}
 
+a,.olButton{
+	cursor: url('images/cursor01.png'), pointer !important;
+}
 
 
 

@@ -251,6 +251,7 @@ view_index = {
 				OpenLayers.Feature.Vector.style['select'], {
 					fill : true,
 					fillOpacity: 0.01,
+					cursor: "url('images/cursor01.png'), pointer",
 					stroke : false
 				}), {
 			context : context
@@ -307,7 +308,7 @@ view_index = {
 		this.zonasAgrupadas = {
 			capa : new OpenLayers.Layer.Vector("Zonas Agrupadas", {
 				styleMap : new OpenLayers.StyleMap(zonasAgrupadas),
-				renderers : [ "Canvas" ]
+				renderers : [ "SVG" ]
 			}),
 			features : this.parserGeoJSON
 					.read(responses.zonasAgrupadas.response)
