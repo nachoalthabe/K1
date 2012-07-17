@@ -330,7 +330,7 @@ view_index = {
 		this.zonasAgrupadas.capa.events.on({
 			"featureselected" : function(e) {
 				var feature = e.feature;
-				var image = Asset.image('images/zona' + feature.attributes.zona
+				var image = Asset.image('images/zonas/Zona' + feature.attributes.zona
 						+ '.png', {
 					onLoad : function() {
 						jQuery.fancybox({
