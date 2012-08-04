@@ -190,10 +190,24 @@ model_index = {
 	getDOMCenter : function() {
 		var size = this.DOM[0].getSize();
 		var position = this.DOM[2].getPosition();
-		return {
+		var tmp = {
 			x : position.x + (size.x / 2),
 			y : position.y + (size.y / 2) - 149
 		};
+		var nodos = $("nodos");
+		if(tmp.x < 0){
+			tmp.x = 0;
+		}
+		if(tmp.x > nodos.getWidth()){
+			tmp.x = nodos.getWidth();
+		}
+		if(tmp.y < 0){
+			tmp.y = 0;
+		}
+		if(tmp.y > nodos.getHeight()){
+			tmp.y = nodos.getHeight();
+		}
+		return tmp;
 	},
 	updateDOM : function() {
 		var size = this.DOM[0].getSize();

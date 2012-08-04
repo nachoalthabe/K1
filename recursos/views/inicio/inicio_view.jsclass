@@ -2,6 +2,7 @@ view_index = {
 	Extends : View,
 	Persist : true,
 	nodos : [],
+	extentZonas: {},
 	init : function() {
 		this.getTheme('inicio');
 	},
@@ -23,18 +24,19 @@ view_index = {
 			this.zoomToMapZone();
 		}.bind(this));
 		$('footerMapa02').addEvent('click', function() {
-			this.zoomToMapZone([ 172, 174, 57, 112 ]);
+			this.zoomToMapZone([ 5,7,6 ]);
 		}.bind(this));
 		$('footerMapa03').addEvent('click', function() {
-			this.zoomToMapZone([ 26 ]);
+			this.zoomToMapZone([ 6 ]);
 		}.bind(this));
 		this.resize();
 		this.gotoNextFX = new Fx.Scroll('app');
 		this.getDatas({
-			'zonas' : 'zonas.geojson',
-			'zonasAgrupadas' : 'zonasAgrupadas.geojson',
-			'hospitales' : 'hospitales.geojson',
-			'america' : 'arg_unificada.geojson'
+			'hospitales' : 'cartografia/hospitales.geojson',
+			'zonas' : 'cartografia/zonas.geojson',
+			'departamentos' : 'cartografia/departamentos.geojson',
+			'argentina' : 'cartografia/argentina.geojson',
+			'sudamerica' : 'cartografia/sudamerica.geojson'
 		}, 'renderMapa');
 		this.getData('menu.json', 'renderNodos');
 	},
@@ -109,20 +111,13 @@ view_index = {
 		tree.drawChilds();
 		this.prevTree = tree;
 	},
-	loadMapa : function(responses) {
-
-		this.parser = new OpenLayers.Format.WKT();
-		new Request.JSON({
-			url : './mapa.json',
-			onSuccess : this.renderMapa.bind(this)
-		}).get();
-	},
 	zoomToMapZone : function(zona) {
 		this.gotoMapas();
 		if (zona) {
 			var aux = new OpenLayers.Bounds();
 			zona.each(function(id) {
-				aux.extend(this.features[id])
+				console.log('zoom',zona,this.extentZonas[id],id);
+				aux.extend(this.extentZonas[id])
 			}.bind(this))
 			this.mapa.zoomToExtent(aux, true);
 		} else {
@@ -132,11 +127,11 @@ view_index = {
 	renderMapa : function(responses) {
 		this.parserWKT = new OpenLayers.Format.WKT();
 		this.parserGeoJSON = new OpenLayers.Format.GeoJSON();
-		this.baseLayer = new OpenLayers.Layer.Vector("Contorno Provincia.");
 		var context = {
 			getProvinciaColor : function(feature) {
 				var color;
-				switch (parseInt(feature.attributes.zona)) {
+				switch (parseInt(feature.attributes.SALUD
+						|| feature.attributes.salud)) {
 				case 1:// BahiBlanca
 					color = 'FF9966';
 					break;
@@ -186,7 +181,15 @@ view_index = {
 					return "#CCCCCC";
 				}
 			},
+			getArgLabel : function(feature) {
+				return feature.attributes.NOMBRE;
+			},
+			getRoman : function(feature) {
+				console.log('getRoman', arguments);
+				return feature.attributes.salud.toRoman();
+			},
 			getLabel : function(feature) {
+				feature.attributes.label
 				if (feature.attributes.label == "Sin dato"
 						|| feature.attributes.label == "BUENOS AIRES") {
 					if (feature.attributes.label == "Sin dato")
@@ -219,9 +222,9 @@ view_index = {
 			},
 			iconoHospital : function(feature) {
 				if (feature.attributes.COMPLEJIDA == 'A')
-					return "star"
+					return "images/incono_AltaComplejidad.png"
 				else
-					return "triangle";
+					return "images/incono_BajaComplejidad.png";
 
 			},
 			colorHospital : function(feature) {
@@ -240,20 +243,11 @@ view_index = {
 			fontColor : "#000000",
 			fontFamily : "Arial",
 			fontWeight : "Bold",
-			stroke : false,
+			strokeColor : "#000000",
+			strokeWidth : 0.5,
 			labelOutlineColor : "#FFFFFF",
 			labelOutlineWidth : 0
 		}, {
-			context : context
-		});
-
-		var zonasAgrupadas = new OpenLayers.Style(Object.merge(
-				OpenLayers.Feature.Vector.style['select'], {
-					fill : true,
-					fillOpacity: 0.01,
-					cursor: "url('images/cursor01.png'), pointer",
-					stroke : false
-				}), {
 			context : context
 		});
 
@@ -268,15 +262,14 @@ view_index = {
 			context : context
 		});
 
-		var hospitales = new OpenLayers.Style(Object.merge(
-				OpenLayers.Feature.Vector.style['default'], {
-					graphicName : '${iconoHospital}',
-					fillOpacity : 1,
-					fillColor : '#FFFFFF',
-					strokeColor : "#000000",
-					strokeWidth : 0.5,
-					pointRadius : 8
-				}), {
+		var argentina = new OpenLayers.Style({
+			fillColor : "#FFFFFF",
+			fontColor : "#000000",
+			strokeColor : "#000000",
+			strokeWidth : 0.1,
+			labelAlign : "cm",
+			label : "${getArgLabel}"
+		}, {
 			context : context
 		});
 
@@ -284,7 +277,20 @@ view_index = {
 
 		this.hospitales = {
 			capa : new OpenLayers.Layer.Vector("Hospitales", {
-				styleMap : new OpenLayers.StyleMap(hospitales),
+				styleMap : new OpenLayers.StyleMap(new OpenLayers.Style({
+							externalGraphic : '${iconoHospital}',
+							graphicXOffset : -5,
+							graphicYOffset : -5,
+							graphicWidth : 10,
+							graphicHeight : 10,
+							fill : false,
+							stroke : false,
+							graphicZIndex : 5000,
+							graphicOpacity : 1,
+							label: ""
+						}, {
+					context : context
+				})),
 				renderers : [ "Canvas" ]
 			}),
 			features : this.parserGeoJSON.read(responses.hospitales.response)
@@ -296,30 +302,75 @@ view_index = {
 				styleMap : new OpenLayers.StyleMap(zonas),
 				renderers : [ "Canvas" ]
 			}),
+			features : this.parserGeoJSON
+					.read(responses.departamentos.response)
+		};
+		this.zonas.capa.addFeatures(this.zonas.features);
+
+		this.contornos = {
+			capa : new OpenLayers.Layer.Vector("Zonas Agrupadas", {
+				styleMap : new OpenLayers.StyleMap(new OpenLayers.Style({
+							fill : true,
+							fillColor : "${getProvinciaColor}",
+							fillOpacity : 0.1,
+							stroke : true,
+							strokeColor : "#000000",
+							strokeWidth : 2,
+							strokeOpacity : 1,
+							strokeDashstyle : 'longdashdot',
+							strokeLinecap : "round",
+							fontColor: "#000000",
+							fontFamily: "Arial",
+							label : "${getRoman}",
+							labelAlign : "cm"
+						}, {
+					context : context
+				})),
+				renderers : [ "Canvas" ]
+			}),
 			features : this.parserGeoJSON.read(responses.zonas.response)
 		};
-		this.zonas.features.each(function(feature) {
-			this.zonas.capa.addFeatures([ feature ]);
-			this.features[feature.attributes.indice] = feature.geometry
-					.getBounds();
+		this.contornos.features.each(function(feature) {
+			this.contornos.capa.addFeatures([ feature ]);
+//			this.features[feature.attributes.indice] = feature.geometry
+//					.getBounds();
+			this.extentZonas[feature.attributes.salud] = feature.geometry.getBounds();
 			this.maxBound.extend(feature.geometry.getBounds());
 		}.bind(this));
+		//this.contornos.capa.addFeatures(this.contornos.features);
 
-		this.zonasAgrupadas = {
-			capa : new OpenLayers.Layer.Vector("Zonas Agrupadas", {
-				styleMap : new OpenLayers.StyleMap(zonasAgrupadas),
+		this.zonasAgrupadasHover = {
+			capa : new OpenLayers.Layer.Vector("Zonas Agrupadas Hover", {
+				styleMap : new OpenLayers.StyleMap(new OpenLayers.Style(Object
+						.merge(OpenLayers.Feature.Vector.style['select'], {
+							fillColor : "${getProvinciaColor}",
+							fill : true,
+							fillOpacity : 0.01,
+							cursor : "url('images/cursor01.png'), pointer",
+							stroke : false
+						}), {
+					context : context
+				})),
 				renderers : [ "SVG" ]
 			}),
-			features : this.parserGeoJSON
-					.read(responses.zonasAgrupadas.response)
+			features : this.parserGeoJSON.read(responses.zonas.response)
 		};
-		this.zonasAgrupadas.capa.addFeatures(this.zonasAgrupadas.features);
+		this.zonasAgrupadasHover.capa
+				.addFeatures(this.zonasAgrupadasHover.features);
+		this.argentina = {
+			capa : new OpenLayers.Layer.Vector("argentina", {
+				styleMap : new OpenLayers.StyleMap(argentina),
+				renderers : [ "Canvas" ]
+			}),
+			features : this.parserGeoJSON.read(responses.argentina.response)
+		};
+		this.argentina.capa.addFeatures(this.argentina.features);
 		this.america = {
 			capa : new OpenLayers.Layer.Vector("america", {
 				styleMap : new OpenLayers.StyleMap(america),
 				renderers : [ "Canvas" ]
 			}),
-			features : this.parserGeoJSON.read(responses.america.response)
+			features : this.parserGeoJSON.read(responses.sudamerica.response)
 		};
 		this.america.features.each(function(feature) {
 			feature.attributes.label = feature.data.NAME;
@@ -328,11 +379,12 @@ view_index = {
 
 		var counter = 0;
 
-		this.zonasAgrupadas.capa.events.on({
+		this.zonasAgrupadasHover.capa.events.on({
 			"featureselected" : function(e) {
+				console.log(e);
 				var feature = e.feature;
-				var image = Asset.image('images/zonas/Zona' + feature.attributes.zona
-						+ '.png', {
+				var image = Asset.image('images/zonas/Zona'
+						+ feature.attributes.salud + '.png', {
 					onLoad : function() {
 						jQuery.fancybox({
 							'overlayColor' : '#000',
@@ -408,7 +460,9 @@ view_index = {
 			numZoomLevels : 5
 		});
 
-		this.mapa.addLayers([ this.america.capa, this.zonas.capa, this.hospitales.capa, this.zonasAgrupadas.capa ]);
+		this.mapa.addLayers([ this.america.capa, this.argentina.capa,
+				this.zonas.capa, this.contornos.capa, this.hospitales.capa,
+				this.zonasAgrupadasHover.capa ]);
 		// this.mapa.addLayer(this.hospitales.capa);
 		// this.mapa.setLayerZIndex(this.hospitales.capa, 200);
 		// this.mapa.setLayerZIndex(this.zonasAgrupadas.capa, 300);
@@ -426,100 +480,78 @@ view_index = {
 		// this.mapa.addLayers(this.america.capa,this.zonas.capa,this.zonasAgrupadas.capa,this.hospitales.capa);
 		this.america.capa.setVisibility(true);
 		this.zonas.capa.setVisibility(true);
-		this.zonasAgrupadas.capa.setVisibility(true);
+		this.contornos.capa.setVisibility(true);
 		this.hospitales.capa.setVisibility(true);
+		this.zonasAgrupadasHover.capa.setVisibility(true);
 		this.selectControl = new OpenLayers.Control.SelectFeature(
-				this.zonasAgrupadas.capa, {
+				this.zonasAgrupadasHover.capa, {
 					clickout : true,
 					toggle : false,
 					multiple : false,
 					hover : false,
 
 				});
-		this.mapa.addControl(this.selectControl);
-		this.selectControl.activate();
+		// this.mapa.addControl(this.selectControl);
+		// this.mapa.addControl(highlightCtrl);
+		// this.selectControl.activate();
+		// highlightCtrl.activate();
+		/**
+		 * TEST
+		 */
+		var report = function(e) {
+			OpenLayers.Console.log(e.type, e.feature.id);
+		};
+		var highlightCtrl = new OpenLayers.Control.SelectFeature(
+				this.zonasAgrupadasHover.capa,
+				{
+					hover : true,
+					highlightOnly : true,
+					renderIntent : "temporary",
+					// selectStyle : Object.merge(
+					// //OpenLayers.Feature.Vector.style['default'], {
+					// {
+					//								
+					// }),
+					eventListeners : {
+						// beforefeaturehighlighted : ,
+						featurehighlighted : function(ev) {
+							console.log('beforefeaturehighlighted', arguments);
+							var style = {
+												fill : true,
+												fillColor : context.getProvinciaColor(ev.feature),
+												fillOpacity : 0.8,
+												cursor : "url('images/cursor01.png'), pointer",
+												stroke : true,
+												strokeColor : "#000000",
+												strokeWidth : 2,
+												strokeOpacity : 1,
+												strokeDashstyle : 'solid',
+												strokeLinecap : "round",
+												graphic: false,
+												fontFamily: "Arial",
+												label: context.getRoman(ev.feature)
+											};
+							this.zonasAgrupadasHover.capa.drawFeature(
+									ev.feature, style);
+						}.bind(this),
+//						featureunhighlighted : report
+					}
+				});
+
+		var selectCtrl = new OpenLayers.Control.SelectFeature(
+				this.zonasAgrupadasHover.capa, {
+					clickout : true
+				});
+
+		this.mapa.addControl(highlightCtrl);
+		this.mapa.addControl(selectCtrl);
+
+		highlightCtrl.activate();
+		selectCtrl.activate();
+		/**
+		 * END TEST
+		 */
 		this.mapa.zoomToMaxExtent();
-
-		/*
-		 * 
-		 * 
-		 * var features = new Array(12);
-		 * 
-		 * var createNewFeature = function (label,long,lat) { return new
-		 * OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(long,lat), {
-		 * 
-		 * name: "mystic label:"+label, } ); };
-		 * 
-		 * 
-		 * 
-		 * featuresZonaLabel[2] = createNewFeature("03",-6856760.19954,
-		 * -4130095.86961); featuresZonaLabel[3] =
-		 * createNewFeature("04",-6706547.23123, -4020961.91611);
-		 * featuresZonaLabel[4] = createNewFeature("05",-6556255.70402,
-		 * -4056012.23694); featuresZonaLabel[5] =
-		 * createNewFeature("06",-6495473.05945, -4133680.56151);
-		 * featuresZonaLabel[6] = createNewFeature("07",-6567166.89751,
-		 * -4124917.98130); featuresZonaLabel[7] =
-		 * createNewFeature("08",-6502268.49557, -4497593.17289);
-		 * featuresZonaLabel[8] = createNewFeature("09",-6721067.46804,
-		 * -4395628.60319); featuresZonaLabel[9] =
-		 * createNewFeature("10",-6671225.87302, -4188247.53826);
-		 * featuresZonaLabel[10] = createNewFeature("11",-6468889.93003,
-		 * -4231263.84110); featuresZonaLabel[11] =
-		 * createNewFeature("12",-6526771.64587, -4133033.32547);
-		 */
-
-		/*
-		 * 
-		 * 
-		 * //AD REGION LABEL LAYER
-		 * 
-		 * var featuresZonaLabel = new Array(12);
-		 * 
-		 * var createNewFeature = function (label,long,lat) { return new
-		 * OpenLayers.Feature.Vector( new OpenLayers.Geometry.Point(long,lat), {
-		 * 
-		 * name: "mystic label:"+label, } ); }
-		 * 
-		 * 
-		 * featuresZonaLabel[0] = createNewFeature("01",-6951289.85270,
-		 * -4587874.30230); featuresZonaLabel[1] =
-		 * createNewFeature("02",-6970408.20951, -4267110.76014);
-		 * featuresZonaLabel[2] = createNewFeature("03",-6856760.19954,
-		 * -4130095.86961); featuresZonaLabel[3] =
-		 * createNewFeature("04",-6706547.23123, -4020961.91611);
-		 * featuresZonaLabel[4] = createNewFeature("05",-6556255.70402,
-		 * -4056012.23694); featuresZonaLabel[5] =
-		 * createNewFeature("06",-6495473.05945, -4133680.56151);
-		 * featuresZonaLabel[6] = createNewFeature("07",-6567166.89751,
-		 * -4124917.98130); featuresZonaLabel[7] =
-		 * createNewFeature("08",-6502268.49557, -4497593.17289);
-		 * featuresZonaLabel[8] = createNewFeature("09",-6721067.46804,
-		 * -4395628.60319); featuresZonaLabel[9] =
-		 * createNewFeature("10",-6671225.87302, -4188247.53826);
-		 * featuresZonaLabel[10] = createNewFeature("11",-6468889.93003,
-		 * -4231263.84110); featuresZonaLabel[11] =
-		 * createNewFeature("12",-6526771.64587, -4133033.32547);
-		 * 
-		 * 
-		 * 
-		 * var labelsLayer = new OpenLayers.Layer.Vector("Labels Layer", {
-		 * styleMap: new OpenLayers.StyleMap({'default':{ strokeColor:
-		 * "#000000", strokeOpacity: 0.5, strokeWidth: 0, fillColor: "#0ff000",
-		 * fillOpacity: 1, pointRadius: 3, pointerEvents: "visiblePainted", //
-		 * label with \n linebreaks label : "${name}",
-		 * 
-		 * fontColor: "${favColor}", fontSize: "12px", fontFamily: "Arial",
-		 * fontWeight: "bold", labelAlign: "${align}", labelXOffset:
-		 * "${xOffset}", labelYOffset: "${yOffset}", labelOutlineColor: "white",
-		 * labelOutlineWidth: 3 }}),
-		 * 
-		 * }); labelsLayer.addFeatures(featuresZonaLabel);
-		 * this.mapa.addLayer(labelsLayer);
-		 * 
-		 * 
-		 * 
-		 */
 
 	},
 	resizeCanvas : function() {

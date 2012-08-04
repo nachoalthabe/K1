@@ -23,6 +23,22 @@ $.noConflict();
 <script type="text/javascript" src="/libs/mootools-more-1.4.0.1.js"></script>
 <script type="text/javascript" src="/libs/RIAQuest/Core/Application.class.js"></script>
 <script type="text/javascript">
+Number.prototype.toRoman= function(){
+    var n= Math.floor(this),val,s= '',limit= 3999,i= 0;
+    v= [1000,900,500,400,100,90,50,40,10,9,5,4,1],
+    r= ['M','CM','D','CD','C','XC','L','XL','X','IX','V','IV','I'];
+    if(n< 1 || n> limit) return '';
+    while(i<13){
+        val= v[i];
+        while(n>= val){
+            n-= val;
+            s+= r[i];
+        }
+        if(n== 0) return s;
+        ++i;
+    }
+    return '';
+};
 var app = new Application({
 	name: 'app',
 	folders: {

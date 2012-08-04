@@ -84,7 +84,7 @@ div.node p { /* 	vertical-align: middle; */
 	width: 100%;
 	position: absolute;
 	bottom: 0;
-	z-index: 2;
+	z-index: 1000;
 	background-image: url(images/bg_footer.png);
 }
 
