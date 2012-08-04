@@ -519,11 +519,11 @@ view_index = {
 							var style = {
 												fill : true,
 												fillColor : context.getProvinciaColor(ev.feature),
-												fillOpacity : 0.8,
+												fillOpacity : 0.9,
 												cursor : "url('images/cursor01.png'), pointer",
 												stroke : true,
 												strokeColor : "#000000",
-												strokeWidth : 2,
+												strokeWidth : 6,
 												strokeOpacity : 1,
 												strokeDashstyle : 'solid',
 												strokeLinecap : "round",
