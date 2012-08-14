@@ -321,6 +321,8 @@ view_index = {
 							strokeLinecap : "round",
 							fontColor: "#000000",
 							fontFamily: "Arial",
+							fontWeight: 'bolder',
+							fontSize: '16px',
 							label : "${getRoman}",
 							labelAlign : "cm"
 						}, {
@@ -529,6 +531,8 @@ view_index = {
 												strokeLinecap : "round",
 												graphic: false,
 												fontFamily: "Arial",
+												fontWeight: 'bolder',
+												fontSize: '16px',
 												label: context.getRoman(ev.feature)
 											};
 							this.zonasAgrupadasHover.capa.drawFeature(

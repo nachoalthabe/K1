@@ -11,16 +11,16 @@ itemMenuDebug = {
 		var imgURL = this.options.mediaSrc;
 		
 		jQuery(this.DOM[2]).attr('href',imgURL);
-		
+		$('images').grab(new Element('img',{
+			'src': imgURL
+		}));
 		jQuery(this.DOM[2]).fancybox({
 			'overlayColor' : '#000000',
-			'type' :'image',
-			'href' : imgURL
-			
-			
-			
+			'autoScale' : true,
+			//'type' :'image',
+			//'href' : imgURL,
+			'content' : '<div id="imageWrapper"><img src="'+imgURL+'" /></div>',
 		});
-
 	},
 	draw: function(){
 		this.parent();
