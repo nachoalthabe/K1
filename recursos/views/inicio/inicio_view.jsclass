@@ -9,6 +9,20 @@ view_index = {
 	features : {},
 	menu : {},
 	render : function(response) {
+		var idleTime = 0;
+		$(document).addEvent('mousemove',function (e) {
+	        idleTime = 0;
+	    });
+		$(document).addEvent('keypress',function (e) {
+	        idleTime = 0;
+	    });
+		var iddle = function(){
+			idleTime = idleTime + 1;
+		    if (idleTime > 4) { // 20 minutes
+		    	idleTime = 4;
+		    	this.drawTree('all');
+		    }
+		}.periodical(60000,this);
 		this.appendView(response);
 		$('headerFertilizacionLogo').addEvent('click', function() {
 			this.drawTree('all');
